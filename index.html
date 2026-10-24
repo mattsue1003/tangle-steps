@@ -1340,7 +1340,7 @@ function traceRings(R,id){
   const rings=[];
   while (nx.size){ const start=nx.keys().next().value, pts=[]; let cur=start, guard=0;
     do { pts.push([(cur%W1)*C, Math.floor(cur/W1)*C]); const arr=nx.get(cur); if (!arr) break; const n=arr.pop(); if (!arr.length) nx.delete(cur); cur=n; } while (cur!==start && guard++<1e6);
-    if (pts.length>=6){ pts.push(pts[0]); rings.push(chaikin(rdp(pts,C*.9)).map(rp)); } }
+    if (pts.length>=6){ pts.push(pts[0]); rings.push(rdp(pts,C*.6).map(rp)); } }
   return rings;
 }
 function regionName(inf, R){ const fb=bbox([E.lesson.frame]), all=R.W*R.H; let total=0; for (const k in R.info) total+=R.info[k].n;
