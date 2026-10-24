@@ -8,6 +8,6 @@ OUT="$(dirname "$0")/index.html"
     '<meta name="description" content="纏繞畫一步一步的動作示範：方形、圓形、A4 各 12 課，13 個圖樣練習，老師可自己設計步驟動畫，下載影片與 A4 學習單。">' \
     '<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}</style>' \
     '</head>' '<body>'
-  grep -v '^<meta charset="utf-8">$' "$SRC"
+  grep -v -e '^<meta charset="utf-8">$' -e '^<meta name="viewport"' "$SRC"
   printf '%s\n' '</body>' '</html>'
 } > "$OUT"

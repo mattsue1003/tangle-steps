@@ -97,6 +97,25 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 /* stage */
 .stage{position:relative;aspect-ratio:1/1;border-radius:18px;background:var(--desk);background-image:repeating-linear-gradient(90deg,var(--desk-line) 0 2px,transparent 2px 46px);overflow:hidden;touch-action:none}
 .stage.tall{aspect-ratio:3/4}
+#stPlay{cursor:pointer}
+.lname .pick{margin-left:auto}
+.donebox{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:var(--hot-soft);border:1px solid var(--hot);border-radius:14px;padding:12px 14px}
+.donebox b{font-family:var(--font-display);font-weight:400;font-size:22px}
+.donebox span{flex:1 1 180px;font-size:15px}
+#shapeSeg{display:flex;max-width:560px}
+#shapeSeg button{flex:1;white-space:nowrap}
+.enav{display:flex;align-items:center;gap:8px;margin-top:10px}
+.enav .elbl{flex:1;min-width:0;display:flex;gap:8px;align-items:baseline;overflow:hidden}
+.enav .elbl b{flex:none;color:var(--hot)}
+.enav .elbl span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (hover:none){ .kbd-only{display:none} }
+@media (min-width:981px){ .show .stage{max-height:calc(100vh - 120px)} .ed-center .stage{max-height:calc(100vh - 150px)} }
+/* 手機版投影模式（iPhone 不支援全螢幕 API） */
+.show.fs{position:fixed;inset:0;z-index:40;background:var(--bg);margin:0;overflow:auto;grid-template-columns:1fr;align-content:start;gap:12px;
+  padding:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) calc(96px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.show.fs .stage{aspect-ratio:auto;width:100%;height:min(62vh,calc(100vw - 24px));flex:none}
+.show.fs .stage.tall{height:62vh}
+@media (orientation:landscape){ .show.fs{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);padding-bottom:12px} .show.fs .stage,.show.fs .stage.tall{height:calc(100vh - 24px)} }
 .stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 
 /* play view */
@@ -179,6 +198,13 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
 
 @media (max-width:980px){
+  /* 手機、平板：播放鍵固定在畫面底部 */
+  #vPlay .ctrl{position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.14);
+    padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+  body.v-play .wrap{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+  body.v-play .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  .ed-tools{order:0}
+  .ed-steps{order:1}
   .show{grid-template-columns:1fr}
   .under{grid-template-columns:1fr}
   .ed-grid{grid-template-columns:1fr}
@@ -186,6 +212,8 @@ footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
   .ed-steps .steplist{max-height:260px}
 }
 @media (max-width:560px){
+  #shapeSeg .lg{display:none}
+  .cap .lname span{display:none}
   .brand h1{font-size:23px}
   .tabs{width:100%}
   .tabs button{flex:1;padding:8px 6px}
@@ -213,7 +241,7 @@ footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
   <div class="show" id="show">
     <div class="stage" id="stPlay"><canvas id="cvPlay"></canvas><div class="legend" id="legend"><i></i>這一步的新筆畫</div></div>
     <div class="cap">
-      <div class="lname"><b id="pLesson"></b><span id="pSub"></span></div>
+      <div class="lname"><b id="pLesson"></b><span id="pSub"></span><button class="btn sm pick" id="bPick">換一課</button></div>
       <div class="stepline"><span class="badge">第 <span id="pNo">1</span> 步<small>/ <span id="pTot">1</span></small></span><span class="tag" id="pTag"></span></div>
       <h2 id="pTitle"></h2>
       <p class="txt" id="pText"></p>
@@ -227,6 +255,7 @@ footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
         <button class="btn sm" id="bReplay">↺ 重播這一步</button>
         <button class="btn sm" id="bFull">⛶ 全螢幕投影</button>
       </div>
+      <div class="donebox" id="doneBox" hidden><b>完成了！</b><span>把紙轉一轉，從四個方向欣賞一下。</span><button class="btn hot" id="bNextLesson">下一課 ▶</button></div>
     </div>
   </div>
 
@@ -242,7 +271,7 @@ footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
         <label class="chk"><input type="checkbox" id="optHl" checked>這一步的新筆畫用橘色標出</label>
         <label class="chk"><input type="checkbox" id="optPen" checked>顯示筆</label>
       </div>
-      <p class="muted" style="font-size:13px;margin:8px 0 0">鍵盤：空白鍵 播放／暫停、← → 上下一步、F 全螢幕</p>
+      <p class="muted kbd" style="font-size:13px;margin:8px 0 0">點一下紙片可以播放／暫停，左右滑動換步驟。<span class="kbd-only"><br>鍵盤：空白鍵 播放／暫停、← → 上下一步、F 全螢幕</span></p>
     </div>
     <div class="card">
       <h3>全部步驟 <small class="muted" style="font-size:13px;font-family:var(--font-body)">點一下可以跳過去</small></h3>
@@ -264,7 +293,7 @@ footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
   </div>
 
   <h2 class="sec-h">選一課開始 <small>每一課都是完整的一張作品：點、框、分隔線、圖樣、陰影、簽名</small></h2>
-  <div class="seg" id="shapeSeg" style="margin-bottom:14px"><button data-sh="square" aria-pressed="true">方形紙片 12 課</button><button data-sh="circle">圓形紙片 12 課</button><button data-sh="a4">A4 紙 12 課</button></div>
+  <div class="seg" id="shapeSeg" style="margin-bottom:14px"><button data-sh="square" aria-pressed="true">方形<span class="lg">紙片</span> 12 課</button><button data-sh="circle">圓形<span class="lg">紙片</span> 12 課</button><button data-sh="a4">A4 紙 12 課</button></div>
   <div class="shelf" id="shelf"></div>
   <h2 class="sec-h">我的教案 <small>在「老師設計」存的教案會出現在這裡（只存在這台電腦的瀏覽器）</small></h2>
   <div class="shelf" id="mine"></div>
@@ -280,9 +309,7 @@ footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
 <section id="vEdit" class="view" hidden>
   <div class="card ed-top">
     <input type="text" id="eTitle" aria-label="教案名稱" placeholder="教案名稱">
-    <button class="btn" id="eNewSq">＋ 新方形教案</button>
-    <button class="btn" id="eNewCi">＋ 新圓形教案</button>
-    <button class="btn" id="eNewA4">＋ 新 A4 教案</button>
+    <select id="eNew" style="width:auto" aria-label="開新教案"><option value="">＋ 開新教案…</option><option value="square">方形紙片</option><option value="circle">圓形紙片</option><option value="a4">A4 紙</option></select>
     <select id="eFrom" style="width:auto"><option value="">從範例複製…</option></select>
     <button class="btn" id="eOpen">開啟教案檔</button>
     <input type="file" id="eFile" accept=".json,application/json" hidden>
@@ -296,6 +323,7 @@ footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
     </div>
     <div class="ed-center">
       <div class="stage" id="stEdit"><canvas id="cvEdit"></canvas></div>
+      <div class="enav"><button class="btn sm" id="ePrevS" aria-label="上一步">◀</button><div class="elbl"><b id="eStepNo"></b><span id="eStepTitle"></span></div><button class="btn sm" id="eNextS" aria-label="下一步">▶</button></div>
       <div class="hint" id="eHint">選一個工具，直接在紙上畫。你畫的順序就是動畫播放的順序。</div>
       <div class="row" style="margin-top:8px">
         <button class="btn primary" id="eSave">💾 存到我的教案</button>
@@ -305,17 +333,17 @@ footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
     </div>
     <div class="card ed-tools">
       <div class="blk">
-        <h3>這一步的說明</h3>
-        <label class="f" for="sTitle">標題</label><input type="text" id="sTitle">
-        <label class="f" for="sTag">小標籤（例如：上方區塊・泡泡圓）</label><input type="text" id="sTag">
-        <label class="f" for="sText">口語說明（學生看得懂的話）</label><textarea id="sText"></textarea>
-      </div>
-      <div class="blk">
         <h3>畫筆</h3>
         <div class="tools" id="tools"></div>
         <label class="f">代針筆粗細</label>
         <div class="seg" id="wSeg"><button data-w="2.6">細</button><button data-w="4" aria-pressed="true">中</button><button data-w="7">粗</button></div>
         <div class="row" style="margin-top:10px"><button class="btn sm" id="eUndo">↶ 復原一筆</button><button class="btn sm" id="eClear">清空這一步</button></div>
+      </div>
+      <div class="blk">
+        <h3>這一步的說明</h3>
+        <label class="f" for="sTitle">標題</label><input type="text" id="sTitle">
+        <label class="f" for="sTag">小標籤（例如：上方區塊・泡泡圓）</label><input type="text" id="sTag">
+        <label class="f" for="sText">口語說明（學生看得懂的話）</label><textarea id="sText"></textarea>
       </div>
       <div class="blk">
         <h3>加入圖樣</h3>
@@ -995,6 +1023,7 @@ function syncPlay(){
   $('#bPlay').textContent = PS.playing ? '❚❚ 暫停' : PL.done ? (last ? '↺ 從頭再看' : '▶ 畫下一步') : (PL.i>0||PL.t>0 ? '▶ 繼續' : '▶ 開始畫');
   $('#bPrev').disabled = PL.k===0; $('#bNext').disabled = last;
   $('#legend').hidden = !PL.hl || !st.strokes.some(s=>s.k!=='s');
+  const fin=PL.done && last && !PS.playing, nx=fin?nextLessonOf(L):null; $('#doneBox').hidden=!fin; $('#bNextLesson').hidden=!nx; if (nx) $('#bNextLesson').textContent=`下一課：${nx.title} ▶`;
   $$('#pSteps li').forEach((li,i)=>{ li.classList.toggle('cur',i===PL.k); li.classList.toggle('done',i<PL.k); });
   const cur=$('#pSteps li.cur'); if (cur){ const box=$('#pSteps'); const top=cur.offsetTop-box.offsetTop; if (top<box.scrollTop || top>box.scrollTop+box.clientHeight-40) box.scrollTop=top-40; }
 }
@@ -1002,7 +1031,7 @@ function renderStepList(){
   $('#pSteps').innerHTML='';
   PS.lesson.steps.forEach((s,i)=>{ const li=document.createElement('li'); const b=document.createElement('button');
     b.innerHTML=`<span class="n">${i+1}</span><span class="tt"><span></span><small></small></span>`; b.querySelector('.tt span').textContent=s.title; b.querySelector('small').textContent=s.tag||'';
-    b.onclick=()=>{ PS.hold=0; PL.reset(i); PS.playing=true; syncPlay(); }; li.appendChild(b); $('#pSteps').appendChild(li); });
+    b.onclick=()=>{ PS.hold=0; PL.reset(i); PS.playing=true; syncPlay(); const r=$('#stPlay').getBoundingClientRect(); if (r.bottom<80 || r.top>innerHeight-80) $('#stPlay').scrollIntoView({behavior:'smooth',block:'start'}); }; li.appendChild(b); $('#pSteps').appendChild(li); });
 }
 $('#bPlay').onclick=()=>{
   if (PS.playing){ PS.playing=false; }
@@ -1013,8 +1042,29 @@ $('#bPlay').onclick=()=>{
 $('#bNext').onclick=()=>{ PS.hold=0; if (PL.next()) { PS.playing=true; syncPlay(); } };
 $('#bPrev').onclick=()=>{ PS.hold=0; PL.reset(PL.k-1); PS.playing=true; syncPlay(); };
 $('#bReplay').onclick=()=>{ PS.hold=0; PL.reset(PL.k); PS.playing=true; syncPlay(); };
-$('#bFull').onclick=()=>{ const el=$('#show'); if (document.fullscreenElement||document.webkitFullscreenElement){ (document.exitFullscreen||document.webkitExitFullscreen).call(document); return; }
-  const f=el.requestFullscreen||el.webkitRequestFullscreen; if (f) f.call(el); else toast('這個瀏覽器不支援全螢幕'); };
+function setFs(on){ $('#show').classList.toggle('fs',on); document.body.style.overflow=on?'hidden':''; syncFsBtn(); }
+function syncFsBtn(){ const on=!!(document.fullscreenElement||document.webkitFullscreenElement)||$('#show').classList.contains('fs'); $('#bFull').textContent=on?'✕ 離開全螢幕':'⛶ 全螢幕投影'; }
+$('#bFull').onclick=async()=>{ const el=$('#show');
+  if ($('#show').classList.contains('fs')) return setFs(false);
+  if (document.fullscreenElement||document.webkitFullscreenElement){ (document.exitFullscreen||document.webkitExitFullscreen).call(document); return; }
+  const f=el.requestFullscreen||el.webkitRequestFullscreen;
+  if (f){ try { await f.call(el); return; } catch(e){} }
+  setFs(true); };
+document.addEventListener('fullscreenchange',syncFsBtn); document.addEventListener('webkitfullscreenchange',syncFsBtn);
+document.addEventListener('keydown',e=>{ if (e.key==='Escape' && $('#show').classList.contains('fs')) setFs(false); });
+/* 點紙片播放／暫停，左右滑動換步驟 */
+(()=>{ let st=null; const cv=$('#cvPlay');
+  cv.addEventListener('pointerdown',e=>{ st={x:e.clientX,y:e.clientY,t:performance.now()}; });
+  cv.addEventListener('pointerup',e=>{ if (!st) return; const dx=e.clientX-st.x, dy=e.clientY-st.y, dt=performance.now()-st.t; st=null;
+    if (Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)*1.3){ (dx<0?$('#bNext'):$('#bPrev')).click(); }
+    else if (Math.abs(dx)<12 && Math.abs(dy)<12 && dt<600) $('#bPlay').click(); });
+  cv.addEventListener('pointercancel',()=>{ st=null; });
+  cv.style.touchAction='pan-y'; })();
+$('#bPick').onclick=()=>{ if ($('#show').classList.contains('fs')) setFs(false); const L=PS.lesson; if (L && SHAPES[L.shape] && L.shape!==SHELF && !String(L.id).startsWith('mine-') && !String(L.id).startsWith('pat:')){ $$('#shapeSeg button').find(b=>b.dataset.sh===L.shape).click(); } $('#shapeSeg').scrollIntoView({behavior:'smooth',block:'center'}); };
+function nextLessonOf(L){ const id=String(L.id);
+  if (id.startsWith('pat:')){ const ks=Object.keys(PATTERNS), i=ks.indexOf(id.slice(4)); return i>=0 && i<ks.length-1 ? getLesson('pat:'+ks[i+1]) : null; }
+  const list=LESSONS.filter(l=>l.shape===L.shape), i=list.findIndex(l=>l.id===id); return i>=0 && i<list.length-1 ? getLesson(list[i+1].id) : null; }
+$('#bNextLesson').onclick=()=>{ const n=nextLessonOf(PS.lesson); if (n){ setLesson(n); PS.playing=true; syncPlay(); if (!$('#show').classList.contains('fs')) $('#show').scrollIntoView({behavior:'smooth',block:'start'}); } };
 $$('#speedSeg button').forEach(b=>b.onclick=()=>{ $$('#speedSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b)); PL.speed=+b.dataset.s; setLessonNote(); });
 function setLessonNote(){ const L=PS.lesson; const est=L.steps.reduce((a,s)=>a+stepTiming(s).T/PL.speed+holdFor(s,true),0)+7; $('#durNote').textContent=`影片長度約 ${Math.max(1,Math.round(est/6)/10)} 分鐘（依目前速度），錄製時會即時播放一次。`; }
 $('#optAuto').onchange=e=>{ PS.auto=e.target.checked; };
@@ -1062,7 +1112,7 @@ function markShelf(){ $$('.lcard').forEach(c=>c.classList.toggle('on', PS.lesson
 
 /* ==================== 分頁 ==================== */
 let VIEW='play';
-function showView(v){ VIEW=v; $$('.tabs button').forEach(b=>b.setAttribute('aria-selected', b.dataset.v===v)); $('#vPlay').hidden=v!=='play'; $('#vLib').hidden=v!=='lib'; $('#vEdit').hidden=v!=='edit';
+function showView(v){ VIEW=v; document.body.classList.toggle('v-play', v==='play'); if (v!=='play' && $('#show').classList.contains('fs')) setFs(false); $$('.tabs button').forEach(b=>b.setAttribute('aria-selected', b.dataset.v===v)); $('#vPlay').hidden=v!=='play'; $('#vLib').hidden=v!=='lib'; $('#vEdit').hidden=v!=='edit';
   if (v!=='play') PS.playing=false; if (v==='edit' && !E.lesson) openEditor(newLesson('square')); if (v==='edit') edRefresh(); syncPlay(); }
 $$('.tabs button').forEach(b=>b.onclick=()=>showView(b.dataset.v));
 
@@ -1082,8 +1132,10 @@ const TOOLS=[
 function newLesson(shape){ const rng=RNG(Date.now()%100000), {steps,frame}=prep(shape,rng);
   steps.push(S('畫分隔線','用鉛筆輕輕畫幾條彎彎的線，把紙分成幾個區塊。',[],{tag:'打底（鉛筆）'}));
   return {id:'mine-'+Date.now(), title:shape==='circle'?'我的圓形纏繞畫':shape==='a4'?'我的 A4 纏繞畫':'我的纏繞畫', sub:'自己設計的教案', lv:'我的', shape, frame, steps}; }
-function openEditor(lesson, mineIdx=-1){ E.lesson=lesson; E.mineIdx=mineIdx; E.k=Math.min(lesson.steps.length-1, 3); EP.load(lesson); E.lasso=false; showView('edit'); edList(); edFields(); edRefresh(); }
-function edRefresh(){ if (!E.lesson) return; $('#stEdit').classList.toggle('tall', E.lesson.shape==='a4'); EP.lesson=E.lesson; EP.hl=true; EP.reset(E.k); EP.finish(); $('#eTitle').value=E.lesson.title; }
+function stashDraft(){ if (!E.lesson || !E.dirty) return; const mine=lsGet('tangle.mine',[]), L=clone(E.lesson), i=mine.findIndex(m=>m.id===L.id); if (i<0) mine.push(L); else mine[i]=L;
+  if (lsSet('tangle.mine',mine)){ toast(`原本的「${L.title}」已自動存到我的教案`); buildMine(); } E.dirty=false; }
+function openEditor(lesson, mineIdx=-1){ stashDraft(); E.dirty=false; E.lesson=lesson; E.mineIdx=mineIdx; E.k=Math.min(lesson.steps.length-1, 3); EP.load(lesson); E.lasso=false; showView('edit'); edList(); edFields(); edRefresh(); }
+function edRefresh(){ if (!E.lesson) return; $('#eStepNo').textContent=`第 ${E.k+1} / ${E.lesson.steps.length} 步`; $('#eStepTitle').textContent=E.lesson.steps[E.k].title||''; $('#ePrevS').disabled=E.k===0; $('#eNextS').disabled=E.k>=E.lesson.steps.length-1; $('#stEdit').classList.toggle('tall', E.lesson.shape==='a4'); EP.lesson=E.lesson; EP.hl=true; EP.reset(E.k); EP.finish(); $('#eTitle').value=E.lesson.title; }
 function edList(){
   const ol=$('#eSteps'); ol.innerHTML='';
   E.lesson.steps.forEach((s,i)=>{ const li=document.createElement('li'); li.className=i===E.k?'cur':(i<E.k?'done':''); const b=document.createElement('button');
@@ -1093,8 +1145,8 @@ function edList(){
 }
 function edFields(){ const s=E.lesson.steps[E.k]; $('#sTitle').value=s.title||''; $('#sTag').value=s.tag||''; $('#sText').value=s.text||''; }
 function edDirty(structural){ if (structural) EP.invalidate(); edRefresh(); autosave(); }
-function autosave(){ lsSet('tangle.draft', E.lesson); }
-$('#sTitle').oninput=e=>{ E.lesson.steps[E.k].title=e.target.value; edList(); autosave(); };
+function autosave(){ E.dirty=true; lsSet('tangle.draft', E.lesson); }
+$('#sTitle').oninput=e=>{ E.lesson.steps[E.k].title=e.target.value; $('#eStepTitle').textContent=e.target.value; edList(); autosave(); };
 $('#sTag').oninput=e=>{ E.lesson.steps[E.k].tag=e.target.value; edList(); autosave(); };
 $('#sText').oninput=e=>{ E.lesson.steps[E.k].text=e.target.value; autosave(); };
 $('#eTitle').oninput=e=>{ E.lesson.title=e.target.value; autosave(); };
@@ -1105,9 +1157,9 @@ $('#eUp').onclick=()=>{ if (E.k===0) return; const s=E.lesson.steps; [s[E.k-1],s
 $('#eDown').onclick=()=>{ const s=E.lesson.steps; if (E.k>=s.length-1) return; [s[E.k+1],s[E.k]]=[s[E.k],s[E.k+1]]; E.k++; edList(); edDirty(true); };
 $('#eUndo').onclick=()=>{ const st=E.lesson.steps[E.k]; if (!st.strokes.length) return toast('這一步沒有筆畫了'); st.strokes.pop(); edList(); edDirty(false); };
 $('#eClear').onclick=e=>{ const st=E.lesson.steps[E.k]; if (!st.strokes.length) return; if (!armed(e.currentTarget)) return; st.strokes=[]; edList(); edDirty(false); };
-$('#eNewSq').onclick=e=>{ if (armed(e.currentTarget,'再按一次：取代目前草稿')) openEditor(newLesson('square')); };
-$('#eNewCi').onclick=e=>{ if (armed(e.currentTarget,'再按一次：取代目前草稿')) openEditor(newLesson('circle')); };
-$('#eNewA4').onclick=e=>{ if (armed(e.currentTarget,'再按一次：取代目前草稿')) openEditor(newLesson('a4')); };
+$('#eNew').onchange=e=>{ const sh=e.target.value; e.target.value=''; if (sh) openEditor(newLesson(sh)); };
+$('#ePrevS').onclick=()=>{ if (E.k>0){ E.k--; edList(); edFields(); edRefresh(); } };
+$('#eNextS').onclick=()=>{ if (E.k<E.lesson.steps.length-1){ E.k++; edList(); edFields(); edRefresh(); } };
 /* 頁面內的「按兩次確認」（預覽框不支援 confirm 對話框） */
 function armed(btn, label='再按一次確認'){ if (btn.dataset.armed){ clearTimeout(btn._t); btn.textContent=btn.dataset.armed; delete btn.dataset.armed; btn.classList.remove('arm'); return true; }
   btn.dataset.armed=btn.textContent; btn.textContent=label; btn.classList.add('arm'); btn._t=setTimeout(()=>{ btn.textContent=btn.dataset.armed; delete btn.dataset.armed; btn.classList.remove('arm'); },3000); return false; }
@@ -1121,7 +1173,7 @@ $('#eFile').onchange=async e=>{ const f=e.target.files[0]; e.target.value=''; if
     L.id='mine-'+Date.now(); L.shape=SHAPES[L.shape]?L.shape:'square'; if (!Array.isArray(L.frame)) L.frame=prep(L.shape,RNG(1)).frame; openEditor(L); toast('已開啟教案檔'); }
   catch(err){ toast('這個檔案不是纏繞畫教案檔'); } };
 $('#eSave').onclick=()=>{ const mine=lsGet('tangle.mine',[]); const L=clone(E.lesson); let i=mine.findIndex(m=>m.id===L.id); if (i<0) mine.push(L); else mine[i]=L;
-  if (lsSet('tangle.mine',mine)){ toast('已存到「我的教案」'); buildMine(); } else toast('瀏覽器空間不夠，請改用「下載教案檔」保存'); };
+  if (lsSet('tangle.mine',mine)){ E.dirty=false; toast('已存到「我的教案」'); buildMine(); } else toast('瀏覽器空間不夠，請改用「下載教案檔」保存'); };
 $('#ePlay').onclick=()=>{ setLesson(clone(E.lesson)); showView('play'); PS.playing=true; scrollTo({top:0}); syncPlay(); };
 $('#eJson').onclick=()=>downloadJSON(E.lesson);
 $('#toEdit').onclick=()=>{ const L=clone(PS.lesson); if (!L.id.startsWith('mine-')){ L.id='mine-'+Date.now(); L.title+='（我的版本）'; L.lv='我的'; } openEditor(L); };
@@ -1312,6 +1364,7 @@ $('#dlVideo').onclick=async()=>{
 buildShelf();
 const draft=lsGet('tangle.draft',null); if (draft && Array.isArray(draft.steps) && draft.steps.length){ E.lesson=draft; E.k=draft.steps.length-1; EP.load(draft); edList(); edFields(); }
 hint();
+document.body.classList.add('v-play');
 setLesson(getLesson('classic')); setLessonNote();
 requestAnimationFrame(loop);
 </script>
