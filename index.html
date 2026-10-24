@@ -1,0 +1,1319 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="纏繞畫一步一步的動作示範：方形、圓形、A4 各 12 課，13 個圖樣練習，老師可自己設計步驟動畫，下載影片與 A4 學習單。">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<title>纏繞畫步驟示範</title>
+<meta name="description" content="纏繞畫一步一步的動作示範：學生跟著畫、老師自己設計步驟動畫，並可下載影片與學習單。">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: 上方標題列＋分頁；「跟著畫」= 左邊紙片舞台、右邊步驟說明與控制；下方課程書架。「老師設計」= 步驟清單｜畫布｜工具 */
+:root{
+  --bg:#f4efe6;
+  --surface:#fffdf8;
+  --surface-2:#f8f3ea;
+  --ink:#12343b;
+  --muted:#5d6f72;
+  --line:#e3d9c8;
+  --accent:#028090;
+  --accent-deep:#01646f;
+  --accent-ink:#ffffff;
+  --accent-soft:#dff1f1;
+  --hot:#e8552d;
+  --hot-soft:#fde6dd;
+  --amber:#f4a93c;
+  --desk:#e7dccb;
+  --desk-line:rgba(120,90,50,.08);
+  --focus:#1f6feb;
+  --font-display:"Huninn","jf-openhuninn","Arial Rounded MT Bold","PingFang TC",sans-serif;
+  --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#172024; --surface:#1f2b30; --surface-2:#243238; --ink:#eaf2f1; --muted:#a8bbbc; --line:#34464c;
+    --accent:#3fb5c2; --accent-deep:#2a97a3; --accent-ink:#0d1b1e; --accent-soft:#1e3e43;
+    --hot:#ff7a52; --hot-soft:#4a2b22; --desk:#2b3539; --desk-line:rgba(255,255,255,.04); --focus:#6aa5ff; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#172024; --surface:#1f2b30; --surface-2:#243238; --ink:#eaf2f1; --muted:#a8bbbc; --line:#34464c;
+  --accent:#3fb5c2; --accent-deep:#2a97a3; --accent-ink:#0d1b1e; --accent-soft:#1e3e43;
+  --hot:#ff7a52; --hot-soft:#4a2b22; --desk:#2b3539; --desk-line:rgba(255,255,255,.04); --focus:#6aa5ff; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.wrap{max-width:1280px;margin:0 auto;padding-block:0 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.btn.arm{background:var(--hot);border-color:var(--hot);color:#fff}
+
+/* header */
+header.top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:18px 0 14px}
+.brand{display:flex;align-items:center;gap:12px;margin-right:auto}
+.brand svg{width:44px;height:44px;flex:none}
+.brand h1{font-family:var(--font-display);font-weight:400;font-size:28px;line-height:1.15;margin:0;letter-spacing:.02em}
+.brand p{margin:0;color:var(--muted);font-size:14px}
+.tabs{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;gap:2px}
+.tabs button{border:0;background:none;padding:8px 18px;border-radius:999px;cursor:pointer;font-weight:500;color:var(--muted);min-height:40px}
+.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+
+/* generic */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+.card h3{font-family:var(--font-display);font-weight:400;font-size:19px;margin:0 0 10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 14px;min-height:42px;cursor:pointer;font-weight:500;white-space:nowrap}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{background:var(--accent-deep)}
+.btn.hot{background:var(--hot);border-color:var(--hot);color:#fff}
+.btn.sm{min-height:34px;padding:4px 10px;font-size:14px;border-radius:10px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn svg{width:18px;height:18px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:none;padding:6px 12px;min-height:38px;cursor:pointer;font-weight:500;color:var(--muted)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-deep)}
+:root[data-theme="dark"] .seg button[aria-pressed="true"]{color:var(--accent)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{color:var(--accent)}}
+.chk{display:flex;align-items:center;gap:8px;cursor:pointer;padding:4px 0}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+label.f{display:block;font-size:14px;color:var(--muted);margin:10px 0 4px}
+input[type=text],textarea,select{width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:8px 10px}
+textarea{resize:vertical;min-height:84px;line-height:1.55}
+.muted{color:var(--muted)}
+.sec-h{font-family:var(--font-display);font-weight:400;font-size:23px;margin:32px 0 12px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-h small{font-family:var(--font-body);font-size:14px;color:var(--muted)}
+
+/* stage */
+.stage{position:relative;aspect-ratio:1/1;border-radius:18px;background:var(--desk);background-image:repeating-linear-gradient(90deg,var(--desk-line) 0 2px,transparent 2px 46px);overflow:hidden;touch-action:none}
+.stage.tall{aspect-ratio:3/4}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+/* play view */
+.show{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;align-items:stretch}
+.cap{display:flex;flex-direction:column;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
+.cap .lname{font-size:14px;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cap .lname b{color:var(--ink);font-weight:700}
+.stepline{display:flex;align-items:center;gap:12px}
+.badge{display:inline-flex;align-items:baseline;gap:4px;background:var(--hot);color:#fff;border-radius:999px;padding:4px 14px;font-family:var(--font-display);font-size:22px;line-height:1.2}
+.badge small{font-size:15px;opacity:.85}
+.tag{font-size:13px;color:var(--accent-deep);background:var(--accent-soft);border-radius:999px;padding:3px 10px}
+:root[data-theme="dark"] .tag{color:var(--accent)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tag{color:var(--accent)}}
+.cap h2{font-family:var(--font-display);font-weight:400;font-size:clamp(26px,3.2vw,38px);line-height:1.25;margin:0}
+.cap p.txt{font-size:clamp(17px,1.7vw,20px);line-height:1.75;margin:0;flex:1}
+.prog{height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.prog i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px}
+.ctrl{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:8px}
+.ctrl .btn{min-height:52px;font-size:17px}
+.ctrl2{display:flex;gap:8px;flex-wrap:wrap}
+.ctrl2 .btn{flex:1}
+.under{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:16px;margin-top:16px;align-items:start}
+.steplist{list-style:none;margin:0;padding:0;max-height:340px;overflow:auto;display:flex;flex-direction:column;gap:4px}
+.steplist li button{width:100%;text-align:left;display:flex;gap:10px;align-items:flex-start;border:1px solid transparent;background:none;border-radius:10px;padding:6px 8px;cursor:pointer;line-height:1.4}
+.steplist li button:hover{background:var(--surface-2)}
+.steplist .n{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);border:1px solid var(--line);font-size:13px;font-weight:700}
+.steplist .tt{display:flex;flex-direction:column}
+.steplist .tt small{color:var(--muted);font-size:12px}
+.steplist li.done .n{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-deep)}
+.steplist li.cur button{background:var(--hot-soft);border-color:var(--hot)}
+.steplist li.cur .n{background:var(--hot);border-color:var(--hot);color:#fff}
+.dlgrid{display:flex;flex-direction:column;gap:8px}
+.dlgrid .btn{justify-content:flex-start}
+.legend{position:absolute;left:12px;bottom:10px;font-size:13px;background:rgba(255,253,248,.88);color:#3a3a3a;border-radius:999px;padding:3px 10px;display:flex;gap:6px;align-items:center}
+.legend i{width:18px;height:4px;border-radius:2px;background:var(--hot);display:inline-block}
+
+/* fullscreen projector */
+.show:fullscreen{background:var(--bg);padding:3vh 3vw;grid-template-columns:minmax(0,96vh) minmax(0,1fr);gap:3vw;align-items:center}
+.show:fullscreen .stage{height:94vh;width:auto;max-width:100%}
+.show:fullscreen .cap{height:94vh;padding:4vh 3vw}
+.show:fullscreen .cap h2{font-size:5vh}
+.show:fullscreen .cap p.txt{font-size:3.2vh}
+.show:fullscreen .badge{font-size:3.6vh}
+.show:-webkit-full-screen{background:var(--bg);padding:3vh 3vw;grid-template-columns:minmax(0,96vh) minmax(0,1fr);gap:3vw;align-items:center}
+
+/* shelf */
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.lcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:6px;position:relative}
+.lcard:hover{border-color:var(--accent);transform:translateY(-2px)}
+.lcard.on{border-color:var(--hot);box-shadow:0 0 0 2px var(--hot)}
+.lcard .th{aspect-ratio:1/1;border-radius:12px;background:var(--desk);display:grid;place-items:center;overflow:hidden}
+.lcard .th canvas{width:100%;height:100%}
+.lcard b{font-family:var(--font-display);font-weight:400;font-size:18px;line-height:1.3}
+.lcard span{font-size:13px;color:var(--muted);line-height:1.45}
+.lcard .lv{position:absolute;top:16px;left:16px;font-size:12px;background:rgba(255,253,248,.92);color:#12343b;border-radius:999px;padding:2px 8px}
+.lcard .x{position:absolute;top:14px;right:14px;min-height:30px;padding:2px 8px;font-size:12px}
+.empty{color:var(--muted);font-size:15px;padding:18px;border:1px dashed var(--line);border-radius:14px}
+
+/* editor */
+.ed-top{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.ed-top input{flex:1 1 220px;width:auto;font-size:18px;font-weight:500}
+.ed-grid{display:grid;grid-template-columns:250px minmax(0,1fr) 320px;gap:16px;align-items:start}
+.ed-steps .steplist{max-height:560px}
+.ed-center .hint{margin-top:8px;font-size:14px;color:var(--muted);min-height:1.6em}
+.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tools button{display:flex;flex-direction:column;align-items:center;gap:2px;border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:6px 2px;cursor:pointer;font-size:12px;min-height:56px}
+.tools button svg{width:24px;height:24px}
+.tools button[aria-pressed="true"]{border-color:var(--hot);background:var(--hot-soft)}
+.ed-tools .blk{border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
+.ed-tools .blk:first-child{border-top:0;margin-top:0;padding-top:0}
+input[type=range]{width:100%;accent-color:var(--accent)}
+
+/* modal + toast */
+.modal{position:fixed;inset:0;background:rgba(10,20,22,.55);display:grid;place-items:center;z-index:50;padding:16px}
+.modal[hidden]{display:none}
+.modal .box{background:var(--surface);border-radius:18px;padding:20px;max-width:560px;width:100%;display:flex;flex-direction:column;gap:12px}
+.modal canvas{width:100%;max-height:52vh;object-fit:contain;border-radius:10px;background:#f3ede2}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:12px;z-index:60;font-size:15px;max-width:90vw;opacity:0;pointer-events:none;transition:opacity .25s}
+.toast.on{opacity:1}
+footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
+
+@media (max-width:980px){
+  .show{grid-template-columns:1fr}
+  .under{grid-template-columns:1fr}
+  .ed-grid{grid-template-columns:1fr}
+  .ed-center{order:-1}
+  .ed-steps .steplist{max-height:260px}
+}
+@media (max-width:560px){
+  .brand h1{font-size:23px}
+  .tabs{width:100%}
+  .tabs button{flex:1;padding:8px 6px}
+  .cap{padding:16px}
+  .ctrl .btn{font-size:15px;min-height:48px}
+  .shelf{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div class="brand">
+    <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="4" width="40" height="40" rx="6" fill="#fffdf8" stroke="#12343b" stroke-width="2"/><path d="M8 26c8-8 14 6 22-4s8-6 10-6" fill="none" stroke="#12343b" stroke-width="2"/><circle cx="16" cy="15" r="4" fill="none" stroke="#12343b" stroke-width="2"/><circle cx="26" cy="12" r="2.5" fill="#12343b"/><path d="M10 34h8v6h-8zM26 32h6v6h-6z" fill="#12343b"/><path d="M34 30l6 6m0-6l-6 6" stroke="#e8552d" stroke-width="2.4" stroke-linecap="round"/></svg>
+    <div><h1>纏繞畫步驟示範</h1><p>一筆一筆跟著畫，老師也能自己設計動畫</p></div>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-v="play" aria-selected="true">跟著畫</button>
+    <button role="tab" data-v="lib" aria-selected="false">圖樣庫</button>
+    <button role="tab" data-v="edit" aria-selected="false">老師設計</button>
+  </nav>
+</header>
+
+<!-- ===== 跟著畫 ===== -->
+<section id="vPlay" class="view">
+  <div class="show" id="show">
+    <div class="stage" id="stPlay"><canvas id="cvPlay"></canvas><div class="legend" id="legend"><i></i>這一步的新筆畫</div></div>
+    <div class="cap">
+      <div class="lname"><b id="pLesson"></b><span id="pSub"></span></div>
+      <div class="stepline"><span class="badge">第 <span id="pNo">1</span> 步<small>/ <span id="pTot">1</span></small></span><span class="tag" id="pTag"></span></div>
+      <h2 id="pTitle"></h2>
+      <p class="txt" id="pText"></p>
+      <div class="prog" aria-hidden="true"><i id="pBar"></i></div>
+      <div class="ctrl">
+        <button class="btn" id="bPrev">◀ 上一步</button>
+        <button class="btn primary" id="bPlay">▶ 開始畫</button>
+        <button class="btn" id="bNext">下一步 ▶</button>
+      </div>
+      <div class="ctrl2">
+        <button class="btn sm" id="bReplay">↺ 重播這一步</button>
+        <button class="btn sm" id="bFull">⛶ 全螢幕投影</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="under">
+    <div class="card">
+      <h3>播放設定</h3>
+      <label class="f">畫的速度</label>
+      <div class="seg" id="speedSeg">
+        <button data-s="0.5">很慢</button><button data-s="0.75">慢</button><button data-s="1" aria-pressed="true">正常</button><button data-s="1.6">快</button><button data-s="2.5">很快</button>
+      </div>
+      <div style="margin-top:10px">
+        <label class="chk"><input type="checkbox" id="optAuto">自動連播（畫完停一下就接下一步）</label>
+        <label class="chk"><input type="checkbox" id="optHl" checked>這一步的新筆畫用橘色標出</label>
+        <label class="chk"><input type="checkbox" id="optPen" checked>顯示筆</label>
+      </div>
+      <p class="muted" style="font-size:13px;margin:8px 0 0">鍵盤：空白鍵 播放／暫停、← → 上下一步、F 全螢幕</p>
+    </div>
+    <div class="card">
+      <h3>全部步驟 <small class="muted" style="font-size:13px;font-family:var(--font-body)">點一下可以跳過去</small></h3>
+      <ol class="steplist" id="pSteps"></ol>
+    </div>
+    <div class="card">
+      <h3>下載這一課</h3>
+      <label class="f">影片比例</label>
+      <div class="seg" id="ratioSeg"><button data-r="169" aria-pressed="true">16:9 投影</button><button data-r="916">9:16 手機</button><button data-r="11">1:1 社群</button></div>
+      <div class="dlgrid" style="margin-top:10px">
+        <button class="btn primary" id="dlVideo">🎬 下載步驟動畫影片</button>
+        <button class="btn" id="dlPdf">🧾 步驟學習單（A4 PDF）</button>
+        <button class="btn" id="dlPng">🖼 完成圖（PNG）</button>
+        <button class="btn" id="dlJson">💾 教案檔（可再匯入修改）</button>
+        <button class="btn" id="toEdit">✏️ 用這一課改成我的教案</button>
+      </div>
+      <p class="muted" style="font-size:13px;margin:8px 0 0" id="durNote"></p>
+    </div>
+  </div>
+
+  <h2 class="sec-h">選一課開始 <small>每一課都是完整的一張作品：點、框、分隔線、圖樣、陰影、簽名</small></h2>
+  <div class="seg" id="shapeSeg" style="margin-bottom:14px"><button data-sh="square" aria-pressed="true">方形紙片 12 課</button><button data-sh="circle">圓形紙片 12 課</button><button data-sh="a4">A4 紙 12 課</button></div>
+  <div class="shelf" id="shelf"></div>
+  <h2 class="sec-h">我的教案 <small>在「老師設計」存的教案會出現在這裡（只存在這台電腦的瀏覽器）</small></h2>
+  <div class="shelf" id="mine"></div>
+</section>
+
+<!-- ===== 圖樣庫 ===== -->
+<section id="vLib" class="view" hidden>
+  <h2 class="sec-h" style="margin-top:8px">圖樣庫 <small>每個圖樣都拆成 2～3 個小步驟，點一下就能整張紙單獨練習</small></h2>
+  <div class="shelf" id="libGrid"></div>
+</section>
+
+<!-- ===== 老師設計 ===== -->
+<section id="vEdit" class="view" hidden>
+  <div class="card ed-top">
+    <input type="text" id="eTitle" aria-label="教案名稱" placeholder="教案名稱">
+    <button class="btn" id="eNewSq">＋ 新方形教案</button>
+    <button class="btn" id="eNewCi">＋ 新圓形教案</button>
+    <button class="btn" id="eNewA4">＋ 新 A4 教案</button>
+    <select id="eFrom" style="width:auto"><option value="">從範例複製…</option></select>
+    <button class="btn" id="eOpen">開啟教案檔</button>
+    <input type="file" id="eFile" accept=".json,application/json" hidden>
+  </div>
+  <div class="ed-grid">
+    <div class="card ed-steps">
+      <h3>步驟</h3>
+      <ol class="steplist" id="eSteps"></ol>
+      <div class="row" style="margin-top:10px"><button class="btn sm primary" id="eAdd">＋ 新增一步</button><button class="btn sm" id="eDup">複製</button></div>
+      <div class="row" style="margin-top:6px"><button class="btn sm" id="eUp">↑ 上移</button><button class="btn sm" id="eDown">↓ 下移</button><button class="btn sm" id="eDel">刪除</button></div>
+    </div>
+    <div class="ed-center">
+      <div class="stage" id="stEdit"><canvas id="cvEdit"></canvas></div>
+      <div class="hint" id="eHint">選一個工具，直接在紙上畫。你畫的順序就是動畫播放的順序。</div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn primary" id="eSave">💾 存到我的教案</button>
+        <button class="btn" id="ePlay">▶ 播放預覽</button>
+        <button class="btn" id="eJson">下載教案檔</button>
+      </div>
+    </div>
+    <div class="card ed-tools">
+      <div class="blk">
+        <h3>這一步的說明</h3>
+        <label class="f" for="sTitle">標題</label><input type="text" id="sTitle">
+        <label class="f" for="sTag">小標籤（例如：上方區塊・泡泡圓）</label><input type="text" id="sTag">
+        <label class="f" for="sText">口語說明（學生看得懂的話）</label><textarea id="sText"></textarea>
+      </div>
+      <div class="blk">
+        <h3>畫筆</h3>
+        <div class="tools" id="tools"></div>
+        <label class="f">代針筆粗細</label>
+        <div class="seg" id="wSeg"><button data-w="2.6">細</button><button data-w="4" aria-pressed="true">中</button><button data-w="7">粗</button></div>
+        <div class="row" style="margin-top:10px"><button class="btn sm" id="eUndo">↶ 復原一筆</button><button class="btn sm" id="eClear">清空這一步</button></div>
+      </div>
+      <div class="blk">
+        <h3>加入圖樣</h3>
+        <label class="f" for="pKey">圖樣</label><select id="pKey"></select>
+        <label class="f">大小 <span id="pKv">1.0</span></label><input type="range" id="pK" min="0.6" max="1.6" step="0.1" value="1">
+        <label class="f" for="pA">方向</label>
+        <select id="pA"><option value="0">0°（水平）</option><option value="-20">-20° 微斜</option><option value="30">30° 微斜</option><option value="45">45° 斜放</option><option value="90">90°（直立）</option></select>
+        <label class="f" for="pRegion">區域名稱</label><input type="text" id="pRegion" value="這一區">
+        <div class="row" style="margin-top:10px">
+          <button class="btn sm primary" id="pLasso">✍ 圈選區域後加入</button>
+          <button class="btn sm" id="pWhole">整個框內</button>
+        </div>
+        <p class="muted" style="font-size:13px;margin:6px 0 0">圖樣會自動拆成幾個小步驟，插在目前這一步的後面，並只畫在你圈的範圍裡。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="signNote"></footer>
+</div>
+
+<div class="modal" id="recModal" hidden>
+  <div class="box">
+    <h3 style="font-family:var(--font-display);font-weight:400;margin:0;font-size:22px" id="recTitle">錄製影片中…</h3>
+    <canvas id="recCv"></canvas>
+    <div class="prog"><i id="recBar"></i></div>
+    <p class="muted" style="margin:0;font-size:14px" id="recNote">影片是即時錄下來的，請停留在這個分頁，播完會自動存檔。</p>
+    <label class="f" for="signIn" style="margin:0">影片角落署名（可留空）</label>
+    <div class="row"><button class="btn" id="recCancel">取消</button></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/* ==================== 基本工具 ==================== */
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const TAU = Math.PI*2, D2R = Math.PI/180;
+const INK = '#1c1b1f', PENCIL = 'rgba(92,94,104,.78)', SHADE = 'rgba(55,55,70,.22)', HOT = '#e8552d';
+const FONT = '"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';
+const DISPLAY = '"Huninn","Noto Sans TC","PingFang TC",sans-serif';
+function RNG(seed){ let a = seed>>>0; return () => { a = a+0x6D2B79F5|0; let t = Math.imul(a^a>>>15, 1|a); t = t+Math.imul(t^t>>>7, 61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+const dist = (a,b) => Math.hypot(a[0]-b[0], a[1]-b[1]);
+const rp = p => [Math.round(p[0]*10)/10, Math.round(p[1]*10)/10];
+const mk = (w,h=w) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(()=>t.classList.remove('on'), 2800); }
+const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch(e){ return false; } };
+const clone = o => JSON.parse(JSON.stringify(o));
+
+/* ==================== 幾何 ==================== */
+function densify(pts, step=7){ const out = [pts[0]]; for (let i=1;i<pts.length;i++){ const a=pts[i-1], b=pts[i], n=Math.max(1, Math.ceil(dist(a,b)/step)); for (let j=1;j<=n;j++) out.push([a[0]+(b[0]-a[0])*j/n, a[1]+(b[1]-a[1])*j/n]); } return out; }
+function wobble(pts, rng, amp=1.5){
+  const d = densify(pts, 7); if (amp<=0) return d;
+  const p1 = rng()*TAU, p2 = rng()*TAU; let s = 0;
+  return d.map((p,i) => { if (i>0) s += dist(d[i-1], p); const a = d[Math.max(0,i-1)], b = d[Math.min(d.length-1,i+1)];
+    let nx = -(b[1]-a[1]), ny = b[0]-a[0]; const L = Math.hypot(nx,ny)||1; nx/=L; ny/=L;
+    const o = amp*(Math.sin(s/53+p1)*.65 + Math.sin(s/19+p2)*.35); return [p[0]+nx*o, p[1]+ny*o]; });
+}
+function bez(p0,p1,p2,p3,n=40){ const o=[]; for (let i=0;i<=n;i++){ const t=i/n, u=1-t; o.push([u*u*u*p0[0]+3*u*u*t*p1[0]+3*u*t*t*p2[0]+t*t*t*p3[0], u*u*u*p0[1]+3*u*u*t*p1[1]+3*u*t*t*p2[1]+t*t*t*p3[1]]); } return o; }
+function qb(a,c,b,n=24){ const o=[]; for (let i=0;i<=n;i++){ const t=i/n, u=1-t; o.push([u*u*a[0]+2*u*t*c[0]+t*t*b[0], u*u*a[1]+2*u*t*c[1]+t*t*b[1]]); } return o; }
+function circ(cx,cy,r,a0=0,n){ n = n || Math.max(18, Math.round(r*.7)); const o=[]; for (let i=0;i<=n;i++){ const a=a0+TAU*i/n; o.push([cx+r*Math.cos(a), cy+r*Math.sin(a)]); } return o; }
+function arc(cx,cy,r,a0,a1,n){ n = n || Math.max(8, Math.round(Math.abs(a1-a0)*r/8)); const o=[]; for (let i=0;i<=n;i++){ const a=a0+(a1-a0)*i/n; o.push([cx+r*Math.cos(a), cy+r*Math.sin(a)]); } return o; }
+function inRings(x,y,rings){ let c=false; for (const r of rings){ for (let i=0,j=r.length-1;i<r.length;j=i++){ const xi=r[i][0], yi=r[i][1], xj=r[j][0], yj=r[j][1]; if ((yi>y)!==(yj>y) && x < (xj-xi)*(y-yi)/(yj-yi)+xi) c=!c; } } return c; }
+function bbox(rings){ let a=[1e9,1e9,-1e9,-1e9]; for (const r of rings) for (const p of r){ a[0]=Math.min(a[0],p[0]); a[1]=Math.min(a[1],p[1]); a[2]=Math.max(a[2],p[0]); a[3]=Math.max(a[3],p[1]); } return a; }
+function trimRuns(pts, ins){
+  const d = densify(pts, 7), f = d.map(p => ins(p[0],p[1])), runs=[]; let cur=null;
+  for (let i=0;i<d.length;i++){ const keep = f[i] || (i>0&&f[i-1]) || (i<d.length-1&&f[i+1]); if (keep){ if(!cur){ cur=[]; runs.push(cur); } cur.push(d[i]); } else cur=null; }
+  return runs.filter(r => r.length>1);
+}
+function segX(a,b,c,d){ const r=[b[0]-a[0],b[1]-a[1]], s=[d[0]-c[0],d[1]-c[1]], den=r[0]*s[1]-r[1]*s[0]; if (Math.abs(den)<1e-9) return null;
+  const t=((c[0]-a[0])*s[1]-(c[1]-a[1])*s[0])/den, u=((c[0]-a[0])*r[1]-(c[1]-a[1])*r[0])/den; return (t>=0&&t<=1&&u>=0&&u<=1) ? [a[0]+r[0]*t, a[1]+r[1]*t] : null; }
+function crossing(A,B){ for (let i=0;i<A.length-1;i++) for (let j=0;j<B.length-1;j++){ const p=segX(A[i],A[i+1],B[j],B[j+1]); if (p) return {ia:i, ib:j, p}; } return null; }
+function offsetLine(pts, off){ return pts.map((p,i)=>{ const a=pts[Math.max(0,i-1)], b=pts[Math.min(pts.length-1,i+1)]; let nx=-(b[1]-a[1]), ny=b[0]-a[0]; const L=Math.hypot(nx,ny)||1; return [p[0]+nx/L*off, p[1]+ny/L*off]; }); }
+function rdp(pts, eps){ if (pts.length<3) return pts; let md=0, idx=0; const a=pts[0], b=pts[pts.length-1], L=dist(a,b);
+  if (L<3){ for (let i=1;i<pts.length-1;i++){ const d=dist(a,pts[i]); if (d>md){ md=d; idx=i; } } if (md<eps) return [a,b]; return rdp(pts.slice(0,idx+1),eps).slice(0,-1).concat(rdp(pts.slice(idx),eps)); }
+  for (let i=1;i<pts.length-1;i++){ const p=pts[i], d=Math.abs((b[0]-a[0])*(a[1]-p[1])-(a[0]-p[0])*(b[1]-a[1]))/L; if (d>md){ md=d; idx=i; } }
+  if (md>eps){ const l=rdp(pts.slice(0,idx+1),eps), r=rdp(pts.slice(idx),eps); return l.slice(0,-1).concat(r); } return [a,b]; }
+function chaikin(pts){ if (pts.length<3) return pts; const o=[pts[0]]; for (let i=0;i<pts.length-1;i++){ const a=pts[i], b=pts[i+1]; o.push([a[0]*.75+b[0]*.25, a[1]*.75+b[1]*.25],[a[0]*.25+b[0]*.75, a[1]*.25+b[1]*.75]); } o.push(pts[pts.length-1]); return o; }
+function sortB(items, xy, band=90){ return items.map(it=>{ const [x,y]=xy(it), r=Math.floor(y/band); return {it, key: r*1e5 + (r%2 ? 5e4-x : x)}; }).sort((a,b)=>a.key-b.key).map(o=>o.it); }
+
+/* 筆畫：k = i 代針筆線, p 鉛筆線, f 塗黑, d 墨點, q 鉛筆點, s 陰影 */
+const I = (p,w=4) => ({k:'i', p, w});
+const Pn = (p,w=2.6) => ({k:'p', p, w});
+const F = p => ({k:'f', p});
+const D = (x,y,r=4) => ({k:'d', p:[[x,y]], w:r});
+const Q = (x,y,r=5) => ({k:'q', p:[[x,y]], w:r});
+const Sh = (p,w=24) => ({k:'s', p, w});
+const S = (title, text, strokes=[], extra={}) => Object.assign({title, text, strokes}, extra);
+
+/* ==================== 圖樣產生器 ==================== */
+function localGrid(R){ const [x0,y0,x1,y1]=R.bb, cx=(x0+x1)/2, cy=(y0+y1)/2, L=Math.hypot(x1-x0,y1-y0)/2+40, a=(R.a||0)*D2R, ca=Math.cos(a), sa=Math.sin(a);
+  return {L, cx, cy, W:(u,v)=>[cx+u*ca-v*sa, cy+u*sa+v*ca]}; }
+function pack(R, radii, gapK=4){
+  const {bb,ins,rng,k} = R, placed=[], area=(bb[2]-bb[0])*(bb[3]-bb[1]);
+  for (const r0 of radii){ const r=r0*k, tries=Math.min(2600, Math.round(area/(r*r)*1.3)+40);
+    for (let t=0;t<tries;t++){ const x=bb[0]+rng()*(bb[2]-bb[0]), y=bb[1]+rng()*(bb[3]-bb[1]); if (!ins(x,y)) continue;
+      let ok=true; for (const c of placed){ if (Math.hypot(c[0]-x,c[1]-y) < c[2]+r+gapK*k){ ok=false; break; } } if (ok) placed.push([x,y,r]); } }
+  return placed;
+}
+const by = arr => arr; // readability
+function genBubbles(R){
+  const c = pack(R, [56,48,40,33,26,20,15,10,7]); const big=c.filter(q=>q[2]>=33*R.k-.01), mid=c.filter(q=>q[2]<33*R.k-.01 && q[2]>=14*R.k), sm=c.filter(q=>q[2]<14*R.k);
+  const ring = q => I(wobble(circ(q[0],q[1],q[2],R.rng()*TAU), R.rng, 1.2));
+  return [
+    {t:'先畫幾個大圓', x:'在區塊裡散散地畫幾個大圓。圓不用畫得很圓，有一點歪反而更自然。', s:sortB(big,q=>q).map(ring)},
+    {t:'用中小圓填空隙', x:'在大圓之間的空隙，畫中圓、小圓。圓和圓盡量不要碰在一起，也不要重疊。', s:sortB(mid,q=>q).map(ring)},
+    {t:'最小的縫點上黑點', x:'剩下很小的縫，就點上實心的小黑點，畫面會更有層次。', s:sortB(sm,q=>q).map(q=>D(q[0],q[1],Math.max(3,q[2]*.7)))}
+  ];
+}
+function genChecker(R){
+  const {L,W}=localGrid(R), s=62*R.k, n=Math.ceil(L/s), h=[], v=[], f=[];
+  for (let i=-n;i<=n;i++){ h.push(I(wobble([W(-L,i*s),W(L,i*s)],R.rng,1))); v.push(I(wobble([W(i*s,-L),W(i*s,L)],R.rng,1))); }
+  for (let i=-n;i<n;i++) for (let j=-n;j<n;j++) if ((((i+j)%2)+2)%2===0){ const u=i*s, w=j*s; f.push(F([W(u,w),W(u+s,w),W(u+s,w+s),W(u,w+s)])); }
+  return [
+    {t:'先畫一排平行線', x:'用代針筆畫一排平行的線，間距大約一根手指寬，盡量保持一樣寬。', s:h},
+    {t:'再畫交叉的線', x:'換個方向，再畫一排平行線和剛剛的線交叉，變成一格一格的格子。', s:v},
+    {t:'隔一格塗黑', x:'像西洋棋盤一樣，跳著一格塗黑。從格子的邊緣往中間塗，慢慢來。', s:sortB(f,q=>q.p[0],s*.9)}
+  ];
+}
+function bandLines(R, fn, s){ const {L,W}=localGrid(R), n=Math.ceil(L/s), lines=[];
+  for (let j=-n;j<=n;j++){ const pts=fn(L).map(([u,o])=>W(u, j*s+o)); lines.push(wobble(pts,R.rng,1)); } return lines; }
+function bandSteps(R, lines, t1, x1){
+  const f=[]; for (let j=0;j<lines.length-1;j+=2) f.push(F(lines[j].concat(lines[j+1].slice().reverse())));
+  return [{t:t1, x:x1, s:lines.map(p=>I(p))},{t:'隔一條塗黑', x:'在兩條線之間，隔一條塗黑。黑白交錯，畫面立刻有節奏感。', s:f}];
+}
+function genWaves(R){ const k=R.k, s=46*k, A=14*k, P=120*k;
+  const lines=bandLines(R, L=>{ const o=[]; for (let u=-L;u<=L;u+=8) o.push([u, A*Math.sin(u/P*TAU)]); return o; }, s);
+  return bandSteps(R, lines, '畫平行的波浪線', '從區塊的一邊畫到另一邊，像海浪一樣上下起伏。下一條跟著上一條的形狀，保持一樣的距離。'); }
+function genZigzag(R){ const k=R.k, s=46*k, A=15*k, P=60*k;
+  const lines=bandLines(R, L=>{ const o=[]; let m=0; for (let u=-L-P;u<=L+P;u+=P/2, m++) o.push([u, m%2? A : -A]); return o; }, s);
+  return bandSteps(R, lines, '畫平行的鋸齒線', '像閃電或山峰一樣，一上一下畫出尖尖的線。下一條和上一條平行，尖角對齊。'); }
+function genScales(R){
+  const {L,W}=localGrid(R), r=34*R.k, n=Math.ceil(L/r)+1, a=[], b=[], d=[];
+  for (let j=-n;j<=n;j++){ const off=(((j%2)+2)%2)*r; for (let i=-n;i<=n;i++){ const cx=i*2*r+off, y=j*r;
+    if (Math.abs(cx)>L+2*r) continue;
+    a.push(I(wobble(arc(0,0,r,0,Math.PI,18).map(([u,v])=>W(cx+u,y+v)),R.rng,.8)));
+    b.push(I(wobble(arc(0,0,r*.58,.12*Math.PI,.88*Math.PI,12).map(([u,v])=>W(cx+u,y+v)),R.rng,.6),3));
+    const p=W(cx,y+r*.22); d.push(D(p[0],p[1],3.4*R.k)); } }
+  return [
+    {t:'一排一排畫 U 字', x:'從最上面開始，畫一排連在一起的 U 字。下一排的 U 接在上一排兩個 U 的中間，像魚鱗一樣交錯。', s:a},
+    {t:'每片魚鱗加一道小弧', x:'在每個 U 裡面再畫一個小一點的 U，這叫「回音線」，魚鱗會更有厚度。', s:b},
+    {t:'中間點一點', x:'最後在每片魚鱗的上方點一個小黑點。', s:d}
+  ];
+}
+function genSpirals(R){
+  const c = pack(R, [60,50,42,34], 6), rest=[];
+  const sp = q => { const [cx,cy,r]=q, turns=r>40*R.k?2.75:2.25, n=Math.round(turns*36), dir=R.rng()<.5?1:-1, ph=R.rng()*TAU, o=[];
+    for (let i=0;i<=n;i++){ const th=i/n*turns*TAU, rr=r*i/n; o.push([cx+rr*Math.cos(dir*th+ph), cy+rr*Math.sin(dir*th+ph)]); }
+    for (let i=1;i<=36;i++){ const th=turns*TAU+i/36*TAU; o.push([cx+r*Math.cos(dir*th+ph), cy+r*Math.sin(dir*th+ph)]); }
+    return I(wobble(o,R.rng,.8)); };
+  const R2 = Object.assign({}, R, {ins:(x,y)=>R.ins(x,y) && c.every(q=>Math.hypot(q[0]-x,q[1]-y)>q[2]+4*R.k)});
+  const small = pack(R2, [18,13,9], 5).filter(q=>c.every(p=>Math.hypot(p[0]-q[0],p[1]-q[1])>p[2]+q[2]+3*R.k));
+  return [
+    {t:'畫漩渦', x:'從一個小點開始，一邊轉圈一邊往外畫，轉兩、三圈後，最後繞一圈把它包起來。大小不一更好看。', s:sortB(c,q=>q).map(sp)},
+    {t:'小圓填空隙', x:'漩渦之間的空位，畫一些小圓。', s:sortB(small.filter(q=>q[2]>10*R.k),q=>q).map(q=>I(wobble(circ(q[0],q[1],q[2],R.rng()*TAU),R.rng,.8)))},
+    {t:'點上黑點', x:'更小的縫點上黑點，讓漩渦更跳出來。', s:sortB(small.filter(q=>q[2]<=10*R.k),q=>q).map(q=>D(q[0],q[1],Math.max(3,q[2]*.65)))}
+  ];
+}
+function genWeave(R){
+  const {L,W}=localGrid(R), c=84*R.k, n=Math.ceil(L/c), g=[], m=[];
+  for (let i=-n;i<=n;i++) g.push(I(wobble([W(-L,i*c),W(L,i*c)],R.rng,1)));
+  for (let i=-n;i<=n;i++) g.push(I(wobble([W(i*c,-L),W(i*c,L)],R.rng,1)));
+  const cells=[]; for (let j=-n;j<n;j++) for (let i=-n;i<n;i++) cells.push([i,j]);
+  for (const [i,j] of cells){ const u=i*c, v=j*c, hz=(((i+j)%2)+2)%2===0;
+    for (const f of [1/3,2/3]) m.push(I(wobble(hz ? [W(u+4,v+c*f),W(u+c-4,v+c*f)] : [W(u+c*f,v+4),W(u+c*f,v+c-4)],R.rng,.6),3.4)); }
+  return [
+    {t:'先畫大格子', x:'先畫一排平行線，再畫交叉的線，變成大小差不多的格子。', s:g},
+    {t:'每格兩條線，橫直交錯', x:'第一格畫兩條橫線，旁邊那格畫兩條直線，一橫一直交錯，就像編出來的竹籃。', s:m}
+  ];
+}
+function genDiamond(R){
+  const {L,W}=localGrid(R), s=70*R.k, n=Math.ceil(L/s), A=[], B=[], f=[], d=12*R.k;
+  for (let i=-n;i<=n;i++){ A.push(I(wobble([W(-L,i*s),W(L,i*s)],R.rng,1))); B.push(I(wobble([W(i*s,-L),W(i*s,L)],R.rng,1))); }
+  for (let i=-n;i<=n;i++) for (let j=-n;j<=n;j++){ const [x,y]=W(i*s,j*s); const a=(R.a||0)*D2R+Math.PI/4, ca=Math.cos(a)*d*1.2, sa=Math.sin(a)*d*1.2;
+    f.push(F([[x+ca,y+sa],[x-sa,y+ca],[x-ca,y-sa],[x+sa,y-ca]])); }
+  return [
+    {t:'畫一個方向的斜線', x:'先畫一排平行的斜線，間距一樣寬。', s:A},
+    {t:'畫另一個方向的斜線', x:'再畫另一個方向的斜線和它交叉，變成一顆顆菱形格子。', s:B},
+    {t:'交叉點畫小方塊塗黑', x:'在每個線條交叉的地方，畫一個小小的方塊並塗黑，像一顆顆亮晶晶的鑽石。', s:sortB(f,q=>q.p[0],s*.7)}
+  ];
+}
+function genFlowers(R){
+  const {bb,ins,rng}=R, k=R.k, sx=118*k, sy=102*k, cs=[];
+  for (let j=0, y=bb[1]+sy*.45; y<bb[3]+sy*.5; y+=sy, j++) for (let x=bb[0]+(j%2?sx/2:sx*.1); x<bb[2]+sx*.5; x+=sx){
+    const p=[x+(rng()-.5)*22*k, y+(rng()-.5)*22*k]; if (ins(p[0],p[1])) cs.push(p); }
+  const pet=[]; for (const [cx,cy] of cs){ const ph=rng()*TAU; for (let i=0;i<5;i++){ const a=ph+i*TAU/5, ox=cx+Math.cos(a)*25*k, oy=cy+Math.sin(a)*25*k, o=[];
+    for (let t=0;t<=26;t++){ const th=Math.PI+t/26*TAU, ex=17*k*Math.cos(th), ey=10*k*Math.sin(th); o.push([ox+ex*Math.cos(a)-ey*Math.sin(a), oy+ex*Math.sin(a)+ey*Math.cos(a)]); }
+    pet.push(I(wobble(o,rng,.6),3.4)); } }
+  const dots=[]; for (let y=bb[1];y<=bb[3];y+=17*k) for (let x=bb[0];x<=bb[2];x+=17*k){ const p=[x+(rng()-.5)*10*k,y+(rng()-.5)*10*k];
+    if (!ins(p[0],p[1])) continue; if (cs.some(c=>dist(c,p)<52*k)) continue; if (dots.some(q=>dist(q,p)<24*k)) continue; dots.push(p); }
+  return [
+    {t:'畫花心', x:'在區塊裡散散地畫幾個小圓並塗黑，這是花心。花心之間留一點距離。', s:cs.map(c=>D(c[0],c[1],8*k))},
+    {t:'繞著花心畫五片花瓣', x:'圍著每個花心畫五片橢圓形的花瓣。花瓣胖一點、瘦一點都沒關係。', s:pet},
+    {t:'空隙點小點', x:'在花和花之間點上小點，像花粉飄在空中。', s:sortB(dots,q=>q,60).map(p=>D(p[0],p[1],2.8))}
+  ];
+}
+function genRays(R){
+  const o=R.origin || [R.bb[0], R.bb[3]], k=R.k, [x0,y0,x1,y1]=R.bb;
+  const Lm=Math.max(...[[x0,y0],[x1,y0],[x0,y1],[x1,y1]].map(c=>dist(c,o)))+30, st=7*D2R, n=Math.round(TAU/st), rays=[], f=[];
+  const P=a=>[o[0]+Math.cos(a)*Lm, o[1]+Math.sin(a)*Lm];
+  for (let i=0;i<n;i++) rays.push(I(wobble([o,P(i*st)],R.rng,.8)));
+  for (let i=0;i<n;i+=2) f.push(F([o,P(i*st),P((i+1)*st)]));
+  return [
+    {t:'畫太陽中心', x:'在角落（或中心）畫一個半圓並塗黑，當作太陽。', s:[F(circ(o[0],o[1],46*k))]},
+    {t:'畫放射線', x:'從太陽往外畫一條條直線，像陽光散開來，越往外線和線的距離越寬。', s:rays},
+    {t:'隔一條塗黑', x:'兩條光線之間隔一條塗黑。靠近太陽的地方很窄，要慢慢塗。', s:f}
+  ];
+}
+function genStipple(R){
+  const {bb,ins,rng}=R, k=R.k, a=((R.a||0)+90)*D2R, dx=Math.cos(a), dy=Math.sin(a);
+  const pr=[[bb[0],bb[1]],[bb[2],bb[1]],[bb[0],bb[3]],[bb[2],bb[3]]].map(p=>p[0]*dx+p[1]*dy), lo=Math.min(...pr), hi=Math.max(...pr);
+  const n=Math.round((bb[2]-bb[0])*(bb[3]-bb[1])/(15*15*k*k)), pts=[];
+  for (let i=0;i<n*3 && pts.length<n;i++){ const p=[bb[0]+rng()*(bb[2]-bb[0]), bb[1]+rng()*(bb[3]-bb[1])]; if (!ins(p[0],p[1])) continue;
+    const t=(p[0]*dx+p[1]*dy-lo)/(hi-lo||1); if (rng() > .04+.96*Math.pow(t,1.8)) continue; if (pts.some(q=>dist(q,p)<8*k)) continue; pts.push(p); }
+  return [{t:'點點漸層', x:'用筆尖輕輕點，一邊點得密密麻麻，另一邊越來越稀疏，就會出現漸層。手腕放鬆，一點一點來。', s:sortB(pts,q=>q,50).map(p=>D(p[0],p[1],2.6))}];
+}
+function genStripes(R){ const {L,W}=localGrid(R), s=34*R.k, n=Math.ceil(L/s), lines=[], dots=[];
+  for (let j=-n;j<=n;j++) lines.push(I(wobble([W(-L,j*s),W(L,j*s)],R.rng,1)));
+  for (let j=-n;j<n;j+=2) for (let u=-L;u<=L;u+=26*R.k){ const p=W(u, j*s+s/2); dots.push(D(p[0],p[1],3)); }
+  return [{t:'畫平行的直線', x:'用代針筆畫一排平行的直線，間距大約半根手指寬。手有一點抖也沒關係，更有手作感。', s:lines},
+    {t:'隔一條點一排小點', x:'在兩條線之間，隔一條點上一排小黑點，點和點的距離差不多。', s:dots}]; }
+function genRings(R){ const o=sortB(pack(R,[62,52,44,36,28],6),q=>q);
+  return [{t:'畫大大小小的圓', x:'在區塊裡畫幾個大小不一的圓，圓和圓之間留一點空隙。', s:o.map(q=>I(wobble(circ(q[0],q[1],q[2],R.rng()*TAU),R.rng,1)))},
+    {t:'每個圓裡再畫一圈', x:'在每個圓裡面，沿著邊再畫一個小一圈的圓，這叫「回音線」。', s:o.map(q=>I(wobble(circ(q[0],q[1],q[2]*.62,R.rng()*TAU),R.rng,.6),3.2))},
+    {t:'圓心點一顆黑點', x:'最後在每個圓的正中間點一顆實心黑點，像一顆顆眼睛。', s:o.map(q=>D(q[0],q[1],Math.max(3,q[2]*.2)))}]; }
+const PATTERNS = {
+  bubbles:{name:'泡泡圓', lv:'入門', desc:'大小圓圈擠在一起', gen:genBubbles},
+  stripes:{name:'直條紋', lv:'入門', desc:'平行線加一排小點', gen:genStripes},
+  rings:{name:'同心圈', lv:'入門', desc:'圓裡畫圓、點上圓心', gen:genRings},
+  checker:{name:'棋盤格', lv:'入門', desc:'畫格子再跳格塗黑', gen:genChecker, a:0},
+  waves:{name:'波浪', lv:'入門', desc:'平行波浪、隔條塗黑', gen:genWaves, a:-20},
+  flowers:{name:'小花', lv:'入門', desc:'花心、花瓣、花粉點', gen:genFlowers},
+  zigzag:{name:'閃電鋸齒', lv:'入門', desc:'尖尖的平行線', gen:genZigzag},
+  scales:{name:'魚鱗', lv:'進階', desc:'交錯的 U 字與回音線', gen:genScales},
+  weave:{name:'編籃', lv:'進階', desc:'橫直交錯的竹籃紋', gen:genWeave},
+  diamond:{name:'鑽石格', lv:'進階', desc:'斜格子與交叉亮點', gen:genDiamond, a:45},
+  spirals:{name:'漩渦', lv:'進階', desc:'由內往外轉的圈圈', gen:genSpirals},
+  rays:{name:'放射光', lv:'進階', desc:'太陽與光芒', gen:genRays},
+  stipple:{name:'點點漸層', lv:'挑戰', desc:'用點的疏密做出陰影', gen:genStipple}
+};
+function finalize(strokes, ins){
+  const out=[];
+  for (const s of strokes){
+    if (s.k==='i'||s.k==='p'||s.k==='s'){ for (const run of trimRuns(s.p,ins)) out.push({k:s.k, w:s.w, p:run.map(rp)}); }
+    else if (s.k==='f'){ const d=densify(s.p.concat([s.p[0]]),10); if (d.some(q=>ins(q[0],q[1]))) out.push({k:'f', p:s.p.map(rp)}); }
+    else if (ins(s.p[0][0],s.p[0][1])) out.push({k:s.k, w:s.w, p:[rp(s.p[0])]});
+  }
+  return out;
+}
+function pat(key, clip, frame, o={}, region='整個框內', seed=1){
+  const P=PATTERNS[key], fb=bbox([frame]), cb=clip?bbox(clip):fb;
+  const bb=[Math.max(fb[0],cb[0]),Math.max(fb[1],cb[1]),Math.min(fb[2],cb[2]),Math.min(fb[3],cb[3])];
+  if (bb[2]-bb[0]<10 || bb[3]-bb[1]<10) return [];
+  const ins=(x,y)=>inRings(x,y,[frame]) && (!clip||inRings(x,y,clip));
+  const R={bb, ins, rng:RNG(seed*977+key.charCodeAt(0)*31+key.length), k:o.k||1, a:o.a ?? P.a ?? 0, origin:o.origin};
+  const raw=P.gen(R);
+  const cl = clip ? clip.map(r=>r.map(rp)) : null;
+  const done=raw.map(st=>({st, strokes:finalize(st.s, ins)})).filter(o=>o.strokes.length);
+  return done.map((o,i)=>({title:o.st.t, tag:`${region}・${P.name}${done.length>1?` ${i+1}/${done.length}`:''}`, text:o.st.x, fc:1, clip:cl, strokes:o.strokes}));
+}
+
+/* ==================== 課程 ==================== */
+const TXT = {
+  prep:'準備一張約 9 公分見方的白紙、一支鉛筆、一支黑色細簽字筆（代針筆）。先深呼吸三次、放鬆肩膀。纏繞畫沒有「畫錯」這件事，每一筆都是你的作品。',
+  prepC:'準備一張白紙、一支鉛筆、一支黑色細簽字筆（代針筆），還有一個杯子或圓規。先深呼吸三次、放鬆肩膀。纏繞畫沒有「畫錯」這件事。',
+  prepA:'準備一張 A4 白紙（直放）、一支鉛筆、一支黑色簽字筆。A4 比較大，可以用粗一點的筆，圖樣畫大一點也很好看。先深呼吸三次、放鬆肩膀。',
+  dots:'用鉛筆在紙的四個角，離邊緣大約一指寬的地方，各點一個小點。',
+  border:'用鉛筆把四個點連起來，線可以有一點彎，不用尺。這就是作品的邊框。',
+  circle:'用杯底或圓規，以鉛筆畫一個圓當作邊框，中心點一個小點。',
+  shade:'用鉛筆在分隔線的一側塗一條灰色，再用手指或紙筆輕輕抹開，畫面就會立體起來。',
+  shadeShape:'用鉛筆沿著形狀的外圍塗一圈灰色，再用手指輕輕抹開，形狀會像浮起來一樣。',
+  sign:'在角落簽上你的名字縮寫，背面寫上日期。',
+  end:'把紙放遠一點，轉一轉從四個方向看看。說一說：你最喜歡哪一個圖樣？畫的時候心情怎麼樣？'
+};
+const SHAPES = {square:{name:'方形紙片', h:1000}, circle:{name:'圓形紙片', h:1000}, a4:{name:'A4 紙', h:1414}};
+const aspOf = L => (L && L.shape==='a4') ? 1.414 : 1;
+function prep(shape, rng){
+  const steps=[S('準備材料', shape==='circle'?TXT.prepC:shape==='a4'?TXT.prepA:TXT.prep, [], {tag:'開始之前'})];
+  if (shape==='circle'){
+    steps.push(S('畫圓框', TXT.circle, [Pn(wobble(circ(500,500,380,-Math.PI/2,90),rng,1.2)), Q(500,500)], {tag:'打底（鉛筆）'}));
+    return {steps, frame:circ(500,500,380,0,90).map(rp)};
+  }
+  const C = shape==='a4' ? [[100,100],[900,100],[900,1314],[100,1314]] : [[130,130],[870,130],[870,870],[130,870]];
+  const c=C.map(([x,y])=>[x+(rng()-.5)*14, y+(rng()-.5)*14]);
+  steps.push(S('四個角點點', TXT.dots, c.map(p=>Q(p[0],p[1])), {tag:'打底（鉛筆）'}));
+  const edges=[], frame=[];
+  for (let i=0;i<4;i++){ const a=c[i], b=c[(i+1)%4], m=[(a[0]+b[0])/2,(a[1]+b[1])/2], nx=-(b[1]-a[1])/dist(a,b), ny=(b[0]-a[0])/dist(a,b), bu=(rng()-.5)*26;
+    const e=qb(a,[m[0]+nx*bu,m[1]+ny*bu],b,24); edges.push(Pn(wobble(e,rng,.8))); frame.push(...e.slice(0,-1)); }
+  steps.push(S('連成邊框', TXT.border, edges, {tag:'打底（鉛筆）'}));
+  return {steps, frame:frame.map(rp)};
+}
+function signSteps(x,y){
+  const o=[]; for (let i=0;i<=80;i++){ const t=i/80, th=t*4.5*TAU; o.push([x+t*96+11*Math.cos(th), y+9*Math.sin(th)-t*8]); }
+  return [S('簽名', TXT.sign, [I(o,2.6)], {tag:'收尾'}), S('完成與欣賞', TXT.end, [], {tag:'收尾'})];
+}
+const ext = (pts, axis, H=1000) => axis==='x' ? [[0,pts[0][1]],...pts,[1000,pts[pts.length-1][1]]] : [[pts[0][0],0],...pts,[pts[pts.length-1][0],H]];
+const shadeStep = (lines, text=TXT.shade) => S('加上陰影', text, lines.map(([p,side])=>Sh(wobble(offsetLine(p,side*14),RNG(p.length),.8),22)), {tag:'鉛筆陰影', fc:1});
+const stringStep = (text, lines, title='畫分隔線') => S(title, text, lines.map(p=>Pn(wobble(p,RNG(p.length*7),1.1))), {tag:'打底（鉛筆）', fc:1});
+const sq = [[0,0],[1000,0],[1000,1000],[0,1000]];
+const BIG = [[-200,-200],[1200,-200],[1200,1700],[-200,1700]];
+/* 形狀：一律順時針，陰影往外用 side = -1 */
+function ell(cx,cy,rx,ry,rot=0,n=80){ const o=[], c=Math.cos(rot), s=Math.sin(rot); for (let i=0;i<=n;i++){ const t=i/n*TAU, x=rx*Math.cos(t), y=ry*Math.sin(t); o.push([cx+x*c-y*s, cy+x*s+y*c]); } return o; }
+function heart(cx,cy,sz,n=120){ const k=sz/17, o=[]; for (let i=0;i<=n;i++){ const t=i/n*TAU; o.push([cx+16*Math.pow(Math.sin(t),3)*k, cy-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))*k]); } return o; }
+function star(cx,cy,R,r,n=5){ const o=[]; for (let i=0;i<=2*n;i++){ const a=-Math.PI/2+i*Math.PI/n, rr=i%2?r:R; o.push([cx+rr*Math.cos(a), cy+rr*Math.sin(a)]); } return o; }
+const rect = (x0,y0,x1,y1) => [[x0,y0],[x1,y0],[x1,y1],[x0,y1],[x0,y0]];
+const cc = (r,cx=500,cy=500) => circ(cx,cy,r,-Math.PI/2,Math.max(48,Math.round(r*.45)));
+const OUT = circ(500,500,470,-Math.PI/2,96);
+const wedgeR = (cx,cy,r0,r1,a0,a1) => r0<2 ? [[cx,cy],...arc(cx,cy,r1,a0,a1,30)] : [...arc(cx,cy,r1,a0,a1,30),...arc(cx,cy,r0,a1,a0,16)];
+const wavyH = (y,x0,x1,amp=40) => bez([x0,y],[x0+(x1-x0)*.33,y-amp],[x0+(x1-x0)*.66,y+amp],[x1,y],50);
+const wavyV = (x,y0,y1,amp=60) => bez([x,y0],[x-amp,y0+(y1-y0)*.33],[x+amp,y0+(y1-y0)*.66],[x,y1],50);
+const chordX = y => Math.sqrt(Math.max(0,380*380-(y-500)*(y-500)));
+function hStrips(lines){ const ex=lines.map(l=>ext(l,'x')), r=[[...ex[0],[1000,-200],[0,-200]]];
+  for (let i=0;i<ex.length-1;i++) r.push([...ex[i],...ex[i+1].slice().reverse()]); r.push([...ex[ex.length-1],[1000,1700],[0,1700]]); return r; }
+function vStrips(lines,H){ const ex=lines.map(l=>ext(l,'y',H)), r=[[...ex[0],[-200,H],[-200,0]]];
+  for (let i=0;i<ex.length-1;i++) r.push([...ex[i],...ex[i+1].slice().reverse()]); r.push([...ex[ex.length-1],[1200,H],[1200,0]]); return r; }
+/* 同一種圖樣放在好幾塊（例如曼陀羅的每一片），每塊方向不同，小步驟合併 */
+function patMulti(key, sets, frame, oFn, region, seed){
+  const merged=[], clip=sets.flat().map(r=>r.map(rp));
+  sets.forEach((rings,i)=>pat(key, rings, frame, oFn(i), region, seed+i).forEach(st=>{ const m=merged.find(x=>x.title===st.title); if (m) m.strokes.push(...st.strokes); else merged.push(Object.assign({}, st, {clip})); }));
+  merged.forEach((st,i)=>st.tag=`${region}・${PATTERNS[key].name}${merged.length>1?` ${i+1}/${merged.length}`:''}`);
+  return merged;
+}
+/* 課程配方：分隔線（或形狀）＋每一區一個圖樣＋陰影＋簽名 */
+function recipe(R){
+  const seed=R.seed||7, {steps,frame}=prep(R.shape, RNG(seed));
+  steps.push(stringStep(R.st, R.strings, R.stTitle||'畫分隔線'));
+  R.regions.forEach(([name, rings, key, o={}], i) => {
+    if (o.each) steps.push(...patMulti(key, rings.map(r=>[r]), frame, j=>Object.assign({}, o, o.each(j)), name, seed*10+i*3));
+    else steps.push(...pat(key, rings, frame, o, name, seed*10+i));
+  });
+  if (R.shade && R.shade.length) steps.push(shadeStep(R.shade, R.shadeText || (R.stTitle ? TXT.shadeShape : TXT.shade)));
+  const sg = R.sign || (R.shape==='a4' ? [700,1275] : R.shape==='circle' ? [455,815] : [720,835]);
+  steps.push(...signSteps(sg[0], sg[1]));
+  return {shape:R.shape, frame, steps};
+}
+
+const LESSONS = [
+  /* ---------- 方形紙片 ---------- */
+  {id:'classic', shape:'square', title:'第一張纏繞畫', sub:'經典步驟，三個入門圖樣', lv:'入門', build(){
+    const rng=RNG(11), {steps,frame}=prep('square',rng);
+    const A=bez([130,400],[380,250],[600,700],[870,560],60), t0=24, pa=A[t0], B=bez([450,870],[430,760],[520,640],pa,30);
+    steps.push(stringStep('用鉛筆輕輕畫一條彎彎的線，從左邊跨到右邊；再從底下拉一條線接上去，把紙分成三塊。這些線叫「分隔線」，不用畫得很直。', [A,B]));
+    const Ax=ext(A,'x'), top=[...Ax,[1000,0],[0,0]];
+    const BL=[[0,A[0][1]],...A.slice(0,t0+1),...B.slice().reverse(),[450,1000],[0,1000]];
+    const BR=[...A.slice(t0),[1000,A[A.length-1][1]],[1000,1000],[450,1000],...B];
+    steps.push(...pat('bubbles',[top],frame,{},'上方大區塊',3), ...pat('checker',[BL],frame,{},'左下區塊',4), ...pat('waves',[BR],frame,{a:-25},'右下區塊',5));
+    steps.push(shadeStep([[A,1],[B,1]]), ...signSteps(720,830));
+    return {shape:'square', frame, steps};
+  }},
+  {id:'grid4', shape:'square', title:'四格練習', sub:'一格一個圖樣，最適合第一次上課', lv:'入門', build(){
+    const rng=RNG(21), {steps,frame}=prep('square',rng);
+    const V=bez([505,130],[470,350],[540,650],[495,870],50), H=bez([130,495],[350,535],[650,460],[870,505],50);
+    steps.push(stringStep('用鉛筆畫一條直直彎彎的線從上到下，再畫一條從左到右，把紙分成四格。', [V,H]));
+    const Vx=ext(V,'y'), Hx=ext(H,'x'), X=crossing(Vx,Hx), {ia,ib,p}=X;
+    const TL=[[0,0],...Vx.slice(0,ia+1),p,...Hx.slice(0,ib+1).reverse()];
+    const TR=[[1000,0],[1000,Hx[Hx.length-1][1]],...Hx.slice(ib+1).reverse(),p,...Vx.slice(0,ia+1).reverse()];
+    const BL=[[0,1000],...Hx.slice(0,ib+1),p,...Vx.slice(ia+1)];
+    const BR=[[1000,1000],...Vx.slice(ia+1).reverse(),p,...Hx.slice(ib+1)];
+    steps.push(...pat('flowers',[TL],frame,{},'左上格',6), ...pat('zigzag',[TR],frame,{a:90},'右上格',7), ...pat('weave',[BL],frame,{},'左下格',8), ...pat('diamond',[BR],frame,{},'右下格',9));
+    steps.push(shadeStep([[V,1],[H,-1]]), ...signSteps(730,835));
+    return {shape:'square', frame, steps};
+  }},
+  {id:'cake', shape:'square', title:'四層蛋糕', sub:'由上往下一層一個圖樣', lv:'入門', build(){
+    const L=[310,500,690].map((y,i)=>wavyH(y,130,870,i%2?-45:45)), r=hStrips(L);
+    return recipe({shape:'square', seed:101, st:'用鉛筆由上往下畫三條彎彎的橫線，把紙分成四層，像一塊多層蛋糕。', strings:L,
+      regions:[['第一層',[r[0]],'stripes',{}],['第二層',[r[1]],'flowers',{k:.85}],['第三層',[r[2]],'checker',{k:.8}],['第四層',[r[3]],'waves',{}]],
+      shade:L.map(l=>[l,1])}); }},
+  {id:'heartsq', shape:'square', title:'一顆愛心', sub:'愛心裡同心圈，外面鑽石格', lv:'入門', build(){
+    const h=heart(500,470,320);
+    return recipe({shape:'square', seed:102, stTitle:'畫出形狀', st:'用鉛筆在中間畫一顆大大的愛心，左右兩邊盡量一樣胖。', strings:[h],
+      regions:[['愛心裡',[h],'rings',{}],['愛心外',[BIG,h],'diamond',{}]], shade:[[h,-1]]}); }},
+  {id:'frame', shape:'square', title:'相框', sub:'中間小花，外框棋盤格', lv:'入門', build(){
+    const R=rect(270,270,730,730);
+    return recipe({shape:'square', seed:103, stTitle:'畫出形狀', st:'用鉛筆在中間畫一個方框，四邊和外框保持差不多的距離，像一個相框。', strings:[R],
+      regions:[['中間',[R],'flowers',{k:.9}],['外框',[BIG,R],'checker',{k:.6}]], shade:[[R,-1]]}); }},
+  {id:'diag', shape:'square', title:'斜斜的河', sub:'一條 S 線分成兩半', lv:'入門', build(){
+    const D=bez([130,130],[620,180],[380,820],[870,870],60);
+    return recipe({shape:'square', seed:104, st:'用鉛筆從左上角畫一條彎彎的 S 形線到右下角，把紙分成兩半。', strings:[D],
+      regions:[['右上半',[[...D,[1000,870],[1000,0],[130,0]]],'stripes',{a:-45}],['左下半',[[...D,[870,1000],[0,1000],[0,130]]],'spirals',{}]],
+      shade:[[D,1]]}); }},
+  {id:'sun', shape:'square', title:'角落的太陽', sub:'放射光、魚鱗、小花', lv:'進階', build(){
+    const rng=RNG(31), {steps,frame}=prep('square',rng), o=[130,870];
+    const a1=arc(o[0],o[1],300,-Math.PI/2,0,40), a2=arc(o[0],o[1],540,-Math.PI/2,0,60);
+    steps.push(stringStep('從左下角當圓心，用鉛筆畫兩條大弧線，像彩虹一樣一層一層。', [a1,a2]));
+    const sec=(r,a)=>[[0,1000],[0,o[1]-r],...a,[o[0]+r,1000]];
+    steps.push(...pat('rays',[sec(300,a1)],frame,{origin:o},'太陽',12), ...pat('scales',[sec(540,a2),sec(300,a1)],frame,{k:.85},'中間彩虹帶',13), ...pat('flowers',[sq,sec(540,a2)],frame,{},'外面的天空',14));
+    steps.push(shadeStep([[a1,1],[a2,1]]), ...signSteps(720,190));
+    return {shape:'square', frame, steps};
+  }},
+  {id:'swirl', shape:'square', title:'漩渦與波浪', sub:'一個大圓，裡外兩種節奏', lv:'進階', build(){
+    const rng=RNG(41), {steps,frame}=prep('square',rng), C=circ(500,500,235,-Math.PI/2,80);
+    steps.push(stringStep('用鉛筆在中間畫一個大圓，大約佔紙的一半。', [C]));
+    steps.push(...pat('spirals',[C],frame,{k:.9},'圓圈裡',21), ...pat('waves',[sq,C],frame,{a:30},'圓圈外',22));
+    steps.push(shadeStep([[C,-1]],'用鉛筆沿著大圓的外側塗一圈灰色，再輕輕抹開，圓會像浮起來一樣。'), ...signSteps(730,835));
+    return {shape:'square', frame, steps};
+  }},
+  {id:'bands', shape:'square', title:'三條河流', sub:'魚鱗、鑽石格、鋸齒', lv:'進階', build(){
+    const rng=RNG(51), {steps,frame}=prep('square',rng);
+    const C1=bez([380,130],[300,380],[460,620],[360,870],50), C2=bez([630,130],[560,400],[700,600],[620,870],50);
+    steps.push(stringStep('用鉛筆從上到下畫兩條彎彎的線，像兩條河岸，把紙分成三條。', [C1,C2]));
+    const c1=ext(C1,'y'), c2=ext(C2,'y');
+    steps.push(...pat('scales',[[[0,0],...c1,[0,1000]]],frame,{},'左邊',31), ...pat('checker',[[...c1,...c2.slice().reverse()]],frame,{a:45,k:.8},'中間的河',32), ...pat('zigzag',[[...c2,[1000,1000],[1000,0]]],frame,{a:90,k:.9},'右邊',33));
+    steps.push(shadeStep([[C1,1],[C2,-1]]), ...signSteps(720,835));
+    return {shape:'square', frame, steps};
+  }},
+  {id:'threebub', shape:'square', title:'三個泡泡', sub:'三個圓各一個圖樣，背景點點', lv:'進階', build(){
+    const c1=cc(170,360,360), c2=cc(150,640,610), c3=cc(100,330,710);
+    return recipe({shape:'square', seed:105, stTitle:'畫出形狀', st:'用鉛筆畫三個大小不一樣的圓：一個大的、一個中的、一個小的，圓和圓不要碰在一起。', strings:[c1,c2,c3],
+      regions:[['大圓',[c1],'scales',{k:.8}],['中圓',[c2],'weave',{k:.8}],['小圓',[c3],'bubbles',{k:.7}],['圓的外面',[BIG,c1,c2,c3],'stipple',{}]],
+      shade:[[c1,-1],[c2,-1],[c3,-1]]}); }},
+  {id:'diamondwin', shape:'square', title:'菱形窗', sub:'中間菱形，四個角兩兩一組', lv:'進階', build(){
+    const Dm=[[500,130],[870,500],[500,870],[130,500],[500,130]];
+    const TL=[[0,0],[500,0],[500,130],[130,500],[0,500]], TR=[[500,0],[1000,0],[1000,500],[870,500],[500,130]];
+    const BR=[[1000,500],[1000,1000],[500,1000],[500,870],[870,500]], BL=[[500,1000],[0,1000],[0,500],[130,500],[500,870]];
+    return recipe({shape:'square', seed:106, stTitle:'畫出形狀', st:'找出四條邊的中間點，用鉛筆把它們連起來，畫出一個大菱形，四個角就變成四個三角形。', strings:[Dm],
+      regions:[['菱形裡',[Dm],'rings',{}],['左上與右下角',[TL,BR],'stripes',{a:45}],['右上與左下角',[TR,BL],'flowers',{k:.75}]], shade:[[Dm,-1]]}); }},
+  {id:'leaf', shape:'square', title:'一片葉子', sub:'葉脈直條紋，背景泡泡', lv:'挑戰', build(){
+    const L1=bez([130,130],[180,620],[380,820],[870,870],60), L2=bez([130,130],[620,180],[820,380],[870,870],60), M=bez([130,130],[400,420],[600,580],[870,870],50);
+    return recipe({shape:'square', seed:107, stTitle:'畫出形狀', st:'從左上角到右下角，用鉛筆畫兩條向外鼓起來的弧線，變成一片大葉子；中間再畫一條葉脈。', strings:[L1,L2,M],
+      regions:[['葉子上半',[[...L2,...M.slice().reverse()]],'stripes',{a:-60,k:.8}],['葉子下半',[[...M,...L1.slice().reverse()]],'stripes',{a:-30,k:.8}],
+        ['葉子外面',[[...L2,[1000,870],[1000,0],[130,0]],[...L1,[870,1000],[0,1000],[0,130]]],'bubbles',{k:.8}]],
+      shade:[[L1,1],[L2,-1]]}); }},
+
+  /* ---------- 圓形紙片 ---------- */
+  {id:'target', shape:'circle', title:'同心圓靶', sub:'一圈一圈往外畫', lv:'入門', build(){
+    const a=cc(130), b=cc(260);
+    return recipe({shape:'circle', seed:201, st:'用鉛筆在圓框裡再畫兩個同心圓，一個小、一個中，像射箭的靶。', strings:[a,b],
+      regions:[['中心',[a],'rings',{k:.8}],['第二圈',[b,a],'checker',{a:45,k:.6}],['最外圈',[OUT,b],'waves',{}]], shade:[[a,-1],[b,-1]]}); }},
+  {id:'pizza', shape:'circle', title:'披薩', sub:'外圈小花，裡面切四塊', lv:'入門', build(){
+    const r=290, inner=cc(r), q=i=>wedgeR(500,500,0,r,(-45+90*i)*D2R,(45+90*i)*D2R), d=r*Math.SQRT1_2;
+    const l1=[[500-d,500-d],[500+d,500+d]], l2=[[500+d,500-d],[500-d,500+d]];
+    return recipe({shape:'circle', seed:202, st:'在圓框裡畫一個大一點的圓當作披薩，再畫一個大叉叉，把披薩切成四塊。', strings:[inner,l1,l2],
+      regions:[['外圈餅皮',[OUT,inner],'flowers',{k:.7}],['左右兩塊',[q(0),q(2)],'checker',{k:.7}],['上下兩塊',[q(1),q(3)],'waves',{k:.8}]], shade:[[inner,-1]]}); }},
+  {id:'cross4', shape:'circle', title:'四片花瓣窗', sub:'十字分四塊，中心漩渦', lv:'入門', build(){
+    const c=cc(110), w=i=>wedgeR(500,500,110,470,(-90+90*i)*D2R,(90*i)*D2R), rad=[0,1,2,3].map(i=>{ const a=(-90+90*i)*D2R; return [[500+Math.cos(a)*110,500+Math.sin(a)*110],[500+Math.cos(a)*380,500+Math.sin(a)*380]]; });
+    return recipe({shape:'circle', seed:203, st:'在中心畫一個小圓，再從小圓往上下左右畫四條線，把圓分成四塊。', strings:[c,...rad],
+      regions:[['中心',[c],'spirals',{k:.7}],['右上和左下',[w(0),w(2)],'diamond',{k:.7}],['左上和右下',[w(1),w(3)],'flowers',{k:.8}]], shade:[[c,-1]]}); }},
+  {id:'stripsC', shape:'circle', title:'四層圓餅', sub:'三條橫線分四層', lv:'入門', build(){
+    const L=[330,500,670].map((y,i)=>{ const dx=chordX(y); return wavyH(y,500-dx,500+dx,i%2?-35:35); }), r=hStrips(L);
+    return recipe({shape:'circle', seed:204, st:'用鉛筆在圓裡由上往下畫三條彎彎的橫線，把圓分成四層。', strings:L,
+      regions:[['第一層',[r[0]],'stripes',{}],['第二層',[r[1]],'flowers',{k:.8}],['第三層',[r[2]],'checker',{k:.7}],['第四層',[r[3]],'waves',{}]], shade:L.map(l=>[l,1])}); }},
+  {id:'planets', shape:'circle', title:'兩顆星球', sub:'大小星球飄在太空裡', lv:'入門', build(){
+    const c1=cc(190,410,420), c2=cc(110,680,660);
+    return recipe({shape:'circle', seed:205, stTitle:'畫出形狀', st:'用鉛筆在圓框裡畫一個大圓和一個小圓，當作兩顆星球，不要碰在一起。', strings:[c1,c2],
+      regions:[['大星球',[c1],'weave',{k:.8}],['小星球',[c2],'bubbles',{k:.7}],['太空',[OUT,c1,c2],'diamond',{k:.8}]], shade:[[c1,-1],[c2,-1]]}); }},
+  {id:'yinyang', shape:'circle', title:'太極', sub:'S 線分兩半，兩個小圓', lv:'進階', build(){
+    const S1=arc(500,310,190,-Math.PI/2,Math.PI/2,30), S2=arc(500,690,190,-Math.PI/2,-1.5*Math.PI,30), Sp=[...S1,...S2.slice(1)];
+    const Sx=[[500,30],...Sp,[500,970]], left=[...Sx,...arc(500,500,470,Math.PI/2,1.5*Math.PI,40)], right=[...Sx,...arc(500,500,470,Math.PI/2,-Math.PI/2,40)];
+    const s1=cc(60,500,310), s2=cc(60,500,690);
+    return recipe({shape:'circle', seed:206, st:'從圓的頂端畫一條 S 形線到底部，把圓分成兩半；再在上下各畫一個小圓，像太極圖。', strings:[Sp,s1,s2],
+      regions:[['左半邊',[left,s1],'waves',{a:0,k:.9}],['右半邊',[right,s2],'bubbles',{k:.8}],['兩個小圓',[s1,s2],'stripes',{k:.6}]], shade:[[Sp,1]]}); }},
+  {id:'flowerC', shape:'circle', title:'大花朵', sub:'五片花瓣圍著花心', lv:'進階', build(){
+    const c=cc(90), petals=[0,1,2,3,4].map(i=>{ const a=(-90+72*i)*D2R; return cc(105,500+Math.cos(a)*225,500+Math.sin(a)*225); });
+    return recipe({shape:'circle', seed:207, stTitle:'畫出形狀', st:'在中心畫一個小圓當花心，再繞著它畫五個圓當花瓣，花瓣之間留一點空隙。', strings:[c,...petals],
+      regions:[['花心',[c],'spirals',{k:.7}],['花瓣',petals,'scales',{k:.5}],['背景',[OUT,c,...petals],'stipple',{}]], shade:[[c,-1],...petals.map(p=>[p,-1])]}); }},
+  {id:'starC', shape:'circle', title:'五角星', sub:'星星裡條紋，外面泡泡', lv:'進階', build(){
+    const st=star(500,520,340,140), c=cc(60,500,520);
+    return recipe({shape:'circle', seed:208, stTitle:'畫出形狀', st:'用鉛筆在圓框裡畫一顆大大的五角星，尖角碰到圓框附近；星星中心再畫一個小圓。', strings:[st,c],
+      regions:[['星星中心',[c],'spirals',{k:.6}],['星星',[st,c],'stripes',{a:0,k:.8}],['星星外面',[OUT,st],'bubbles',{k:.7}]], shade:[[st,-1]]}); }},
+  {id:'moon', shape:'circle', title:'彎彎月亮', sub:'彎月魚鱗，夜空點點', lv:'進階', build(){
+    const oc=cc(300,600,420), sm=cc(70,650,410);
+    return recipe({shape:'circle', seed:209, stTitle:'畫出形狀', st:'在圓框的右上方畫一個大圓，剩下左下的部分就是彎彎的月亮；大圓裡再畫一顆小星球。', strings:[oc,sm],
+      regions:[['小星球',[sm],'spirals',{k:.6}],['夜空',[oc,sm],'stipple',{}],['彎月',[OUT,oc],'scales',{k:.7}]], shade:[[oc,-1],[sm,-1]]}); }},
+  {id:'zendala', shape:'circle', title:'圓形曼陀羅', sub:'六片放射對稱', lv:'挑戰', build(){
+    const r0=115, inner=cc(r0), rads=[], wedge=i=>wedgeR(500,500,r0,470,(-90+60*i)*D2R,(-30+60*i)*D2R);
+    for (let i=0;i<6;i++){ const a=(-90+60*i)*D2R; rads.push([[500+Math.cos(a)*r0,500+Math.sin(a)*r0],[500+Math.cos(a)*380,500+Math.sin(a)*380]]); }
+    return recipe({shape:'circle', seed:61, st:'在中心畫一個小圓，再從小圓往外畫六條線，像切披薩一樣分成六塊。', strings:[inner,...rads],
+      regions:[['中心',[inner],'spirals',{k:.85}],['單數塊',[0,2,4].map(wedge),'rays',{origin:[500,500],k:.8}],['雙數塊',[1,3,5].map(wedge),'scales',{k:.62, each:j=>({a:60*(2*j+1)-150})}]],
+      shade:[[inner,-1],...rads.map(r=>[densify(r,10),1])], shadeText:'用鉛筆沿著中心小圓的外圍和每條分隔線的一側塗灰，再輕輕抹開。'}); }},
+  {id:'wheel8', shape:'circle', title:'八角輪', sub:'八片交錯：放射光與鋸齒', lv:'挑戰', build(){
+    const c=cc(90), w=i=>wedgeR(500,500,90,470,(-90+45*i)*D2R,(-45+45*i)*D2R), rad=[];
+    for (let i=0;i<8;i++){ const a=(-90+45*i)*D2R; rad.push([[500+Math.cos(a)*90,500+Math.sin(a)*90],[500+Math.cos(a)*380,500+Math.sin(a)*380]]); }
+    return recipe({shape:'circle', seed:210, st:'在中心畫一個小圓，再從小圓往外畫八條線，像車輪的輪輻，把圓分成八塊。', strings:[c,...rad],
+      regions:[['中心',[c],'rings',{k:.7}],['單數塊',[0,2,4,6].map(w),'rays',{origin:[500,500],k:.8}],['雙數塊',[1,3,5,7].map(w),'zigzag',{k:.7, each:j=>({a:-67.5+90*j+45})}]],
+      shade:rad.map(r=>[densify(r,10),1])}); }},
+  {id:'eye', shape:'circle', title:'眼睛', sub:'瞳孔漩渦，眼珠放射光', lv:'挑戰', build(){
+    const T=bez([120,500],[330,290],[670,290],[880,500],50), B=bez([120,500],[330,710],[670,710],[880,500],50), pc=cc(95);
+    const lens=[...T,...B.slice().reverse()], Tx=ext(T,'x'), Bx=ext(B,'x');
+    return recipe({shape:'circle', seed:211, stTitle:'畫出形狀', st:'從圓的左邊到右邊，畫上下兩條弧線變成一個眼睛；正中間再畫一個圓當瞳孔。', strings:[T,B,pc],
+      regions:[['瞳孔',[pc],'spirals',{k:1.4}],['眼珠',[lens,pc],'rays',{origin:[500,500],k:.8}],['上方',[[...Tx,[1000,0],[0,0]]],'stripes',{a:0}],['下方',[[...Bx,[1000,1000],[0,1000]]],'waves',{a:0,k:.9}]],
+      shade:[[T,-1],[B,1],[pc,-1]]}); }},
+
+  /* ---------- A4 紙 ---------- */
+  {id:'a4strips', shape:'a4', title:'三層長卷', sub:'A4 入門：上中下三層', lv:'入門', build(){
+    const L=[520,900].map((y,i)=>wavyH(y,100,900,i?-70:70)), r=hStrips(L);
+    return recipe({shape:'a4', seed:301, st:'用鉛筆在 A4 紙上畫兩條彎彎的橫線，把紙分成上、中、下三層。', strings:L,
+      regions:[['上層',[r[0]],'bubbles',{k:1.1}],['中層',[r[1]],'checker',{k:1.1}],['下層',[r[2]],'waves',{k:1.1}]], shade:L.map(l=>[l,1])}); }},
+  {id:'a4six', shape:'a4', title:'六格練習', sub:'一張紙練六個圖樣', lv:'入門', build(){
+    const V=[[500,100],[500,1314]], H1=[[100,505],[900,505]], H2=[[100,910],[900,910]], xs=[-200,500,1200], ys=[-200,505,910,1700], cell=(i,j)=>rect(xs[i],ys[j],xs[i+1],ys[j+1]);
+    return recipe({shape:'a4', seed:302, st:'用鉛筆在紙的中間畫一條直線，再畫兩條橫線，把 A4 紙分成六格。可以用尺，也可以徒手。', strings:[V,H1,H2],
+      regions:[['左上',[cell(0,0)],'flowers',{}],['右上',[cell(1,0)],'zigzag',{a:90}],['左中',[cell(0,1)],'weave',{}],['右中',[cell(1,1)],'diamond',{}],['左下',[cell(0,2)],'bubbles',{}],['右下',[cell(1,2)],'waves',{}]],
+      shade:[[V,1],[H1,1],[H2,1]]}); }},
+  {id:'a4heart', shape:'a4', title:'大愛心海報', sub:'愛心小花，外面棋盤格', lv:'入門', build(){
+    const h=heart(500,640,380);
+    return recipe({shape:'a4', seed:303, stTitle:'畫出形狀', st:'用鉛筆在 A4 紙中間畫一顆很大的愛心，上面兩個圓弧要飽滿。', strings:[h],
+      regions:[['愛心裡',[h],'flowers',{k:1.1}],['愛心外',[BIG,h],'checker',{a:45,k:.9}]], shade:[[h,-1]]}); }},
+  {id:'a4house', shape:'a4', title:'小房子', sub:'屋頂、牆、門窗、草地、天空', lv:'入門', build(){
+    const body=rect(230,650,770,1150), roof=[[190,650],[500,330],[810,650],[190,650]], door=rect(440,920,560,1150), win=rect(290,740,400,850);
+    const G=bez([100,1150],[350,1140],[650,1160],[900,1150],40), Gx=ext(G,'x');
+    return recipe({shape:'a4', seed:304, stTitle:'畫出形狀', st:'用鉛筆畫一個三角形屋頂，下面接一個大方塊當牆壁，再畫門和一扇小窗，最後畫一條地平線。', strings:[roof,body,door,win,G],
+      regions:[['屋頂',[roof],'scales',{k:.7}],['牆壁',[body,door,win],'weave',{k:.7}],['門',[door],'stripes',{a:90,k:.5}],['窗戶',[win],'checker',{k:.45}],
+        ['草地',[[...Gx,[1000,1700],[0,1700]]],'zigzag',{k:.6}],['天空',[[...Gx,[1000,-200],[0,-200]],body,roof],'bubbles',{k:.9}]],
+      shade:[[roof,-1],[body,-1]]}); }},
+  {id:'a4balloon', shape:'a4', title:'三顆氣球', sub:'三種圖樣的氣球飛上天', lv:'入門', build(){
+    const b1=cc(170,330,480), b2=cc(150,665,410), b3=cc(140,560,770);
+    const s1=bez([330,650],[360,850],[430,1000],[480,1220],30), s2=bez([665,560],[620,800],[520,1000],[490,1220],30), s3=bez([560,910],[540,1000],[520,1100],[500,1220],20);
+    return recipe({shape:'a4', seed:305, stTitle:'畫出形狀', st:'用鉛筆畫三個大小不同的圓當氣球，再從每顆氣球底下畫一條細線，三條線集合到下面。', strings:[b1,b2,b3,s1,s2,s3],
+      regions:[['左邊氣球',[b1],'stripes',{a:-30,k:.8}],['右邊氣球',[b2],'diamond',{k:.7}],['下面氣球',[b3],'bubbles',{k:.7}],['天空',[BIG,b1,b2,b3],'stipple',{k:1.2}]],
+      shade:[[b1,-1],[b2,-1],[b3,-1]]}); }},
+  {id:'a4rainbow', shape:'a4', title:'彩虹', sub:'從底部升起的三道彩虹', lv:'入門', build(){
+    const o=[500,1314], A=r=>arc(o[0],o[1],r,Math.PI,2*Math.PI,60), semi=r=>[[o[0]-r,1700],...A(r),[o[0]+r,1700]];
+    return recipe({shape:'a4', seed:306, st:'以紙的底部中間當圓心，用鉛筆畫三道一層比一層大的半圓，像彩虹。', strings:[A(250),A(450),A(650)],
+      regions:[['太陽',[semi(250)],'rays',{origin:o}],['第一道彩虹',[semi(450),semi(250)],'scales',{k:.8}],['第二道彩虹',[semi(650),semi(450)],'checker',{a:45,k:.6}],['天空',[BIG,semi(650)],'bubbles',{}]],
+      shade:[[A(250),-1],[A(450),-1],[A(650),-1]]}); }},
+  {id:'a4mountain', shape:'a4', title:'山與湖', sub:'太陽、天空、山、湖水', lv:'進階', build(){
+    const M=densify([[100,720],[300,470],[450,640],[650,400],[900,700]],20), W=bez([100,1000],[350,960],[650,1040],[900,1000],40), sun=cc(95,760,250);
+    const Mx=ext(M,'x'), Wx=ext(W,'x');
+    return recipe({shape:'a4', seed:307, st:'用鉛筆畫一條高高低低的山稜線，下面畫一條湖岸線，天空的右上角再畫一個太陽。', strings:[M,W,sun],
+      regions:[['太陽',[sun],'spirals',{k:1.2}],['天空',[[...Mx,[1000,-200],[0,-200]],sun],'rays',{origin:[760,250]}],['山',[[...Mx,...Wx.slice().reverse()]],'diamond',{k:.9}],['湖',[[...Wx,[1000,1700],[0,1700]]],'waves',{}]],
+      shade:[[M,1],[W,1],[sun,-1]]}); }},
+  {id:'a4tree', shape:'a4', title:'一棵樹', sub:'樹冠小花、樹幹條紋', lv:'進階', build(){
+    const crown=cc(280,500,500), trunk=rect(435,805,565,1150), G=bez([100,1160],[350,1130],[650,1190],[900,1160],40), Gx=ext(G,'x');
+    return recipe({shape:'a4', seed:308, stTitle:'畫出形狀', st:'用鉛筆畫一個大圓當樹冠，下面接一個長方形當樹幹，最底下畫一條地平線。', strings:[crown,trunk,G],
+      regions:[['樹冠',[crown],'flowers',{k:.9}],['樹幹',[trunk],'stripes',{a:90,k:.7}],['草地',[[...Gx,[1000,1700],[0,1700]]],'zigzag',{k:.7}],['天空',[[...Gx,[1000,-200],[0,-200]],crown,trunk],'bubbles',{k:.8}]],
+      shade:[[crown,-1],[trunk,-1]]}); }},
+  {id:'a4fish', shape:'a4', title:'一條魚', sub:'魚鱗身體，水波背景', lv:'進階', build(){
+    const body=ell(440,720,290,180), eye=cc(38,270,670), tail=[[745,720],[900,560],[900,880],[745,720]];
+    return recipe({shape:'a4', seed:309, stTitle:'畫出形狀', st:'用鉛筆畫一個橫的橢圓當魚身，右邊接一個三角形當尾巴，左邊靠前面畫一個小圓當眼睛。', strings:[body,tail,eye],
+      regions:[['眼睛',[eye],'spirals',{k:.5}],['魚身',[body,eye],'scales',{k:.75,a:-90}],['尾巴',[tail],'stripes',{a:0,k:.6}],['水',[BIG,body,tail],'waves',{}]],
+      shade:[[body,-1],[tail,-1]]}); }},
+  {id:'a4flower', shape:'a4', title:'一朵花', sub:'花心、六片花瓣、莖和葉', lv:'進階', build(){
+    const c=cc(95,500,480), petals=[0,1,2,3,4,5].map(i=>{ const a=(-90+60*i)*D2R; return cc(105,500+Math.cos(a)*225,480+Math.sin(a)*225); });
+    const stem=rect(475,820,525,1250), leaf=ell(640,1040,105,42,-.5);
+    return recipe({shape:'a4', seed:310, stTitle:'畫出形狀', st:'畫一個小圓當花心，繞著它畫六個圓當花瓣；下面畫一條細長的莖和一片葉子。', strings:[c,...petals,stem,leaf],
+      regions:[['花心',[c],'spirals',{k:.7}],['花瓣',petals,'stripes',{a:0,k:.6}],['莖和葉',[stem,leaf],'waves',{a:90,k:.5}],['背景',[BIG,c,...petals,stem,leaf],'stipple',{k:1.1}]],
+      shade:[...petals.map(p=>[p,-1]),[leaf,-1]]}); }},
+  {id:'a4butterfly', shape:'a4', title:'蝴蝶', sub:'四片翅膀，兩兩對稱', lv:'挑戰', build(){
+    const body=ell(500,720,32,250), UL=ell(300,560,160,150), UR=ell(700,560,160,150), LL=ell(340,880,120,115), LR=ell(660,880,120,115);
+    const a1=bez([490,475],[470,400],[430,360],[400,330],20), a2=bez([510,475],[530,400],[570,360],[600,330],20);
+    return recipe({shape:'a4', seed:311, stTitle:'畫出形狀', st:'中間畫一個細長的橢圓當身體，左右各畫一大一小的翅膀，頭上畫兩根觸角。', strings:[body,UL,UR,LL,LR,a1,a2],
+      regions:[['上翅膀',[UL,UR],'rings',{k:.8}],['下翅膀',[LL,LR],'checker',{a:45,k:.6}],['身體',[body],'stripes',{a:0,k:.5}],['背景',[BIG,body,UL,UR,LL,LR],'stripes',{a:0,k:1.3}]],
+      shade:[[UL,-1],[UR,-1],[LL,-1],[LR,-1]]}); }},
+  {id:'a4rivers', shape:'a4', title:'四條直河', sub:'三條 S 線分四欄', lv:'挑戰', build(){
+    const L=[300,500,700].map((x,i)=>wavyV(x,100,1314,i%2?-60:60)), r=vStrips(L,1414);
+    return recipe({shape:'a4', seed:312, st:'用鉛筆從上到下畫三條彎彎的直線，把 A4 紙分成四欄，像四條河。', strings:L,
+      regions:[['第一欄',[r[0]],'scales',{}],['第二欄',[r[1]],'waves',{a:90}],['第三欄',[r[2]],'flowers',{}],['第四欄',[r[3]],'checker',{}]], shade:L.map(l=>[l,1])}); }}
+];
+const lessonCache = {};
+function getLesson(id){
+  if (lessonCache[id]) return lessonCache[id];
+  const L = LESSONS.find(l=>l.id===id);
+  if (L){ const b=L.build(); return lessonCache[id]=Object.assign({id:L.id, title:L.title, sub:L.sub, lv:L.lv}, b); }
+  if (id.startsWith('pat:')){ const key=id.slice(4), P=PATTERNS[key], rng=RNG(90+key.length), {steps,frame}=prep('square',rng);
+    steps.push(...pat(key,null,frame,{k:1.15},'整個框內',70+key.length), ...signSteps(720,835));
+    return lessonCache[id]={id, title:`${P.name}練習`, sub:P.desc, lv:P.lv, shape:'square', frame, steps}; }
+  return null;
+}
+
+/* ==================== 繪圖 ==================== */
+const LEN = new WeakMap();
+function cumLen(s){ let c=LEN.get(s); if (c) return c; c=[0]; for (let i=1;i<s.p.length;i++) c.push(c[i-1]+dist(s.p[i-1],s.p[i])); LEN.set(s,c); return c; }
+function poly(ctx, pts){ ctx.moveTo(pts[0][0],pts[0][1]); for (let i=1;i<pts.length;i++) ctx.lineTo(pts[i][0],pts[i][1]); ctx.closePath(); }
+function drawStroke(ctx, s, frac, hl, unit){
+  const p=s.p;
+  if (s.k==='d'||s.k==='q'){ ctx.fillStyle=hl||(s.k==='q'?PENCIL:INK); ctx.beginPath(); ctx.arc(p[0][0],p[0][1],Math.max(.6,s.w*Math.min(1,.35+frac)),0,TAU); ctx.fill(); return p[0]; }
+  if (s.k==='f'){ ctx.save(); ctx.globalAlpha*=Math.min(1,frac*1.15); ctx.fillStyle=ctx.strokeStyle=hl||INK; ctx.lineWidth=1.6; ctx.lineJoin='round'; ctx.beginPath(); poly(ctx,p); ctx.fill(); ctx.stroke(); ctx.restore();
+    const n=p.length, t=frac*n*1.5; const a=p[Math.floor(t)%n], b=p[(Math.floor(t)+2)%n]; return [(a[0]+b[0])/2,(a[1]+b[1])/2]; }
+  const cum=cumLen(s), target=frac*cum[cum.length-1]; let tip=p[p.length-1];
+  ctx.beginPath(); ctx.moveTo(p[0][0],p[0][1]); let i=1;
+  for (; i<p.length && cum[i]<=target; i++) ctx.lineTo(p[i][0],p[i][1]);
+  if (i<p.length && frac<1){ const a=p[i-1], b=p[i], t=(target-cum[i-1])/((cum[i]-cum[i-1])||1); tip=[a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t]; ctx.lineTo(tip[0],tip[1]); }
+  ctx.lineCap='round'; ctx.lineJoin='round';
+  if (s.k==='s'){ ctx.save(); ctx.strokeStyle=SHADE; ctx.lineWidth=s.w; ctx.filter=`blur(${Math.max(1,s.w*.3*unit).toFixed(1)}px)`; ctx.stroke(); ctx.restore(); }
+  else { ctx.strokeStyle=hl||(s.k==='p'?PENCIL:INK); ctx.lineWidth=s.w; ctx.stroke(); }
+  return tip;
+}
+function applyClip(ctx, step, lesson){
+  if (step.fc && lesson.frame){ ctx.beginPath(); poly(ctx, lesson.frame); ctx.clip(); }
+  if (step.clip && step.clip.length){ ctx.beginPath(); for (const r of step.clip) poly(ctx, r); ctx.clip('evenodd'); }
+}
+const PAPER = {};
+function paperFor(shape, res){
+  const key=shape+res; if (PAPER[key]) return PAPER[key];
+  const hh=shape==='a4'?1414:1000, c=mk(res, Math.round(res*hh/1000)), g=c.getContext('2d'), sc=res/1000, rng=RNG(5); g.scale(sc,sc); g.beginPath();
+  if (shape==='a4'){ poly(g, rect(22,22,978,1392).slice(0,4)); }
+  else if (shape==='circle'){ const n=220; for (let i=0;i<=n;i++){ const a=i/n*TAU, r=455+(rng()-.5)*2.2; i?g.lineTo(500+r*Math.cos(a),500+r*Math.sin(a)):g.moveTo(500+r*Math.cos(a),500+r*Math.sin(a)); } }
+  else { const e=[]; const side=(a,b)=>{ for (let t=0;t<1;t+=.006) e.push([a[0]+(b[0]-a[0])*t+(rng()-.5)*2.4, a[1]+(b[1]-a[1])*t+(rng()-.5)*2.4]); };
+    side([32,32],[968,32]); side([968,32],[968,968]); side([968,968],[32,968]); side([32,968],[32,32]); poly(g,e); }
+  g.closePath(); const gr=g.createRadialGradient(420,380*hh/1000,80,500,500*hh/1000,700*hh/1000); gr.addColorStop(0,'#fefdf9'); gr.addColorStop(1,'#f3efe4'); g.fillStyle=gr; g.fill();
+  return PAPER[key]=c;
+}
+function drawTool(ctx, x, y, size, kind){
+  const L=size*.2; ctx.save(); ctx.translate(x,y); ctx.rotate(-58*D2R);
+  ctx.shadowColor='rgba(0,0,0,.25)'; ctx.shadowBlur=size*.012; ctx.shadowOffsetX=size*.006; ctx.shadowOffsetY=size*.01;
+  const w=L*.085;
+  if (kind==='pencil'){
+    ctx.fillStyle='#e9c79c'; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(L*.17,-w); ctx.lineTo(L*.17,w); ctx.closePath(); ctx.fill();
+    ctx.shadowColor='transparent';
+    ctx.fillStyle='#3a3a40'; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(L*.06,-w*.36); ctx.lineTo(L*.06,w*.36); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#f2b632'; ctx.fillRect(L*.17,-w,L*.68,w*2); ctx.fillStyle='rgba(0,0,0,.12)'; ctx.fillRect(L*.17,-w*.33,L*.68,w*.66);
+    ctx.fillStyle='#c9c9cf'; ctx.fillRect(L*.85,-w,L*.07,w*2); ctx.fillStyle='#f19aa6'; ctx.beginPath(); ctx.roundRect(L*.92,-w,L*.1,w*2,[0,w*.6,w*.6,0]); ctx.fill();
+  } else {
+    ctx.fillStyle='#9a9aa2'; ctx.fillRect(0,-w*.22,L*.07,w*.44);
+    ctx.fillStyle='#55555c'; ctx.beginPath(); ctx.moveTo(L*.07,-w*.3); ctx.lineTo(L*.17,-w); ctx.lineTo(L*.17,w); ctx.lineTo(L*.07,w*.3); ctx.closePath(); ctx.fill();
+    ctx.shadowColor='transparent';
+    ctx.fillStyle='#24242a'; ctx.beginPath(); ctx.roundRect(L*.17,-w,L*.86,w*2,[0,w,w,0]); ctx.fill();
+    ctx.fillStyle=HOT; ctx.fillRect(L*.55,-w,L*.05,w*2); ctx.fillStyle='rgba(255,255,255,.18)'; ctx.fillRect(L*.2,-w*.7,L*.8,w*.35);
+  }
+  ctx.restore();
+}
+
+/* ==================== 播放器 ==================== */
+const TM = new WeakMap();
+function stepTiming(step){
+  let c=TM.get(step); if (c && c.n===step.strokes.length) return c;
+  const v=520, dr=[], d=[]; let T=0;
+  for (const s of step.strokes){ let a; if (s.k==='d') a=.1; else if (s.k==='q') a=.45; else if (s.k==='f') a=.32; else { const L=cumLen(s); a=Math.max(.12, L[L.length-1]/(s.k==='s'?v*1.5:v)); }
+    const lift = s.k==='d' ? .05 : .11; dr.push(a); d.push(a+lift); T+=a+lift; }
+  const MAX=18; if (T>MAX){ const f=MAX/T; for (let i=0;i<d.length;i++){ dr[i]*=f; d[i]*=f; } T=MAX; }
+  c={n:step.strokes.length, dr, d, T}; TM.set(step,c); return c;
+}
+class Player{
+  constructor(res=1600){ this.res=res; this.base=mk(res); this.cur=mk(res); this.hl=true; this.pen=true; this.speed=1; this.k=0; this.baseFor=-1; this.tip=null; }
+  load(lesson){ this.lesson=lesson; this.asp=aspOf(lesson); const h=Math.round(this.res*this.asp); if (this.base.height!==h){ this.base.height=h; this.cur.height=h; } this.baseFor=-1; this.reset(0); }
+  invalidate(){ this.baseFor=-1; }
+  get n(){ return this.lesson.steps.length; }
+  get step(){ return this.lesson.steps[this.k]; }
+  paint(ctx, step, upto, hl){ const sc=this.res/1000; ctx.save(); ctx.setTransform(sc,0,0,sc,0,0); applyClip(ctx, step, this.lesson); for (let i=0;i<upto;i++) drawStroke(ctx, step.strokes[i], 1, hl&&step.strokes[i].k!=='s'?HOT:null, sc); ctx.restore(); }
+  reset(k){
+    this.k=Math.max(0,Math.min(this.n-1,k)); this.i=0; this.t=0; this.tip=null; this.done=this.step.strokes.length===0;
+    if (this.baseFor!==this.k){ const g=this.base.getContext('2d'); g.clearRect(0,0,this.res,this.base.height); for (let j=0;j<this.k;j++) this.paint(g, this.lesson.steps[j], this.lesson.steps[j].strokes.length, false); this.baseFor=this.k; }
+    this.cur.getContext('2d').clearRect(0,0,this.res,this.cur.height);
+  }
+  commit(i){ const sc=this.res/1000, g=this.cur.getContext('2d'), st=this.step, s=st.strokes[i]; g.save(); g.setTransform(sc,0,0,sc,0,0); applyClip(g, st, this.lesson); drawStroke(g, s, 1, this.hl&&s.k!=='s'?HOT:null, sc); g.restore(); }
+  update(dt){
+    if (this.done) return; const T=stepTiming(this.step), n=T.n; this.t+=dt*this.speed;
+    while (this.i<n && this.t>=T.d[this.i]){ this.t-=T.d[this.i]; this.commit(this.i); this.tip=null; this.i++; }
+    if (this.i>=n){ this.done=true; this.t=0; }
+  }
+  finish(){ const n=this.step.strokes.length; while (this.i<n){ this.commit(this.i); this.i++; } this.done=true; this.tip=null; }
+  next(){ if (this.k>=this.n-1) return false; this.finish(); this.paint(this.base.getContext('2d'), this.step, this.step.strokes.length, false); this.baseFor=this.k+1; this.reset(this.k+1); return true; }
+  progress(){ const T=stepTiming(this.step); if (this.done) return 1; if (!T.T) return 1; let s=0; for (let i=0;i<this.i;i++) s+=T.d[i]; return Math.min(1,(s+this.t)/T.T); }
+  draw(ctx, x, y, size, shadow=true){
+    const paper=paperFor(this.lesson.shape||'square', 1000);
+    ctx.save(); if (shadow){ ctx.shadowColor='rgba(60,40,20,.28)'; ctx.shadowBlur=size*.035; ctx.shadowOffsetY=size*.014; }
+    const sh=size*this.asp; ctx.drawImage(paper,x,y,size,sh); ctx.restore();
+    ctx.drawImage(this.base,x,y,size,sh); ctx.drawImage(this.cur,x,y,size,sh);
+    if (!this.done){ const st=this.step, s=st.strokes[this.i];
+      if (s){ const T=stepTiming(st), frac=Math.min(1,this.t/T.dr[this.i]); const u=size/1000;
+        ctx.save(); ctx.translate(x,y); ctx.scale(u,u); applyClip(ctx, st, this.lesson); const tip=drawStroke(ctx, s, frac, this.hl&&s.k!=='s'?HOT:null, u); ctx.restore();
+        if (this.pen) drawTool(ctx, x+tip[0]*u, y+tip[1]*u, size, (s.k==='p'||s.k==='q'||s.k==='s')?'pencil':'pen'); } }
+  }
+  renderAll(){ this.reset(this.n-1); this.finish(); }
+  drawFit(ctx, bx, by, bw, bh, shadow=true){ const s=Math.min(bw, bh/this.asp), x=bx+(bw-s)/2, y=by+(bh-s*this.asp)/2; this.draw(ctx,x,y,s,shadow); return {x, y, w:s, h:s*this.asp}; }
+}
+
+/* ==================== 舞台 ==================== */
+function fitCanvas(cv, asp=1){ const dpr=Math.min(2.5, window.devicePixelRatio||1), r=cv.getBoundingClientRect(), w=Math.round(r.width*dpr), h=Math.round(r.height*dpr);
+  if (cv.width!==w||cv.height!==h){ cv.width=w; cv.height=h; } const s=Math.min(w,h/asp)*.92; return {x:(w-s)/2, y:(h-s*asp)/2, s, dpr}; }
+
+/* ==================== 跟著畫 ==================== */
+const PL = new Player(1600), PS = {playing:false, hold:0, auto:false, lesson:null};
+const cvPlay=$('#cvPlay');
+function setLesson(lesson, autoplay=false){
+  $('#stPlay').classList.toggle('tall', lesson.shape==='a4'); PS.lesson=lesson; PS.playing=autoplay; PS.hold=0; PL.load(lesson); renderStepList(); syncPlay(); markShelf();
+  const est = lesson.steps.reduce((a,s)=>a+stepTiming(s).T+holdFor(s,true),0)+7;
+  $('#durNote').textContent = `影片長度約 ${Math.round(est/PL.speed/60*10)/10} 分鐘（依目前速度），錄製時需即時播放一次。`;
+}
+function holdFor(step, video){ return video ? Math.min(6, 2+step.text.length*.045) : 2.2; }
+function syncPlay(){
+  const L=PS.lesson, st=PL.step;
+  $('#pLesson').textContent=L.title; $('#pSub').textContent=L.sub||'';
+  $('#pNo').textContent=PL.k+1; $('#pTot').textContent=PL.n; $('#pTag').textContent=st.tag||''; $('#pTag').hidden=!st.tag;
+  $('#pTitle').textContent=st.title; $('#pText').textContent=st.text||'';
+  const last=PL.k>=PL.n-1;
+  $('#bPlay').textContent = PS.playing ? '❚❚ 暫停' : PL.done ? (last ? '↺ 從頭再看' : '▶ 畫下一步') : (PL.i>0||PL.t>0 ? '▶ 繼續' : '▶ 開始畫');
+  $('#bPrev').disabled = PL.k===0; $('#bNext').disabled = last;
+  $('#legend').hidden = !PL.hl || !st.strokes.some(s=>s.k!=='s');
+  $$('#pSteps li').forEach((li,i)=>{ li.classList.toggle('cur',i===PL.k); li.classList.toggle('done',i<PL.k); });
+  const cur=$('#pSteps li.cur'); if (cur){ const box=$('#pSteps'); const top=cur.offsetTop-box.offsetTop; if (top<box.scrollTop || top>box.scrollTop+box.clientHeight-40) box.scrollTop=top-40; }
+}
+function renderStepList(){
+  $('#pSteps').innerHTML='';
+  PS.lesson.steps.forEach((s,i)=>{ const li=document.createElement('li'); const b=document.createElement('button');
+    b.innerHTML=`<span class="n">${i+1}</span><span class="tt"><span></span><small></small></span>`; b.querySelector('.tt span').textContent=s.title; b.querySelector('small').textContent=s.tag||'';
+    b.onclick=()=>{ PS.hold=0; PL.reset(i); PS.playing=true; syncPlay(); }; li.appendChild(b); $('#pSteps').appendChild(li); });
+}
+$('#bPlay').onclick=()=>{
+  if (PS.playing){ PS.playing=false; }
+  else if (PL.done){ if (PL.k<PL.n-1) PL.next(); else PL.reset(0); PS.playing=true; }
+  else PS.playing=true;
+  PS.hold=0; syncPlay();
+};
+$('#bNext').onclick=()=>{ PS.hold=0; if (PL.next()) { PS.playing=true; syncPlay(); } };
+$('#bPrev').onclick=()=>{ PS.hold=0; PL.reset(PL.k-1); PS.playing=true; syncPlay(); };
+$('#bReplay').onclick=()=>{ PS.hold=0; PL.reset(PL.k); PS.playing=true; syncPlay(); };
+$('#bFull').onclick=()=>{ const el=$('#show'); if (document.fullscreenElement||document.webkitFullscreenElement){ (document.exitFullscreen||document.webkitExitFullscreen).call(document); return; }
+  const f=el.requestFullscreen||el.webkitRequestFullscreen; if (f) f.call(el); else toast('這個瀏覽器不支援全螢幕'); };
+$$('#speedSeg button').forEach(b=>b.onclick=()=>{ $$('#speedSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b)); PL.speed=+b.dataset.s; setLessonNote(); });
+function setLessonNote(){ const L=PS.lesson; const est=L.steps.reduce((a,s)=>a+stepTiming(s).T/PL.speed+holdFor(s,true),0)+7; $('#durNote').textContent=`影片長度約 ${Math.max(1,Math.round(est/6)/10)} 分鐘（依目前速度），錄製時會即時播放一次。`; }
+$('#optAuto').onchange=e=>{ PS.auto=e.target.checked; };
+$('#optHl').onchange=e=>{ PL.hl=e.target.checked; const k=PL.k, i=PL.i; PL.reset(k); for (let j=0;j<i;j++){ PL.commit(j); } PL.i=i; PL.done = i>=PL.step.strokes.length; syncPlay(); };
+$('#optPen').onchange=e=>{ PL.pen=e.target.checked; };
+document.addEventListener('keydown',e=>{
+  if (VIEW!=='play' || /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+  if (e.code==='Space'){ e.preventDefault(); $('#bPlay').click(); }
+  else if (e.key==='ArrowRight') $('#bNext').click(); else if (e.key==='ArrowLeft') $('#bPrev').click();
+  else if (e.key==='f'||e.key==='F') $('#bFull').click();
+});
+
+/* ==================== 書架 ==================== */
+const thumbQ=[]; let thumbBusy=false;
+const THUMBS={};
+function queueThumb(cv, getL, id){ if (id && THUMBS[id]){ cv.getContext('2d').drawImage(THUMBS[id],0,0); return; } thumbQ.push([cv,getL,id]); if (!thumbBusy) pumpThumbs(); }
+function pumpThumbs(){ const job=thumbQ.shift(); if (!job){ thumbBusy=false; return; } thumbBusy=true;
+  setTimeout(()=>{ const [cv,getL,id]=job; if (id && THUMBS[id]){ cv.getContext('2d').drawImage(THUMBS[id],0,0); pumpThumbs(); return; } try { const L=getL(), P=new Player(520); P.hl=false; P.load(L); P.renderAll(); const g=cv.getContext('2d'); g.clearRect(0,0,cv.width,cv.height); P.drawFit(g,cv.width*.05,cv.width*.05,cv.width*.9,cv.width*.9); if (id){ const t=mk(cv.width,cv.height); t.getContext('2d').drawImage(cv,0,0); THUMBS[id]=t; } } catch(e){ console.error(e); } pumpThumbs(); }, 16); }
+function lessonCard(title, sub, lv, getL, onClick, extra, id){
+  const b=document.createElement('div'); b.className='lcard'; b.tabIndex=0; b.setAttribute('role','button');
+  b.innerHTML=`<div class="th"><canvas width="360" height="360"></canvas></div><span class="lv"></span><b></b><span></span>`;
+  b.querySelector('b').textContent=title; b.querySelector('span:last-child').textContent=sub; b.querySelector('.lv').textContent=lv; if (!lv) b.querySelector('.lv').remove();
+  b.onclick=e=>{ if (e.target.closest('.x')) return; onClick(); }; b.onkeydown=e=>{ if (e.key==='Enter'||e.key===' '){ e.preventDefault(); onClick(); } };
+  if (extra) b.appendChild(extra);
+  queueThumb(b.querySelector('canvas'), getL, id); return b;
+}
+let SHELF=lsGet('tangle.shelf','square'); if (!SHAPES[SHELF]) SHELF='square';
+$$('#shapeSeg button').forEach(b=>{ b.setAttribute('aria-pressed', b.dataset.sh===SHELF); b.onclick=()=>{ SHELF=b.dataset.sh; lsSet('tangle.shelf',SHELF); $$('#shapeSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b)); thumbQ.length=0; buildShelf(); }; });
+function buildShelf(){
+  const sh=$('#shelf'); sh.innerHTML='';
+  for (const L of LESSONS.filter(l=>l.shape===SHELF)){ const c=lessonCard(L.title, `${L.sub}`, L.lv, ()=>getLesson(L.id), ()=>{ setLesson(getLesson(L.id)); scrollTo({top:0,behavior:'smooth'}); }, null, L.id); c.dataset.id=L.id; sh.appendChild(c); }
+  const lib=$('#libGrid'); lib.innerHTML='';
+  for (const key in PATTERNS){ const P=PATTERNS[key]; const c=lessonCard(P.name, `${P.desc}・${getLessonStepsCount(key)} 個小步驟`, P.lv, ()=>getLesson('pat:'+key), ()=>{ setLesson(getLesson('pat:'+key)); showView('play'); scrollTo({top:0,behavior:'smooth'}); }, null, 'pat:'+key); c.dataset.id='pat:'+key; lib.appendChild(c); }
+  buildMine();
+}
+function getLessonStepsCount(key){ return {bubbles:3,stripes:2,rings:3,checker:3,waves:2,flowers:3,zigzag:2,scales:3,weave:2,diamond:3,spirals:3,rays:3,stipple:1}[key]; }
+function buildMine(){
+  const m=$('#mine'); m.innerHTML=''; const mine=lsGet('tangle.mine',[]);
+  if (!mine.length){ m.innerHTML='<div class="empty">還沒有自己的教案。到「老師設計」畫一課，按「存到我的教案」就會出現在這裡。</div>'; return; }
+  mine.forEach((L,idx)=>{ const x=document.createElement('button'); x.className='btn sm x'; x.textContent='編輯';
+    x.onclick=()=>{ openEditor(clone(L), idx); };
+    const c=lessonCard(L.title||'未命名教案', `${L.steps.length} 個步驟`, '我的', ()=>L, ()=>{ setLesson(L); scrollTo({top:0,behavior:'smooth'}); }, x); c.dataset.id=L.id; m.appendChild(c); });
+}
+function markShelf(){ $$('.lcard').forEach(c=>c.classList.toggle('on', PS.lesson && c.dataset.id===PS.lesson.id)); }
+
+/* ==================== 分頁 ==================== */
+let VIEW='play';
+function showView(v){ VIEW=v; $$('.tabs button').forEach(b=>b.setAttribute('aria-selected', b.dataset.v===v)); $('#vPlay').hidden=v!=='play'; $('#vLib').hidden=v!=='lib'; $('#vEdit').hidden=v!=='edit';
+  if (v!=='play') PS.playing=false; if (v==='edit' && !E.lesson) openEditor(newLesson('square')); if (v==='edit') edRefresh(); syncPlay(); }
+$$('.tabs button').forEach(b=>b.onclick=()=>showView(b.dataset.v));
+
+/* ==================== 老師設計 ==================== */
+const EP=new Player(1400); EP.pen=false;
+const E={lesson:null, k:0, tool:'pen', w:4, lasso:false, cur:null, mineIdx:-1};
+const TOOLS=[
+  ['pencil','鉛筆打底','<path d="M4 20l3-1 11-11-2-2L5 17z" fill="#f2b632" stroke="currentColor" stroke-width="1.5"/>'],
+  ['pen','代針筆','<path d="M4 20l2-5 10-10 3 3-10 10z" fill="currentColor"/>'],
+  ['dot','點點','<circle cx="7" cy="8" r="2.2" fill="currentColor"/><circle cx="15" cy="7" r="2.2" fill="currentColor"/><circle cx="11" cy="15" r="2.2" fill="currentColor"/><circle cx="18" cy="16" r="2.2" fill="currentColor"/>'],
+  ['fill','塗黑','<path d="M5 14c2-8 12-10 14-4s-6 10-10 9-5-2-4-5z" fill="currentColor"/>'],
+  ['line','直線','<path d="M4 19L20 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>'],
+  ['circle','圓圈','<circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="2.2"/>'],
+  ['shade','陰影','<path d="M4 16c4-6 10-8 16-6" stroke="currentColor" stroke-opacity=".35" stroke-width="6" stroke-linecap="round" fill="none"/>'],
+  ['string','鉛筆曲線','<path d="M3 15c5-10 9 6 18-6" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 2" fill="none"/>']
+];
+function newLesson(shape){ const rng=RNG(Date.now()%100000), {steps,frame}=prep(shape,rng);
+  steps.push(S('畫分隔線','用鉛筆輕輕畫幾條彎彎的線，把紙分成幾個區塊。',[],{tag:'打底（鉛筆）'}));
+  return {id:'mine-'+Date.now(), title:shape==='circle'?'我的圓形纏繞畫':shape==='a4'?'我的 A4 纏繞畫':'我的纏繞畫', sub:'自己設計的教案', lv:'我的', shape, frame, steps}; }
+function openEditor(lesson, mineIdx=-1){ E.lesson=lesson; E.mineIdx=mineIdx; E.k=Math.min(lesson.steps.length-1, 3); EP.load(lesson); E.lasso=false; showView('edit'); edList(); edFields(); edRefresh(); }
+function edRefresh(){ if (!E.lesson) return; $('#stEdit').classList.toggle('tall', E.lesson.shape==='a4'); EP.lesson=E.lesson; EP.hl=true; EP.reset(E.k); EP.finish(); $('#eTitle').value=E.lesson.title; }
+function edList(){
+  const ol=$('#eSteps'); ol.innerHTML='';
+  E.lesson.steps.forEach((s,i)=>{ const li=document.createElement('li'); li.className=i===E.k?'cur':(i<E.k?'done':''); const b=document.createElement('button');
+    b.innerHTML=`<span class="n">${i+1}</span><span class="tt"><span></span><small></small></span>`; b.querySelector('.tt span').textContent=s.title||'（未命名）'; b.querySelector('small').textContent=`${s.tag?s.tag+'・':''}${s.strokes.length} 筆`;
+    b.onclick=()=>{ E.k=i; edList(); edFields(); edRefresh(); }; li.appendChild(b); ol.appendChild(li); });
+  const cur=ol.querySelector('.cur'); if (cur) cur.scrollIntoView({block:'nearest'});
+}
+function edFields(){ const s=E.lesson.steps[E.k]; $('#sTitle').value=s.title||''; $('#sTag').value=s.tag||''; $('#sText').value=s.text||''; }
+function edDirty(structural){ if (structural) EP.invalidate(); edRefresh(); autosave(); }
+function autosave(){ lsSet('tangle.draft', E.lesson); }
+$('#sTitle').oninput=e=>{ E.lesson.steps[E.k].title=e.target.value; edList(); autosave(); };
+$('#sTag').oninput=e=>{ E.lesson.steps[E.k].tag=e.target.value; edList(); autosave(); };
+$('#sText').oninput=e=>{ E.lesson.steps[E.k].text=e.target.value; autosave(); };
+$('#eTitle').oninput=e=>{ E.lesson.title=e.target.value; autosave(); };
+$('#eAdd').onclick=()=>{ E.lesson.steps.splice(E.k+1,0,S('新的步驟','',[])); E.k++; edList(); edFields(); edDirty(true); $('#sTitle').focus(); $('#sTitle').select(); };
+$('#eDup').onclick=()=>{ E.lesson.steps.splice(E.k+1,0,clone(E.lesson.steps[E.k])); E.k++; edList(); edFields(); edDirty(true); };
+$('#eDel').onclick=e=>{ if (E.lesson.steps.length<=1) return toast('至少要留一個步驟'); if (!armed(e.currentTarget)) return; E.lesson.steps.splice(E.k,1); E.k=Math.min(E.k,E.lesson.steps.length-1); edList(); edFields(); edDirty(true); };
+$('#eUp').onclick=()=>{ if (E.k===0) return; const s=E.lesson.steps; [s[E.k-1],s[E.k]]=[s[E.k],s[E.k-1]]; E.k--; edList(); edDirty(true); };
+$('#eDown').onclick=()=>{ const s=E.lesson.steps; if (E.k>=s.length-1) return; [s[E.k+1],s[E.k]]=[s[E.k],s[E.k+1]]; E.k++; edList(); edDirty(true); };
+$('#eUndo').onclick=()=>{ const st=E.lesson.steps[E.k]; if (!st.strokes.length) return toast('這一步沒有筆畫了'); st.strokes.pop(); edList(); edDirty(false); };
+$('#eClear').onclick=e=>{ const st=E.lesson.steps[E.k]; if (!st.strokes.length) return; if (!armed(e.currentTarget)) return; st.strokes=[]; edList(); edDirty(false); };
+$('#eNewSq').onclick=e=>{ if (armed(e.currentTarget,'再按一次：取代目前草稿')) openEditor(newLesson('square')); };
+$('#eNewCi').onclick=e=>{ if (armed(e.currentTarget,'再按一次：取代目前草稿')) openEditor(newLesson('circle')); };
+$('#eNewA4').onclick=e=>{ if (armed(e.currentTarget,'再按一次：取代目前草稿')) openEditor(newLesson('a4')); };
+/* 頁面內的「按兩次確認」（預覽框不支援 confirm 對話框） */
+function armed(btn, label='再按一次確認'){ if (btn.dataset.armed){ clearTimeout(btn._t); btn.textContent=btn.dataset.armed; delete btn.dataset.armed; btn.classList.remove('arm'); return true; }
+  btn.dataset.armed=btn.textContent; btn.textContent=label; btn.classList.add('arm'); btn._t=setTimeout(()=>{ btn.textContent=btn.dataset.armed; delete btn.dataset.armed; btn.classList.remove('arm'); },3000); return false; }
+for (const sh in SHAPES){ const g=document.createElement('optgroup'); g.label=SHAPES[sh].name; LESSONS.filter(L=>L.shape===sh).forEach(L=>{ const o=document.createElement('option'); o.value=L.id; o.textContent=L.title; g.appendChild(o); }); $('#eFrom').appendChild(g); }
+{ const g=document.createElement('optgroup'); g.label='圖樣練習'; Object.keys(PATTERNS).forEach(k=>{ const o=document.createElement('option'); o.value='pat:'+k; o.textContent=PATTERNS[k].name+'練習'; g.appendChild(o); }); $('#eFrom').appendChild(g); }
+$('#eFrom').onchange=e=>{ const id=e.target.value; e.target.value=''; if (!id) return; const L=clone(getLesson(id)); L.id='mine-'+Date.now(); L.title=L.title+'（我的版本）'; L.lv='我的'; openEditor(L); toast('已複製範例，可以直接修改'); };
+$('#eOpen').onclick=()=>$('#eFile').click();
+$('#eFile').onchange=async e=>{ const f=e.target.files[0]; e.target.value=''; if (!f) return;
+  try { const L=JSON.parse(await f.text()); if (!L || !Array.isArray(L.steps) || !L.steps.length) throw 0;
+    L.steps.forEach(s=>{ s.strokes=(s.strokes||[]).filter(t=>t&&t.k&&Array.isArray(t.p)&&t.p.length); s.title=String(s.title||''); s.text=String(s.text||''); });
+    L.id='mine-'+Date.now(); L.shape=SHAPES[L.shape]?L.shape:'square'; if (!Array.isArray(L.frame)) L.frame=prep(L.shape,RNG(1)).frame; openEditor(L); toast('已開啟教案檔'); }
+  catch(err){ toast('這個檔案不是纏繞畫教案檔'); } };
+$('#eSave').onclick=()=>{ const mine=lsGet('tangle.mine',[]); const L=clone(E.lesson); let i=mine.findIndex(m=>m.id===L.id); if (i<0) mine.push(L); else mine[i]=L;
+  if (lsSet('tangle.mine',mine)){ toast('已存到「我的教案」'); buildMine(); } else toast('瀏覽器空間不夠，請改用「下載教案檔」保存'); };
+$('#ePlay').onclick=()=>{ setLesson(clone(E.lesson)); showView('play'); PS.playing=true; scrollTo({top:0}); syncPlay(); };
+$('#eJson').onclick=()=>downloadJSON(E.lesson);
+$('#toEdit').onclick=()=>{ const L=clone(PS.lesson); if (!L.id.startsWith('mine-')){ L.id='mine-'+Date.now(); L.title+='（我的版本）'; L.lv='我的'; } openEditor(L); };
+const toolsEl=$('#tools');
+TOOLS.forEach(([k,label,svg])=>{ const b=document.createElement('button'); b.dataset.t=k; b.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true">${svg}</svg>${label}`; b.setAttribute('aria-pressed',k===E.tool); b.onclick=()=>{ E.tool=k; E.lasso=false; $$('#tools button').forEach(x=>x.setAttribute('aria-pressed',x===b)); hint(); }; toolsEl.appendChild(b); });
+$$('#wSeg button').forEach(b=>b.onclick=()=>{ $$('#wSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b)); E.w=+b.dataset.w; });
+const HINTS={pencil:'鉛筆：畫打底的淡灰線（邊框、分隔線）。',string:'鉛筆曲線：同鉛筆，適合畫分隔線。',pen:'代針筆：按住拖曳畫線。你畫的順序就是動畫播放的順序。',dot:'點點：點一下放一個黑點。',fill:'塗黑：圈出一塊形狀，放開後會塗滿黑色。',line:'直線：按住拖曳，放開就是一條直線。',circle:'圓圈：從圓心按住往外拖，決定圓的大小。',shade:'陰影：畫出灰色、柔和的鉛筆陰影。'};
+function hint(){ $('#eHint').textContent = E.lasso ? '圈選模式：沿著要放圖樣的區域畫一圈，放開就會加入圖樣步驟。（按 Esc 取消）' : HINTS[E.tool]; }
+Object.keys(PATTERNS).forEach(k=>{ const o=document.createElement('option'); o.value=k; o.textContent=`${PATTERNS[k].name}（${PATTERNS[k].desc}）`; $('#pKey').appendChild(o); });
+$('#pKey').onchange=()=>{ const P=PATTERNS[$('#pKey').value]; $('#pA').value=String(P.a||0); };
+$('#pK').oninput=e=>$('#pKv').textContent=(+e.target.value).toFixed(1);
+$('#pLasso').onclick=()=>{ E.lasso=true; hint(); toast('在紙上圈出要放圖樣的區域'); };
+$('#pWhole').onclick=()=>insertPattern(null);
+document.addEventListener('keydown',e=>{ if (e.key==='Escape' && E.lasso){ E.lasso=false; E.cur=null; hint(); } });
+function insertPattern(ring){
+  const key=$('#pKey').value, k=+$('#pK').value, a=+$('#pA').value, region=$('#pRegion').value.trim()||'這一區';
+  const L=E.lesson, frame=L.frame||prep(L.shape,RNG(1)).frame; L.frame=frame;
+  let origin; if (key==='rays'){ const b=bbox(ring?[ring]:[frame]); origin = L.shape==='circle'&&!ring ? [500,500] : [b[0],b[3]]; }
+  const steps=pat(key, ring?[ring]:null, frame, {k,a,origin}, region, (Date.now()%997)+1);
+  const keep=steps, empty=0;
+  if (!keep.length){ toast('這個區域太小，畫不下這個圖樣，試著把「大小」調小'); return; }
+  L.steps.splice(E.k+1,0,...keep); E.k+=keep.length; edList(); edFields(); edDirty(true); toast(`加入了 ${keep.length} 個「${PATTERNS[key].name}」步驟${empty?'（區域太小，略過 '+empty+' 步）':''}`);
+}
+/* 編輯畫布 */
+const cvEdit=$('#cvEdit'); let edRect={x:0,y:0,s:1,dpr:1};
+function toTile(e){ edRect=fitCanvas(cvEdit, aspOf(E.lesson)); const r=cvEdit.getBoundingClientRect(); return [((e.clientX-r.left)*edRect.dpr-edRect.x)/edRect.s*1000, ((e.clientY-r.top)*edRect.dpr-edRect.y)/edRect.s*1000]; }
+cvEdit.addEventListener('pointerdown',e=>{ if (!E.lesson) return; e.preventDefault(); try { cvEdit.setPointerCapture(e.pointerId); } catch(err){} const p=toTile(e);
+  if (!E.lasso && E.tool==='dot'){ pushStroke(D(p[0],p[1],Math.max(3,E.w*1.1))); return; }
+  E.cur={pts:[p], start:p}; });
+cvEdit.addEventListener('pointermove',e=>{ if (!E.cur) return; const p=toTile(e), l=E.cur.pts[E.cur.pts.length-1];
+  if (E.lasso || !['line','circle'].includes(E.tool)){ if (dist(p,l)>=2.5) E.cur.pts.push(p); } else E.cur.pts=[E.cur.start,p]; });
+const endDraw=e=>{ if (!E.cur) return; const c=E.cur; E.cur=null;
+  if (E.lasso){ if (c.pts.length<8){ toast('圈大一點再放開'); return; } const ring=rdp(c.pts,1.5).map(rp); E.lasso=false; hint(); insertPattern(ring); return; }
+  const t=E.tool, pts=c.pts;
+  if (t==='line'){ if (pts.length<2||dist(pts[0],pts[1])<4) return; pushStroke(I(densify(pts,12).map(rp),E.w)); return; }
+  if (t==='circle'){ if (pts.length<2) return; const r=dist(pts[0],pts[1]); if (r<4) return; pushStroke(I(circ(pts[0][0],pts[0][1],r,Math.atan2(pts[1][1]-pts[0][1],pts[1][0]-pts[0][0])).map(rp),E.w)); return; }
+  if (pts.length<2){ if (t==='pen') pushStroke(D(pts[0][0],pts[0][1],E.w*.8)); return; }
+  const sm=chaikin(rdp(pts,.9)).map(rp);
+  if (t==='fill'){ if (sm.length<3) return; pushStroke(F(sm)); }
+  else if (t==='shade') pushStroke(Sh(sm,22));
+  else if (t==='pencil'||t==='string') pushStroke(Pn(sm));
+  else pushStroke(I(sm,E.w));
+};
+cvEdit.addEventListener('pointerup',endDraw); cvEdit.addEventListener('pointercancel',()=>{ E.cur=null; });
+function pushStroke(s){ E.lesson.steps[E.k].strokes.push(s); edList(); edDirty(false); }
+function drawEdit(){
+  const g=cvEdit.getContext('2d'); edRect=fitCanvas(cvEdit, aspOf(E.lesson)); g.clearRect(0,0,cvEdit.width,cvEdit.height); if (!E.lesson) return;
+  EP.draw(g, edRect.x, edRect.y, edRect.s);
+  const st=E.lesson.steps[E.k], u=edRect.s/1000;
+  g.save(); g.translate(edRect.x,edRect.y); g.scale(u,u);
+  if (st.clip){ g.setLineDash([10,8]); g.strokeStyle='rgba(2,128,144,.75)'; g.lineWidth=2.5; g.beginPath(); for (const r of st.clip) poly(g,r); g.stroke(); g.setLineDash([]); }
+  if (E.cur){ const t=E.tool, pts=E.cur.pts;
+    if (E.lasso){ g.setLineDash([10,8]); g.strokeStyle='#028090'; g.lineWidth=3; g.fillStyle='rgba(2,128,144,.12)'; g.beginPath(); poly(g,pts); g.fill(); g.stroke(); g.setLineDash([]); }
+    else if (t==='circle' && pts.length>1){ g.strokeStyle=HOT; g.lineWidth=E.w; g.beginPath(); g.arc(pts[0][0],pts[0][1],dist(pts[0],pts[1]),0,TAU); g.stroke(); }
+    else { const s = t==='fill' ? F(pts) : t==='shade' ? Sh(pts,22) : (t==='pencil'||t==='string') ? Pn(pts) : I(pts,E.w); drawStroke(g, s, 1, s.k==='s'?null:HOT, u); } }
+  g.restore();
+}
+
+/* ==================== 主迴圈 ==================== */
+let lastT=performance.now();
+function loop(now){
+  const dt=Math.min(.1,(now-lastT)/1000); lastT=now;
+  if (VIEW==='play' && PS.lesson){
+    if (PS.playing){
+      if (!PL.done){ PL.update(dt); if (PL.done){ if (PS.auto && PL.k<PL.n-1) PS.hold=holdFor(PL.step,false); else PS.playing=false; syncPlay(); } }
+      else if (PS.auto && PL.k<PL.n-1){ if (PS.hold<=0) PS.hold=holdFor(PL.step,false); PS.hold-=dt; if (PS.hold<=0){ PL.next(); syncPlay(); } }
+      else { PS.playing=false; syncPlay(); }
+    }
+    const g=cvPlay.getContext('2d'), r=fitCanvas(cvPlay, aspOf(PS.lesson)); g.clearRect(0,0,cvPlay.width,cvPlay.height); PL.draw(g,r.x,r.y,r.s);
+    $('#pBar').style.width=(PL.progress()*100).toFixed(1)+'%';
+  } else if (VIEW==='edit') drawEdit();
+  requestAnimationFrame(loop);
+}
+
+/* ==================== 下載 ==================== */
+const dlReady = (window.claude && typeof window.claude.use === 'function') ? window.claude.use('downloads').catch(()=>null) : Promise.resolve(null);
+async function saveFile(name, blob){
+  const dl = await dlReady;
+  if (dl){ try { await dl.save({filename:name, data:blob}); toast('已存檔：'+name); } catch(e){ if (e && e.code==='declined') return; toast('這個畫面無法存檔，請改用瀏覽器開啟這頁再試'); } return; }
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },4000); toast('已下載：'+name);
+}
+const fname = L => (L.title||'纏繞畫').replace(/[\\/:*?"<>|]/g,'').trim() || '纏繞畫';
+const toBlob = (cv,type='image/png',q) => new Promise(r=>cv.toBlob(r,type,q));
+async function fontsReady(){ try { await Promise.all([document.fonts.load('40px Huninn'), document.fonts.load('500 30px "Noto Sans TC"'), document.fonts.load('700 30px "Noto Sans TC"')]); } catch(e){} }
+function wrapText(ctx, text, maxW, maxLines=99){
+  const lines=[]; for (const para of String(text||'').split('\n')){ let line='';
+    for (const ch of para){ const t=line+ch; if (ctx.measureText(t).width>maxW && line){ if ('，。、；：！？）」』'.includes(ch)){ line=t; continue; } lines.push(line); line=ch; } else line=t; }
+    lines.push(line); }
+  if (lines.length>maxLines){ const l=lines.slice(0,maxLines); l[maxLines-1]=l[maxLines-1].slice(0,-1)+'…'; return l; } return lines;
+}
+function downloadJSON(L){ const data=JSON.stringify({v:1, title:L.title, sub:L.sub, shape:L.shape, frame:L.frame, steps:L.steps.map(s=>({title:s.title, tag:s.tag, text:s.text, fc:s.fc, clip:s.clip, strokes:s.strokes}))}); saveFile(fname(L)+'.json', new Blob([data],{type:'application/json'})); }
+$('#dlJson').onclick=()=>downloadJSON(PS.lesson);
+$('#dlPng').onclick=async()=>{ const L=PS.lesson, P=new Player(2000); P.hl=false; P.load(L); P.renderAll(); const ch=Math.round(2000*P.asp)+160, c=mk(2160,ch), g=c.getContext('2d'); g.fillStyle='#f3ede2'; g.fillRect(0,0,2160,ch); P.draw(g,80,80,2000); saveFile(fname(L)+'_完成圖.png', await toBlob(c)); };
+/* 學習單：A4 150dpi，每頁 6 格 */
+$('#dlPdf').onclick=async()=>{
+  const L=PS.lesson; await fontsReady(); toast('正在製作學習單…');
+  const P=new Player(900); P.hl=true; P.pen=false; P.load(L); const W=1240, H=1754, per=6, pages=[]; let g, c;
+  const pageN=Math.ceil(L.steps.length/per);
+  for (let k=0;k<L.steps.length;k++){
+    if (k%per===0){ c=mk(W,H); g=c.getContext('2d'); pages.push(c); g.fillStyle='#ffffff'; g.fillRect(0,0,W,H);
+      g.fillStyle='#12343b'; g.font=`52px ${DISPLAY}`; g.fillText(L.title, 70, 108);
+      g.font=`500 24px ${FONT}`; g.fillStyle='#5d6f72'; g.fillText(`纏繞畫步驟學習單　${pages.length} / ${pageN}　｜　橘色是這一步要畫的新筆畫`, 72, 152);
+      g.fillStyle='#12343b'; g.font=`500 24px ${FONT}`; g.fillText('姓名：＿＿＿＿＿＿　日期：＿＿＿＿', W-520, 108);
+      g.strokeStyle='#e3d9c8'; g.lineWidth=2; g.beginPath(); g.moveTo(70,178); g.lineTo(W-70,178); g.stroke(); }
+    if (k>0) P.next(); P.finish();
+    const idx=k%per, col=idx%2, row=Math.floor(idx/2), cw=(W-140-40)/2, x0=70+col*(cw+40), y0=205+row*505, ts=300;
+    g.fillStyle='#efe7da'; g.beginPath(); g.roundRect(x0,y0,cw,ts+20,16); g.fill();
+    P.drawFit(g, x0, y0+10, cw, ts, false);
+    g.fillStyle='#e8552d'; g.beginPath(); g.arc(x0+34,y0+36,24,0,TAU); g.fill(); g.fillStyle='#fff'; g.font=`700 26px ${FONT}`; g.textAlign='center'; g.fillText(String(k+1), x0+34, y0+45); g.textAlign='left';
+    g.fillStyle='#12343b'; g.font=`34px ${DISPLAY}`; g.fillText(wrapText(g,L.steps[k].title,cw,1)[0], x0, y0+ts+66);
+    g.font=`400 21px ${FONT}`; g.fillStyle='#33484c'; wrapText(g, L.steps[k].text, cw, 4).forEach((ln,i)=>g.fillText(ln, x0, y0+ts+102+i*31));
+  }
+  const sig=$('#signIn')?.value||''; if (sig) pages.forEach(p=>{ const q=p.getContext('2d'); q.fillStyle='#8a9a9c'; q.font=`400 20px ${FONT}`; q.textAlign='right'; q.fillText(sig, W-70, H-36); q.textAlign='left'; });
+  if (window.jspdf){ const pdf=new window.jspdf.jsPDF({unit:'mm',format:'a4',compress:true}); pages.forEach((p,i)=>{ if (i) pdf.addPage(); pdf.addImage(p.toDataURL('image/jpeg',.9),'JPEG',0,0,210,297); }); saveFile(fname(L)+'_學習單.pdf', pdf.output('blob')); }
+  else { for (let i=0;i<pages.length;i++) await saveFile(`${fname(L)}_學習單_${i+1}.png`, await toBlob(pages[i])); }
+};
+/* 影片 */
+let RATIO='169';
+$$('#ratioSeg button').forEach(b=>b.onclick=()=>{ $$('#ratioSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b)); RATIO=b.dataset.r; });
+function vidFrame(g, W, H, P, info){
+  const L=info.lesson; g.fillStyle='#f3ede2'; g.fillRect(0,0,W,H);
+  g.fillStyle='rgba(120,90,50,.06)'; for (let x=0;x<W;x+=46) g.fillRect(x,0,2,H);
+  const st=P.step, N=P.n; let tx, ty, ts, px, py, pw, big, body, maxLines;
+  if (W>H){ const r=P.drawFit(g, H*.07, H*.07, H*.86, H*.86); px=r.x+r.w+H*.08; py=H*.12; pw=W-px-H*.08; big=64; body=36; maxLines=7; }
+  else if (H>W){ const r=P.drawFit(g, W*.07, H*.12, W*.86, H*.52); px=W*.08; py=r.y+r.h+H*.045; pw=W*.84; big=64; body=38; maxLines=6; }
+  else { const r=P.drawFit(g, W*.18, W*.035, W*.64, W*.64); px=W*.07; py=r.y+r.h+W*.035; pw=W*.86; big=46; body=30; maxLines=2; }
+  g.textBaseline='alphabetic';
+  if (H>W){ g.fillStyle='#12343b'; g.font=`60px ${DISPLAY}`; g.textAlign='center'; g.fillText(L.title, W/2, H*.085); g.textAlign='left'; }
+  let y=py;
+  if (info.phase==='intro' || info.phase==='outro'){
+    const t1 = info.phase==='intro' ? L.title : '完成了！', t2 = info.phase==='intro' ? (L.sub||'纏繞畫步驟示範') : '把紙轉一轉，從四個方向欣賞你的作品。';
+    if (W>H) y=H*.36;
+    g.fillStyle='#e8552d'; g.font=`700 ${Math.round(body*.85)}px ${FONT}`; g.fillText(info.phase==='intro'?'纏繞畫步驟示範':`共 ${N} 步`, px, y); y+=big*1.35;
+    g.fillStyle='#12343b'; g.font=`${Math.round(big*1.25)}px ${DISPLAY}`; for (const ln of wrapText(g,t1,pw,2)){ g.fillText(ln,px,y); y+=big*1.4; }
+    g.fillStyle='#33484c'; g.font=`400 ${body}px ${FONT}`; for (const ln of wrapText(g,t2,pw,3)){ g.fillText(ln,px,y); y+=body*1.6; }
+    if (info.phase==='intro'){ y+=body*.6; g.fillStyle='#5d6f72'; for (const ln of wrapText(g,'材料：紙、鉛筆、黑色代針筆',pw,2)){ g.fillText(ln,px,y); y+=body*1.6; } }
+  } else {
+    if (W>H){ g.fillStyle='#5d6f72'; g.font=`500 ${Math.round(body*.8)}px ${FONT}`; g.fillText(L.title, px, y); y+=body*1.9; }
+    const label=`第 ${P.k+1} 步`, small=` / ${N}`; g.font=`${Math.round(big*.6)}px ${DISPLAY}`; const lw=g.measureText(label).width; g.font=`${Math.round(big*.42)}px ${DISPLAY}`; const sw=g.measureText(small).width;
+    const bh=big*.95, bw=lw+sw+big*.7; g.fillStyle='#e8552d'; g.beginPath(); g.roundRect(px, y-bh*.75, bw, bh, bh/2); g.fill();
+    g.fillStyle='#fff'; g.font=`${Math.round(big*.6)}px ${DISPLAY}`; g.fillText(label, px+big*.35, y); g.font=`${Math.round(big*.42)}px ${DISPLAY}`; g.fillText(small, px+big*.35+lw, y);
+    if (st.tag){ g.font=`500 ${Math.round(body*.68)}px ${FONT}`; const tw=g.measureText(st.tag).width, th=body*1.1; g.fillStyle='#dff1f1'; g.beginPath(); g.roundRect(px+bw+16, y-th*.78, tw+28, th, th/2); g.fill(); g.fillStyle='#01646f'; g.fillText(st.tag, px+bw+30, y-th*.08); }
+    y+=big*1.45;
+    g.fillStyle='#12343b'; g.font=`${big}px ${DISPLAY}`; for (const ln of wrapText(g,st.title,pw,2)){ g.fillText(ln,px,y); y+=big*1.3; }
+    y+=body*.3; g.fillStyle='#33484c'; g.font=`400 ${body}px ${FONT}`; for (const ln of wrapText(g,st.text,pw,maxLines)){ g.fillText(ln,px,y); y+=body*1.65; }
+    const dotsY = W>H ? H*.9 : H>W ? H*.955 : H*.965, dw=Math.min(28, pw/N);
+    for (let i=0;i<N;i++){ g.fillStyle = i<P.k ? '#028090' : i===P.k ? '#e8552d' : 'rgba(18,52,59,.15)'; g.beginPath(); g.arc(px+dw*i+dw/2-(W===H?0:0), dotsY, Math.min(8,dw*.32), 0, TAU); g.fill(); }
+  }
+  if (info.sign){ g.fillStyle='#7d8d8f'; g.font=`500 ${Math.round(body*.62)}px ${FONT}`; g.textAlign='right'; g.fillText(info.sign, W-H*.04, H-H*.03); g.textAlign='left'; }
+}
+let recAbort=false;
+$('#recCancel').onclick=()=>{ recAbort=true; };
+$('#dlVideo').onclick=async()=>{
+  if (!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream){ toast('這個瀏覽器不支援錄影，請改用 Chrome 或 Safari'); return; }
+  const types=['video/mp4;codecs=avc1.640028','video/mp4;codecs=avc1','video/mp4','video/webm;codecs=vp9','video/webm'];
+  const mime=types.find(t=>MediaRecorder.isTypeSupported(t)); if (!mime){ toast('這個瀏覽器不支援錄影'); return; }
+  const ext=mime.startsWith('video/mp4')?'mp4':'webm';
+  await fontsReady();
+  const [W,H] = RATIO==='169' ? [1920,1080] : RATIO==='916' ? [1080,1920] : [1080,1080];
+  const L=PS.lesson, cv=$('#recCv'); cv.width=W; cv.height=H; const g=cv.getContext('2d');
+  const P=new Player(1400); P.hl=PL.hl; P.pen=PL.pen; P.speed=PL.speed; P.load(L);
+  const sign=lsGet('tangle.sign','愛迪樂｜鍾孟修 職能治療師');
+  const holds=L.steps.map(s=>holdFor(s,true)), total=3+L.steps.reduce((a,s,i)=>a+stepTiming(s).T/P.speed+holds[i],0)+4;
+  PS.playing=false; syncPlay(); recAbort=false; $('#recModal').hidden=false; $('#recTitle').textContent=`錄製影片中…（約 ${Math.round(total)} 秒）`;
+  const rec=new MediaRecorder(cv.captureStream(30),{mimeType:mime, videoBitsPerSecond:8e6}), chunks=[]; rec.ondataavailable=e=>e.data.size&&chunks.push(e.data);
+  const stopped=new Promise(r=>rec.onstop=r);
+  vidFrame(g,W,H,P,{lesson:L, phase:'intro', sign}); rec.start(250);
+  let phase='intro', t=0, el=0, last=performance.now();
+  await new Promise(resolve=>{ function tick(now){ const dt=Math.min(.1,(now-last)/1000); last=now; t+=dt; el+=dt;
+      if (recAbort){ resolve(); return; }
+      if (phase==='intro'){ if (t>=3){ phase='draw'; t=0; } }
+      else if (phase==='draw'){ P.update(dt); if (P.done){ phase='hold'; t=0; } }
+      else if (phase==='hold'){ if (t>=holds[P.k]){ t=0; if (P.k<P.n-1){ P.next(); phase='draw'; } else { P.hl=false; P.invalidate(); P.reset(P.n-1); P.finish(); phase='outro'; } } }
+      else if (phase==='outro'){ if (t>=4){ resolve(); return; } }
+      vidFrame(g,W,H,P,{lesson:L, phase:phase==='intro'||phase==='outro'?phase:'step', sign});
+      $('#recBar').style.width=Math.min(100,el/total*100).toFixed(1)+'%';
+      requestAnimationFrame(tick); }
+    requestAnimationFrame(tick); });
+  rec.stop(); await stopped; $('#recModal').hidden=true;
+  if (recAbort){ toast('已取消錄影'); return; }
+  saveFile(`${fname(L)}_步驟動畫_${RATIO==='169'?'16x9':RATIO==='916'?'9x16':'1x1'}.${ext}`, new Blob(chunks,{type:mime}));
+};
+/* 影片署名 */
+(()=>{ const lab=$('label[for=signIn]'); const inp=document.createElement('input'); inp.type='text'; inp.id='signIn'; inp.value=lsGet('tangle.sign','愛迪樂｜鍾孟修 職能治療師'); inp.oninput=()=>lsSet('tangle.sign',inp.value);
+  const card=$('#dlVideo').closest('.card'); const l2=document.createElement('label'); l2.className='f'; l2.htmlFor='signIn'; l2.textContent='影片與學習單角落署名（可留空）'; card.insertBefore(l2, card.querySelector('#durNote')); card.insertBefore(inp, card.querySelector('#durNote')); lab.remove(); })();
+
+/* ==================== 啟動 ==================== */
+buildShelf();
+const draft=lsGet('tangle.draft',null); if (draft && Array.isArray(draft.steps) && draft.steps.length){ E.lesson=draft; E.k=draft.steps.length-1; EP.load(draft); edList(); edFields(); }
+hint();
+setLesson(getLesson('classic')); setLessonNote();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
