@@ -121,6 +121,8 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 .sw[aria-pressed="true"]{border-color:var(--hot);box-shadow:0 0 0 2px var(--hot);background:var(--hot-soft)}
 #cvEdit{cursor:crosshair}
 .enav{margin:0 0 10px}
+.editbox{border:2px solid var(--hot);background:var(--hot-soft);border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.5;display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+.editbox b{font-size:16px}
 .pinfo{font-size:13px;line-height:1.55;margin:8px 0 0;padding:8px 10px;border-radius:10px;background:var(--surface-2);color:var(--muted)}
 .pinfo.on{background:var(--accent-soft);color:var(--ink)}
 .enav{display:flex;align-items:center;gap:8px}
@@ -373,6 +375,10 @@ footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
         <div class="row" style="margin-top:10px"><button class="btn sm" id="eClear">清空這一步</button></div>
       </div>
       <div class="blk" id="mPat" hidden>
+        <div class="editbox" id="pEdit" hidden>
+          <div id="pEditTxt"></div>
+          <div class="row"><button class="btn sm" id="pShuffle">🎲 重新排列</button><button class="btn sm" id="pDelArea">🗑 刪除這一區</button><button class="btn sm primary" id="pDone">✓ 完成</button></div>
+        </div>
         <p class="pinfo" id="pInfo"></p>
         <div class="swatches" id="swatches"></div>
         <label class="f">大小 <span id="pKv">1.0</span></label><input type="range" id="pK" min="0.6" max="1.6" step="0.1" value="1">
@@ -380,7 +386,6 @@ footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
         <select id="pA"><option value="0">0°（水平）</option><option value="-20">-20° 微斜</option><option value="30">30° 微斜</option><option value="45">45° 斜放</option><option value="90">90°（直立）</option></select>
         <label class="f" for="pRegion">區域名稱（留空會自動取名）</label><input type="text" id="pRegion" placeholder="例如：上方大區塊">
         <div class="row" style="margin-top:10px">
-          <button class="btn sm" id="pShuffle" hidden>🎲 重新排列</button>
           <button class="btn sm" id="pWhole">整張紙放這個圖樣</button>
           <button class="btn sm" id="pLasso">✍ 自己圈範圍</button>
         </div>
@@ -1152,7 +1157,7 @@ $$('.tabs button').forEach(b=>b.onclick=()=>showView(b.dataset.v));
 
 /* ==================== 老師設計 ==================== */
 const EP=new Player(1400); EP.pen=false;
-const E={lesson:null, k:0, mode:'draw', tool:'pencil', w:4, patKey:'bubbles', lasso:false, cur:null, hist:[], playing:false, hoverPt:null, hover:null, rc:null, dirty:false};
+const E={lesson:null, k:0, mode:'draw', tool:'pencil', w:4, patKey:'bubbles', lasso:false, cur:null, hist:[], playing:false, hoverPt:null, hover:null, rc:null, dirty:false, editSel:false};
 const TOOLS=[
   ['pencil','鉛筆','<path d="M4 20l3-1 11-11-2-2L5 17z" fill="#f2b632" stroke="currentColor" stroke-width="1.5"/>'],
   ['pen','代針筆','<path d="M4 20l2-5 10-10 3 3-10 10z" fill="currentColor"/>'],
@@ -1171,7 +1176,7 @@ function newLesson(shape){ const rng=RNG(Date.now()%100000), {steps,frame}=prep(
   return {id:'mine-'+Date.now(), title:shape==='circle'?'我的圓形纏繞畫':shape==='a4'?'我的 A4 纏繞畫':'我的纏繞畫', sub:'自己設計的教案', lv:'我的', shape, frame, steps}; }
 function stashDraft(){ if (!E.lesson || !E.dirty) return; const mine=lsGet('tangle.mine',[]), L=clone(E.lesson), i=mine.findIndex(m=>m.id===L.id); if (i<0) mine.push(L); else mine[i]=L;
   if (lsSet('tangle.mine',mine)){ toast(`原本的「${L.title}」已自動存到我的教案`); buildMine(); } E.dirty=false; }
-function openEditor(lesson, mineIdx=-1){ stashDraft(); E.dirty=false; E.hist=[]; E.lesson=lesson; E.mineIdx=mineIdx;
+function openEditor(lesson, mineIdx=-1){ stashDraft(); E.dirty=false; E.hist=[]; E.editSel=false; E.lesson=lesson; E.mineIdx=mineIdx;
   const sIdx=lesson.steps.findIndex(s=>s.title==='畫分隔線'||s.title==='畫出形狀');
   E.k = sIdx>=0 ? sIdx : Math.min(lesson.steps.length-1,3);
   EP.load(lesson); E.lasso=false; showView('edit'); setMode(lesson.steps[E.k].pk?'pat':'draw'); edAll(); }
@@ -1184,7 +1189,7 @@ function undo(){ const h=E.hist.pop(); $('#eUndo').disabled=!E.hist.length; if (
 /* ---------- 畫面同步 ---------- */
 function edAll(){ edList(); edFields(); edRefresh(); }
 function stopStepPlay(){ if (E.playing){ E.playing=false; EP.pen=false; } $('#eStepPlay').textContent='▶ 播放這一步'; }
-function edRefresh(){ if (!E.lesson) return; stopStepPlay(); E.rc=null; E.hover=null;
+function edRefresh(){ if (!E.lesson) return; stopStepPlay(); E.rc=null; E.hover=null; E.ver=(E.ver||0)+1;
   const S=E.lesson.steps, st=S[E.k];
   $('#eStepNo').textContent=`第 ${E.k+1} / ${S.length} 步`; $('#eStepTitle').textContent=st.title||'（還沒有標題）';
   $('#ePrevS').disabled=E.k===0; $('#eNextS').disabled=E.k>=S.length-1; $('#eUndo').disabled=!E.hist.length;
@@ -1198,20 +1203,21 @@ function edList(){
     b.onclick=()=>goStep(i); li.appendChild(b); ol.appendChild(li); });
   const cur=ol.querySelector('.cur'); if (cur) cur.scrollIntoView({block:'nearest'});
 }
-function goStep(i){ E.k=Math.max(0,Math.min(E.lesson.steps.length-1,i)); E.lasso=false; if (E.lesson.steps[E.k].pk) setMode('pat'); edAll(); }
+function goStep(i){ E.k=Math.max(0,Math.min(E.lesson.steps.length-1,i)); E.lasso=false; E.editSel=!!E.lesson.steps[E.k].pk; if (E.editSel) setMode('pat'); edAll(); }
 function edFields(){ const s=E.lesson.steps[E.k]; $('#sTitle').value=s.title||''; $('#sTag').value=s.tag||''; $('#sText').value=s.text||''; syncPatPanel(); }
 function edDirty(structural){ if (structural) EP.invalidate(); edList(); edRefresh(); autosave(); }
 function autosave(){ E.dirty=true; lsSet('tangle.draft', E.lesson); }
 
 /* ---------- 模式：自己畫／放圖樣 ---------- */
-function setMode(m){ E.mode=m; E.lasso=false; E.cur=null; $$('#modeSeg button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.m===m)); $('#mDraw').hidden=m!=='draw'; $('#mPat').hidden=m!=='pat'; syncPatPanel(); hint(); }
+function setMode(m){ if (m!==E.mode) E.editSel=false; E.mode=m; E.lasso=false; E.cur=null; $$('#modeSeg button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.m===m)); $('#mDraw').hidden=m!=='draw'; $('#mPat').hidden=m!=='pat'; syncPatPanel(); hint(); }
 $$('#modeSeg button').forEach(b=>b.onclick=()=>setMode(b.dataset.m));
 function hint(){ if (!E.lesson) return; const st=E.lesson.steps[E.k], tip=$('#eTip');
   let h, t='';
   if (E.lasso){ h='圈選模式：沿著要放圖樣的範圍畫一圈，放開就會加入。（按 Esc 取消）'; t='沿著範圍畫一圈'; }
   else if (E.mode==='pat'){ const P=PATTERNS[E.patKey];
-    h = patGroup() ? `這一步是圖樣步驟。點右邊的圖樣卡片就會換掉這一區；點紙上其他區域則是新增一區。` : `點紙上的一塊區域，就會放入「${P.name}」。區域是由鉛筆線和邊框圍出來的。`;
-    t = E.hover ? `點一下：在「${E.hover.name}」放入「${P.name}」` : (isDesk ? `把滑鼠移到一塊區域上，點一下放入「${P.name}」` : `點一塊區域，放入「${P.name}」`); }
+    const G=editGroup();
+    h = G ? `正在修改「${G.pk.region}」：點圖樣卡片會換掉這一區。點紙上空白的區域則是新增一區。` : `點紙上空白的區域，就會放入「${P.name}」。區域是由線條和邊框圍出來的；點已經有圖樣的區域可以修改它。`;
+    t = E.hover ? (E.hover.filled ? `點一下：修改「${E.hover.name}」` : `點一下：在「${E.hover.name}」放入「${P.name}」`) : (isDesk ? `把滑鼠移到一塊區域上，點一下放入「${P.name}」` : `點一塊空白區域，放入「${P.name}」`); }
   else { h=HINTS[E.tool]; if (st && st.pk) h='提醒：這一步是圖樣步驟，自己畫的線只會出現在這一區裡。想畫新東西，按「＋ 新的一步」。'; }
   $('#eHint').textContent=h; tip.textContent=t; tip.hidden=!t; }
 
@@ -1220,7 +1226,7 @@ $('#sTitle').oninput=e=>{ E.lesson.steps[E.k].title=e.target.value; $('#eStepTit
 $('#sTag').oninput=e=>{ E.lesson.steps[E.k].tag=e.target.value; edList(); autosave(); };
 $('#sText').oninput=e=>{ E.lesson.steps[E.k].text=e.target.value; autosave(); };
 $('#eTitle').oninput=e=>{ E.lesson.title=e.target.value; autosave(); };
-function addStep(){ snap(); const G=patGroup(), at=G?G.b:E.k; E.lesson.steps.splice(at+1,0,S('新的一步','',[])); E.k=at+1; setMode('draw'); edDirty(true); edFields();
+function addStep(){ E.editSel=false; snap(); const G=patGroup(), at=G?G.b:E.k; E.lesson.steps.splice(at+1,0,S('新的一步','',[])); E.k=at+1; setMode('draw'); edDirty(true); edFields();
   if (isDesk){ $('#sTitle').focus(); $('#sTitle').select(); } toast('加了一個新的步驟，直接在紙上畫，再寫上標題和說明'); }
 $('#eAdd').onclick=addStep; $('#eAdd2').onclick=addStep;
 $('#eDup').onclick=()=>{ snap(); const c=clone(E.lesson.steps[E.k]); delete c.pk; E.lesson.steps.splice(E.k+1,0,c); E.k++; edDirty(true); edFields(); };
@@ -1266,17 +1272,21 @@ Object.keys(PATTERNS).forEach(key=>{ const P=PATTERNS[key], b=document.createEle
 function drawSwatches(){ $$('#swatches .sw').forEach((b,i)=>setTimeout(()=>{ const key=b.dataset.k, cv=b.querySelector('canvas'), g=cv.getContext('2d'), sq=[[0,0],[1000,0],[1000,1000],[0,1000]];
   const st=pat(key,null,sq,{k:2.4,origin:[0,1000]},'',3).flatMap(s=>s.strokes); g.fillStyle='#fdfcf8'; g.fillRect(0,0,150,150); g.save(); g.scale(.15,.15);
   for (const s of st) drawStroke(g, Object.assign({}, s, s.w?{w:s.w*(s.k==='d'?2:2.6)}:{}), 1, null, .15); g.restore(); }, 40*i)); }
-function pickPattern(key){ E.patKey=key; E.hover=null; E.hoverKey=null; setAngle(PATTERNS[key].a||0); const G=patGroup(); if (G) regenGroup(G); else syncPatPanel(); hint(); }
+function pickPattern(key){ E.patKey=key; E.hover=null; E.hoverKey=null; setAngle(PATTERNS[key].a||0); const G=editGroup(); if (G) regenGroup(G); else { syncPatPanel(); toast(`下一塊要放「${PATTERNS[key].name}」，請點紙上空白的區域`); } hint(); }
 
 /* ---------- 圖樣區 ---------- */
 function patGroup(){ if (!E.lesson) return null; const S=E.lesson.steps, st=S[E.k]; if (!st || !st.pk || !PATTERNS[st.pk.key]) return null;
   const g=st.pk.g; let a=E.k, b=E.k; while (a>0 && S[a-1].pk && S[a-1].pk.g===g) a--; while (b<S.length-1 && S[b+1].pk && S[b+1].pk.g===g) b++;
   return {a, b, pk:st.pk, clip:st.clip}; }
+function editGroup(){ return E.editSel ? patGroup() : null; }
+/* 哪一個已放好的圖樣區包含這個點（後放的優先） */
+function groupAt(p){ const S=E.lesson.steps; for (let i=S.length-1;i>=0;i--){ const st=S[i]; if (!st.pk || !PATTERNS[st.pk.key]) continue; if (!st.clip || inRings(p[0],p[1],st.clip)){ let a=i; while (a>0 && S[a-1].pk && S[a-1].pk.g===st.pk.g) a--; return {a, pk:st.pk, clip:st.clip}; } } return null; }
 function setAngle(v){ const sel=$('#pA'), val=String(Math.round(v)); if (![...sel.options].some(o=>o.value===val)){ const o=document.createElement('option'); o.value=val; o.textContent=val+'°'; sel.appendChild(o); } sel.value=val; }
-function syncPatPanel(){ if (!E.lesson) return; const G=patGroup(), info=$('#pInfo'); $('#pShuffle').hidden=!G;
+function syncPatPanel(){ if (!E.lesson) return; const G=editGroup(), info=$('#pInfo'); $('#pEdit').hidden=!G;
   if (G){ E.patKey=G.pk.key; $('#pK').value=G.pk.k; $('#pKv').textContent=(+G.pk.k).toFixed(1); setAngle(G.pk.a||0); $('#pRegion').value=G.pk.region;
-    info.className='pinfo on'; info.textContent=`正在修改「${G.pk.region}」（第 ${G.a+1}～${G.b+1} 步）：點圖樣卡片、調大小或方向，這一區會馬上換掉。`; }
-  else { $('#pRegion').value=''; info.className='pinfo'; info.textContent='① 先選一個圖樣　② 再點紙上的一塊區域'; }
+    $('#pEditTxt').innerHTML=''; const b=document.createElement('b'); b.textContent=`正在修改：${G.pk.region}（${PATTERNS[G.pk.key].name}）`; $('#pEditTxt').append(b, document.createElement('br'), '點下面的圖樣卡片、調大小或方向，只會改這一區。改好按「✓ 完成」。');
+    info.hidden=true; }
+  else { $('#pRegion').value=''; info.hidden=false; info.className='pinfo'; info.textContent='① 先選一個圖樣　② 再點紙上空白的區域。點已經有圖樣的區域，可以修改或刪除它。'; }
   $$('#swatches .sw').forEach(b=>b.setAttribute('aria-pressed', b.dataset.k===E.patKey)); }
 function patOpts(key, clip){ const L=E.lesson, k=+$('#pK').value, a=+$('#pA').value; let origin=null;
   if (key==='rays'){ const b=bbox(clip||[L.frame]); origin = L.shape==='circle'&&!clip ? [500,500] : [b[0],b[3]]; } return {k,a,origin}; }
@@ -1284,31 +1294,33 @@ function regenGroup(G, reseed){ const key=E.patKey, L=E.lesson, o=patOpts(key,G.
   if (key===G.pk.key && G.pk.origin) o.origin=G.pk.origin;
   const steps=pat(key, G.clip, L.frame, o, $('#pRegion').value.trim()||G.pk.region, (Date.now()%997)+1);
   if (!steps.length){ toast('這一區太小，畫不下這個圖樣，試著把「大小」調小'); syncPatPanel(); return; }
-  snap(); L.steps.splice(G.a, G.b-G.a+1, ...steps); E.k=G.a; edDirty(true); edFields(); toast(reseed?'已換一種排法':`這一區換成「${PATTERNS[key].name}」了`); }
-function onPatChange(){ E.hoverKey=null; const G=patGroup(); if (G) regenGroup(G); }
+  snap(); L.steps.splice(G.a, G.b-G.a+1, ...steps); E.k=G.a; E.editSel=true; edDirty(true); edFields(); toast(reseed?'已換一種排法':`這一區換成「${PATTERNS[key].name}」了`); }
+function onPatChange(){ E.hoverKey=null; const G=editGroup(); if (G) regenGroup(G); }
 $('#pK').oninput=e=>$('#pKv').textContent=(+e.target.value).toFixed(1);
 $('#pK').onchange=onPatChange; $('#pA').onchange=onPatChange;
-$('#pRegion').onchange=()=>{ const G=patGroup(); if (G) regenGroup(G); };
-$('#pShuffle').onclick=()=>{ const G=patGroup(); if (G) regenGroup(G,true); };
+$('#pRegion').onchange=()=>{ const G=editGroup(); if (G) regenGroup(G); };
+$('#pShuffle').onclick=()=>{ const G=editGroup(); if (G) regenGroup(G,true); };
+$('#pDone').onclick=()=>{ E.editSel=false; syncPatPanel(); hint(); toast('完成修改，可以繼續點其他區域放圖樣'); };
+$('#pDelArea').onclick=()=>{ const G=editGroup(); if (!G) return; snap(); E.lesson.steps.splice(G.a, G.b-G.a+1); E.k=Math.max(0,G.a-1); E.editSel=false; edDirty(true); edFields(); toast(`已刪除「${G.pk.region}」的圖樣，按「↶ 復原」可以救回來`); };
 $('#pLasso').onclick=()=>{ E.lasso=true; hint(); toast('在紙上沿著範圍畫一圈'); };
 $('#pWhole').onclick=()=>insertPattern(null, '整個框內');
 function insertPattern(rings, autoName){
   const key=E.patKey, L=E.lesson; L.frame=L.frame||prep(L.shape,RNG(1)).frame;
-  const region=$('#pRegion').value.trim() && !patGroup() ? $('#pRegion').value.trim() : uniqueName(autoName||'這一區');
+  const region=$('#pRegion').value.trim() && !editGroup() ? $('#pRegion').value.trim() : uniqueName(autoName||'這一區');
   const steps=pat(key, rings, L.frame, patOpts(key, rings), region, (Date.now()%997)+1);
   if (!steps.length){ toast('這個區域太小，畫不下這個圖樣，試著把「大小」調小'); return; }
-  snap(); const G0=patGroup(), at=G0?G0.b:E.k; L.steps.splice(at+1,0,...steps); E.k=at+1; E.hover=null; edDirty(true); edFields();
+  snap(); const G0=patGroup(), at=G0?G0.b:E.k; L.steps.splice(at+1,0,...steps); E.k=at+1; E.editSel=false; E.hover=null; edDirty(true); edFields();
   toast(`在「${region}」放入了「${PATTERNS[key].name}」，共 ${steps.length} 步`); }
 function uniqueName(n){ const used=new Set(E.lesson.steps.filter(s=>s.pk).map(s=>s.pk.region)); if (!used.has(n)) return n; for (let i=2;;i++) if (!used.has(n+' '+i)) return n+' '+i; }
 
 /* ---------- 點一下找出被線圍起來的區域 ---------- */
 function regionCache(){
-  const L=E.lesson, S=L.steps, sig=E.k+'|'+S.length+'|'+S.slice(0,E.k+1).reduce((a,s)=>a+(s.pk?0:s.strokes.length),0);
+  const L=E.lesson, S=L.steps, sig=S.length+'|'+S.reduce((a,s)=>a+(s.pk?0:s.strokes.length),0);
   if (E.rc && E.rc.sig===sig) return E.rc;
   const C=4, W=250, H=Math.round(1000*aspOf(L)/C), cv=mk(W,H), g=cv.getContext('2d');
   g.fillStyle='#000'; g.fillRect(0,0,W,H); g.scale(1/C,1/C); g.fillStyle='#fff'; g.beginPath(); poly(g,L.frame); g.fill();
-  g.strokeStyle='#000'; g.lineWidth=9; g.lineCap='round'; g.lineJoin='round'; g.beginPath(); poly(g,L.frame); g.stroke();
-  for (let j=0;j<=E.k && j<S.length;j++){ const st=S[j]; if (st.pk) continue;
+  g.strokeStyle='#000'; g.lineWidth=12; g.lineCap='round'; g.lineJoin='round'; g.beginPath(); poly(g,L.frame); g.stroke();
+  for (let j=0;j<S.length;j++){ const st=S[j]; if (st.pk) continue;
     for (const s of st.strokes){ if (s.k==='p'||s.k==='i'){ g.beginPath(); g.moveTo(s.p[0][0],s.p[0][1]); for (const q of s.p) g.lineTo(q[0],q[1]); g.stroke(); }
       else if (s.k==='f'){ g.fillStyle='#000'; g.beginPath(); poly(g,s.p); g.fill(); } } }
   const d=g.getImageData(0,0,W,H).data, lab=new Int32Array(W*H);
@@ -1332,7 +1344,7 @@ function regionAt(pt){
 }
 function traceRings(R,id){
   const {W,H,C,lab}=R, m=new Uint8Array(W*H);
-  for (let y=0;y<H;y++) for (let x=0;x<W;x++){ let hit=false; for (let dy=-2;dy<=2 && !hit;dy++) for (let dx=-2;dx<=2;dx++){ const X=x+dx, Y=y+dy; if (X>=0&&Y>=0&&X<W&&Y<H && lab[Y*W+X]===id){ hit=true; break; } } if (hit) m[y*W+x]=1; }
+  for (let y=0;y<H;y++) for (let x=0;x<W;x++){ let hit=false; for (let dy=-1;dy<=1 && !hit;dy++) for (let dx=-1;dx<=1;dx++){ const X=x+dx, Y=y+dy; if (X>=0&&Y>=0&&X<W&&Y<H && lab[Y*W+X]===id){ hit=true; break; } } if (hit) m[y*W+x]=1; }
   const W1=W+1, nx=new Map(), add=(a,b)=>{ const arr=nx.get(a); if (arr) arr.push(b); else nx.set(a,[b]); }, in_=(x,y)=>x>=0&&y>=0&&x<W&&y<H&&m[y*W+x];
   for (let y=0;y<H;y++) for (let x=0;x<W;x++) if (m[y*W+x]){
     if (!in_(x,y-1)) add(y*W1+x, y*W1+x+1); if (!in_(x+1,y)) add(y*W1+x+1, (y+1)*W1+x+1);
@@ -1372,6 +1384,7 @@ cvEdit.addEventListener('pointermove',e=>{ const p=toTile(e);
 cvEdit.addEventListener('pointerleave',()=>{ E.hoverPt=null; E.hover=null; hint(); });
 const endDraw=e=>{
   if (E.mode==='pat' && !E.lasso){ const t=E.tap; E.tap=null; if (!t) return; const p=toTile(e); if (dist(p,t.p)>14) return;
+    const hit=groupAt(p); if (hit){ E.k=hit.a; E.editSel=true; E.hover=null; edAll(); toast(`選取了「${hit.pk.region}」：可以換圖樣、重新排列或刪除`); return; }
     const r=regionAt(p); if (!r) return toast('這裡是線條上或框外，請點在一塊空白區域裡'); insertPattern(r.rings, r.name); return; }
   if (!E.cur) return; const c=E.cur; E.cur=null; if (c.erase) return;
   if (E.lasso){ if (c.pts.length<8){ toast('圈大一點再放開'); return; } const ring=rdp(c.pts,1.5).map(rp); E.lasso=false; hint(); insertPattern([ring], '圈選的區域'); return; }
@@ -1391,17 +1404,24 @@ function drawEdit(dt){
   const g=cvEdit.getContext('2d'); edRect=fitCanvas(cvEdit, aspOf(E.lesson)); g.clearRect(0,0,cvEdit.width,cvEdit.height); if (!E.lesson) return;
   if (E.playing){ EP.update(dt); if (EP.done) stopStepPlay(); }
   EP.draw(g, edRect.x, edRect.y, edRect.s);
+  /* 後面步驟用淡色顯示，整張設計一直看得到 */
+  const fk=E.ver+'|'+E.k; if (E.futKey!==fk){ E.futKey=fk; const asp=aspOf(E.lesson), fc=E.futC && E.futC.height===Math.round(EP.res*asp) ? E.futC : (E.futC=mk(EP.res, Math.round(EP.res*asp)));
+    const fg=fc.getContext('2d'); fg.clearRect(0,0,fc.width,fc.height); E.futAny=false; E.lesson.steps.forEach((st,j)=>{ if (j>E.k && st.strokes.length){ EP.paint(fg, st, st.strokes.length, false); E.futAny=true; } }); }
+  if (E.futAny && !E.playing){ g.save(); g.globalAlpha=.28; g.drawImage(E.futC, edRect.x, edRect.y, edRect.s, edRect.s*aspOf(E.lesson)); g.restore(); }
   const st=E.lesson.steps[E.k], u=edRect.s/1000;
   /* 滑鼠停在哪一區：找出區域並預覽圖樣 */
+  if (E.mode==='pat' && !E.lasso && E.hoverPt && groupAt(E.hoverPt)){ const h=groupAt(E.hoverPt); E.hoverPt=null; const key='G'+h.pk.g;
+    if (key!==E.hoverKey){ E.hoverKey=key; E.hover={filled:true, name:h.pk.region, rings:h.clip||[E.lesson.frame], strokes:[]}; hint(); } }
   if (E.mode==='pat' && !E.lasso && E.hoverPt){ const r=regionAt(E.hoverPt); E.hoverPt=null;
     const key=r ? r.id+'|'+E.patKey+'|'+$('#pK').value+'|'+$('#pA').value+'|'+E.rc.sig : null;
     if (!r){ if (E.hover){ E.hover=null; hint(); } }
     else if (key!==E.hoverKey){ E.hoverKey=key; const o=patOpts(E.patKey, r.rings); E.hover={name:r.name, rings:r.rings, strokes:pat(E.patKey, r.rings, E.lesson.frame, o, '', 5).flatMap(s=>s.strokes)}; hint(); } }
   g.save(); g.translate(edRect.x,edRect.y); g.scale(u,u);
-  if (E.mode==='pat' && E.hover && !E.lasso){ g.save(); g.beginPath(); poly(g,E.lesson.frame); g.clip(); g.beginPath(); for (const r of E.hover.rings) poly(g,r); g.clip('evenodd');
+  if (E.mode==='pat' && E.hover && E.hover.filled && !E.lasso){ g.save(); g.setLineDash([12,8]); g.strokeStyle=HOT; g.lineWidth=4; g.fillStyle='rgba(232,85,45,.10)'; g.beginPath(); for (const r of E.hover.rings) poly(g,r); g.fill('evenodd'); g.stroke(); g.restore(); }
+  else if (E.mode==='pat' && E.hover && !E.lasso){ g.save(); g.beginPath(); poly(g,E.lesson.frame); g.clip(); g.beginPath(); for (const r of E.hover.rings) poly(g,r); g.clip('evenodd');
     g.fillStyle='rgba(42,157,143,.14)'; g.fillRect(-50,-50,1100,1600); g.globalAlpha=.55; for (const s of E.hover.strokes) drawStroke(g, s, 1, '#2a9d8f', u); g.restore();
     g.save(); g.setLineDash([12,8]); g.strokeStyle='#2a9d8f'; g.lineWidth=3; g.beginPath(); for (const r of E.hover.rings) poly(g,r); g.stroke(); g.restore(); }
-  if (st.clip){ g.setLineDash([10,8]); g.strokeStyle='rgba(232,85,45,.8)'; g.lineWidth=2.5; g.beginPath(); for (const r of st.clip) poly(g,r); g.stroke(); g.setLineDash([]); }
+  if (st.clip && E.editSel){ g.setLineDash([10,8]); g.strokeStyle='rgba(232,85,45,.8)'; g.lineWidth=2.5; g.beginPath(); for (const r of st.clip) poly(g,r); g.stroke(); g.setLineDash([]); }
   if (E.cur && E.cur.pts){ const t=E.tool, pts=E.cur.pts;
     if (E.lasso){ g.setLineDash([10,8]); g.strokeStyle='#028090'; g.lineWidth=3; g.fillStyle='rgba(2,128,144,.12)'; g.beginPath(); poly(g,pts); g.fill(); g.stroke(); g.setLineDash([]); }
     else if (t==='circle' && pts.length>1){ g.strokeStyle=HOT; g.lineWidth=E.w; g.beginPath(); g.arc(pts[0][0],pts[0][1],dist(pts[0],pts[1]),0,TAU); g.stroke(); }
