@@ -12,7 +12,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
 <style>
 /* Layout: 上方標題列＋分頁；「跟著畫」= 左邊紙片舞台、右邊步驟說明與控制；下方課程書架。「老師設計」= 步驟清單｜畫布｜工具 */
 :root{
@@ -97,6 +97,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 /* stage */
 .stage{position:relative;aspect-ratio:1/1;border-radius:18px;background:var(--desk);background-image:repeating-linear-gradient(90deg,var(--desk-line) 0 2px,transparent 2px 46px);overflow:hidden;touch-action:none}
 .stage.tall{aspect-ratio:3/4}
+.stage.wide{aspect-ratio:4/3}
 #stPlay{cursor:pointer}
 .lname .pick{margin-left:auto}
 .donebox{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:var(--hot-soft);border:1px solid var(--hot);border-radius:14px;padding:12px 14px}
@@ -193,6 +194,11 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 .lcard span{font-size:13px;color:var(--muted);line-height:1.45}
 .lcard .lv{position:absolute;top:16px;left:16px;font-size:12px;background:rgba(255,253,248,.92);color:#12343b;border-radius:999px;padding:2px 8px}
 .lcard .x{position:absolute;top:14px;right:14px;min-height:30px;padding:2px 8px;font-size:12px}
+.addcard .th{display:grid;place-items:center;background:var(--accent-soft)}
+.addcard .th span{font-size:72px;color:var(--accent);font-family:var(--font-display)}
+.txtbox{max-width:760px!important;max-height:94vh;overflow:auto}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px}
+@media (max-width:560px){.tgrid{grid-template-columns:1fr}}
 .empty{color:var(--muted);font-size:15px;padding:18px;border:1px dashed var(--line);border-radius:14px}
 
 /* editor */
@@ -320,7 +326,7 @@ footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
   </div>
 
   <h2 class="sec-h">選一課開始 <small>每一課都是完整的一張作品：點、框、分隔線、圖樣、陰影、簽名</small></h2>
-  <div class="seg" id="shapeSeg" style="margin-bottom:14px"><button data-sh="square" aria-pressed="true">方形<span class="lg">紙片</span> 12 課</button><button data-sh="circle">圓形<span class="lg">紙片</span> 12 課</button><button data-sh="a4">A4 紙 12 課</button></div>
+  <div class="seg" id="shapeSeg" style="margin-bottom:14px"><button data-sh="square" aria-pressed="true">方形<span class="lg">紙片</span> 12 課</button><button data-sh="circle">圓形<span class="lg">紙片</span> 12 課</button><button data-sh="a4">A4 紙 12 課</button><button data-sh="text">文字<span class="lg">纏繞畫</span></button></div>
   <div class="shelf" id="shelf"></div>
   <h2 class="sec-h">我的教案 <small>在「老師設計」存的教案會出現在這裡（只存在這台電腦的瀏覽器）</small></h2>
   <div class="shelf" id="mine"></div>
@@ -336,8 +342,9 @@ footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
 <section id="vEdit" class="view" hidden>
   <div class="card ed-top">
     <input type="text" id="eTitle" aria-label="教案名稱" placeholder="教案名稱">
-    <select id="eNew" style="width:auto" aria-label="開新教案"><option value="">＋ 開新教案…</option><option value="square">方形紙片</option><option value="circle">圓形紙片</option><option value="a4">A4 紙</option></select>
+    <select id="eNew" style="width:auto" aria-label="開新教案"><option value="">＋ 開新教案…</option><option value="square">方形紙片</option><option value="circle">圓形紙片</option><option value="a4">A4 紙</option><option value="a4l">A4 橫式</option></select>
     <select id="eFrom" style="width:auto"><option value="">從範例複製…</option></select>
+    <button class="btn" id="eText">✨ 文字纏繞畫</button>
     <button class="btn" id="eOpen">開啟教案檔</button>
     <input type="file" id="eFile" accept=".json,application/json" hidden>
     <span class="ed-acts"><button class="btn primary" id="eSave">💾 存到我的教案</button><button class="btn" id="ePlay">▶ 播放整課</button><button class="btn" id="eJson">下載教案檔</button></span>
@@ -403,6 +410,22 @@ footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
 <footer id="signNote"></footer>
 </div>
 
+<div class="modal" id="txtModal" hidden>
+  <div class="box txtbox">
+    <h3 style="font-family:var(--font-display);font-weight:400;margin:0;font-size:24px">✨ 文字纏繞畫</h3>
+    <label class="f" for="tText" style="margin-top:0">要畫的字（名字、祝福語都可以，最多 8 個字；按 Enter 可以換行）</label>
+    <textarea id="tText" rows="2" style="min-height:64px;font-size:20px">加油</textarea>
+    <div class="tgrid">
+      <div><label class="f">紙張</label><div class="seg" id="tShape"><button data-v="a4l" aria-pressed="true">A4 橫式</button><button data-v="square">方形</button><button data-v="circle">圓形</button><button data-v="a4">A4 直式</button></div></div>
+      <div><label class="f">難度</label><div class="seg" id="tLv"><button data-v="入門" aria-pressed="true">入門</button><button data-v="進階">進階</button><button data-v="挑戰">挑戰</button></div></div>
+      <div><label class="f" for="tBg">背景</label><select id="tBg"><option value="none">留白</option><option value="stipple">點點漸層</option><option value="rays">放射光</option><option value="waves">波浪</option><option value="bubbles">泡泡圓</option><option value="flowers">小花</option></select></div>
+      <div><label class="f" for="tThick">字的胖瘦 <span id="tThv">中</span></label><input type="range" id="tThick" min="0.04" max="0.18" step="0.02" value="0.1"></div>
+    </div>
+    <canvas id="tPrev" width="960" height="680"></canvas>
+    <p class="muted" style="margin:0;font-size:14px" id="tInfo"></p>
+    <div class="row"><button class="btn" id="tShuffle">🎲 換一組圖樣</button><span style="flex:1"></span><button class="btn" id="tCancel">取消</button><button class="btn" id="tEdit">✏️ 到老師設計修改</button><button class="btn primary" id="tPlay">▶ 開始跟著畫</button></div>
+  </div>
+</div>
 <div class="modal" id="recModal" hidden>
   <div class="box">
     <h3 style="font-family:var(--font-display);font-weight:400;margin:0;font-size:22px" id="recTitle">錄製影片中…</h3>
@@ -649,6 +672,7 @@ function pat(key, clip, frame, o={}, region='整個框內', seed=1){
 const TXT = {
   prep:'準備一張約 9 公分見方的白紙、一支鉛筆、一支黑色細簽字筆（代針筆）。先深呼吸三次、放鬆肩膀。纏繞畫沒有「畫錯」這件事，每一筆都是你的作品。',
   prepC:'準備一張白紙、一支鉛筆、一支黑色細簽字筆（代針筆），還有一個杯子或圓規。先深呼吸三次、放鬆肩膀。纏繞畫沒有「畫錯」這件事。',
+  prepAL:'準備一張 A4 白紙（橫放）、一支鉛筆、一支黑色簽字筆。先深呼吸三次、放鬆肩膀。纏繞畫沒有「畫錯」這件事，寫歪了也很可愛。',
   prepA:'準備一張 A4 白紙（直放）、一支鉛筆、一支黑色簽字筆。A4 比較大，可以用粗一點的筆，圖樣畫大一點也很好看。先深呼吸三次、放鬆肩膀。',
   dots:'用鉛筆在紙的四個角，離邊緣大約一指寬的地方，各點一個小點。',
   border:'用鉛筆把四個點連起來，線可以有一點彎，不用尺。這就是作品的邊框。',
@@ -658,15 +682,15 @@ const TXT = {
   sign:'在角落簽上你的名字縮寫，背面寫上日期。',
   end:'把紙放遠一點，轉一轉從四個方向看看。說一說：你最喜歡哪一個圖樣？畫的時候心情怎麼樣？'
 };
-const SHAPES = {square:{name:'方形紙片', h:1000}, circle:{name:'圓形紙片', h:1000}, a4:{name:'A4 紙', h:1414}};
-const aspOf = L => (L && L.shape==='a4') ? 1.414 : 1;
+const SHAPES = {square:{name:'方形紙片', h:1000}, circle:{name:'圓形紙片', h:1000}, a4:{name:'A4 紙', h:1414}, a4l:{name:'A4 橫式', h:707}};
+const aspOf = L => !L ? 1 : L.shape==='a4' ? 1.414 : L.shape==='a4l' ? .707 : 1;
 function prep(shape, rng){
-  const steps=[S('準備材料', shape==='circle'?TXT.prepC:shape==='a4'?TXT.prepA:TXT.prep, [], {tag:'開始之前'})];
+  const steps=[S('準備材料', shape==='circle'?TXT.prepC:shape==='a4'?TXT.prepA:shape==='a4l'?TXT.prepAL:TXT.prep, [], {tag:'開始之前'})];
   if (shape==='circle'){
     steps.push(S('畫圓框', TXT.circle, [Pn(wobble(circ(500,500,380,-Math.PI/2,90),rng,1.2)), Q(500,500)], {tag:'打底（鉛筆）'}));
     return {steps, frame:circ(500,500,380,0,90).map(rp)};
   }
-  const C = shape==='a4' ? [[100,100],[900,100],[900,1314],[100,1314]] : [[130,130],[870,130],[870,870],[130,870]];
+  const C = shape==='a4' ? [[100,100],[900,100],[900,1314],[100,1314]] : shape==='a4l' ? [[90,90],[910,90],[910,617],[90,617]] : [[130,130],[870,130],[870,870],[130,870]];
   const c=C.map(([x,y])=>[x+(rng()-.5)*14, y+(rng()-.5)*14]);
   steps.push(S('四個角點點', TXT.dots, c.map(p=>Q(p[0],p[1])), {tag:'打底（鉛筆）'}));
   const edges=[], frame=[];
@@ -720,6 +744,64 @@ function recipe(R){
   return {shape:R.shape, frame, steps};
 }
 
+/* ==================== 文字纏繞畫 ==================== */
+const TFONT='"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';
+let TFONT_OK=false; const TFONT_READY=(document.fonts?document.fonts.load('900 100px "Noto Sans TC"','加油感恩福愛平安喜樂HAPPY'):Promise.resolve()).catch(()=>{}).then(()=>{ TFONT_OK=true; });
+/* 黑白遮罩 → 外框（順時針、洞反向，evenodd 可用） */
+function maskRings(m,W,H,C){
+  const W1=W+1, nx=new Map(), add=(a,b)=>{ const arr=nx.get(a); if (arr) arr.push(b); else nx.set(a,[b]); }, in_=(x,y)=>x>=0&&y>=0&&x<W&&y<H&&m[y*W+x];
+  for (let y=0;y<H;y++) for (let x=0;x<W;x++) if (m[y*W+x]){
+    if (!in_(x,y-1)) add(y*W1+x, y*W1+x+1); if (!in_(x+1,y)) add(y*W1+x+1, (y+1)*W1+x+1);
+    if (!in_(x,y+1)) add((y+1)*W1+x+1, (y+1)*W1+x); if (!in_(x-1,y)) add((y+1)*W1+x, y*W1+x); }
+  const rings=[];
+  while (nx.size){ const start=nx.keys().next().value, pts=[]; let cur=start, guard=0;
+    do { pts.push([(cur%W1)*C, Math.floor(cur/W1)*C]); const arr=nx.get(cur); if (!arr) break; const n=arr.pop(); if (!arr.length) nx.delete(cur); cur=n; } while (cur!==start && guard++<1e6);
+    if (pts.length>=10){ pts.push(pts[0]); rings.push(chaikin(rdp(pts,C*.7)).map(rp)); } }
+  return rings;
+}
+/* 把文字排進紙張，逐字畫成粗體＋外擴的「氣球字」，再描出外框 */
+function textGlyphs(text, shape, thick=.1){
+  const asp=aspOf({shape}), fb=bbox([prep(shape,RNG(1)).frame]);
+  const box = shape==='circle' ? [205,300,795,700] : [fb[0]+48, fb[1]+48, fb[2]-48, fb[3]-48];
+  const lines=String(text).split('\n').map(t=>t.trim()).filter(Boolean).slice(0,3);
+  const g=mk(10,10).getContext('2d'); g.font=`900 100px ${TFONT}`;
+  const fat=thick*100, sp=10+fat*1.15, gap=18;
+  const L=lines.map(line=>{ const chars=[...line], ws=chars.map(ch=>ch===' '?36:g.measureText(ch).width), m=g.measureText(line);
+    const asc=m.actualBoundingBoxAscent||86, desc=m.actualBoundingBoxDescent||12; return {chars, ws, w:ws.reduce((a,b)=>a+b,0)+sp*(chars.length-1), asc, desc}; });
+  if (!L.length) return {chars:[], fs:100};
+  const totalW=Math.max(...L.map(l=>l.w))+fat, totalH=L.reduce((a,l)=>a+l.asc+l.desc+fat,0)+gap*(L.length-1);
+  const s=Math.min((box[2]-box[0])/totalW, (box[3]-box[1])/totalH), fs=100*s, Cc=2, W=Math.round(1000/Cc), H=Math.round(1000*asp/Cc), out=[];
+  let y=box[1]+((box[3]-box[1])-totalH*s)/2;
+  for (const l of L){ y+=(fat/2+l.asc)*s; let x=box[0]+((box[2]-box[0])-l.w*s)/2;
+    l.chars.forEach((ch,i)=>{ if (ch.trim()){ const cv=mk(W,H), q=cv.getContext('2d'); q.scale(1/Cc,1/Cc); q.font=`900 ${fs}px ${TFONT}`; q.fillStyle=q.strokeStyle='#000'; q.lineJoin='round'; q.lineWidth=fat*s*(/[\u3400-\u9fff\uf900-\ufaff]/.test(ch)?.22:1);
+        q.fillText(ch,x,y); q.strokeText(ch,x,y); const d=q.getImageData(0,0,W,H).data, m=new Uint8Array(W*H); for (let k=0;k<W*H;k++) m[k]=d[k*4+3]>110?1:0;
+        const rings=maskRings(m,W,H,Cc); if (rings.length) out.push({ch, rings}); }
+      x+=(l.ws[i]+sp)*s; });
+    y+=(l.desc+fat/2+gap)*s; }
+  return {chars:out, fs};
+}
+const TEXT_SETS={入門:['stripes','checker','bubbles','waves','zigzag','rings'], 進階:['scales','flowers','checker','diamond','weave','waves','bubbles','stripes'], 挑戰:['scales','spirals','weave','diamond','flowers','zigzag','stipple','rings']};
+function buildTextLesson({text, shape='a4l', lv='入門', bg='none', thick=.1, seed=1}){
+  const rng=RNG(seed*13+7), {steps,frame}=prep(shape,rng), G=textGlyphs(text,shape,thick), all=G.chars.flatMap(c=>c.rings), plain=String(text).replace(/\s+/g,'');
+  const k=Math.max(.36, Math.min(.9, G.fs/520))*(lv==='挑戰'?.85:1);
+  steps.push(S('用鉛筆寫出胖胖的字', `用鉛筆把「${plain}」寫得大大的、胖胖的，像氣球字一樣。筆畫中間要留出空間，等一下要在裡面畫圖樣。`, all.map(r=>Pn(r)), {tag:'打底（鉛筆）', fc:1}));
+  steps.push(S('用代針筆描出外框', '沿著鉛筆線，用代針筆把每個字的外框描清楚，線條要連起來，不要留缺口。', all.map(r=>I(r,4)), {tag:'描外框', fc:1}));
+  const set=TEXT_SETS[lv]||TEXT_SETS['入門'], off=Math.floor(rng()*set.length);
+  G.chars.forEach((c,i)=>steps.push(...pat(set[(i+off)%set.length], c.rings, frame, {k}, `「${c.ch}」字`, seed*31+i)));
+  if (bg && bg!=='none'){ const b=bbox([frame]); steps.push(...pat(bg, [BIG,...all], frame, {k:Math.min(1,k*1.3), a:bg==='waves'?-15:0, origin:[(b[0]+b[2])/2,(b[1]+b[3])/2]}, '背景', seed*7+3)); }
+  if (all.length) steps.push(shadeStep(all.map(r=>[r,-1]), '用鉛筆沿著每個字的外圍塗一圈灰色，再用手指輕輕抹開，字會像浮起來一樣。'));
+  const sg = shape==='a4l' ? [740,588] : shape==='a4' ? [700,1275] : shape==='circle' ? [455,815] : [720,835];
+  steps.push(...signSteps(sg[0], sg[1]));
+  return {shape, frame, steps};
+}
+const TEXT_PRESETS=[
+  {id:'txt_jiayou', title:'加油', sub:'兩個字，入門圖樣', lv:'入門', o:{text:'加油', shape:'a4l', lv:'入門', bg:'none', seed:3}},
+  {id:'txt_happy', title:'HAPPY', sub:'英文字母也可以', lv:'入門', o:{text:'HAPPY', shape:'a4l', lv:'入門', bg:'none', seed:5}},
+  {id:'txt_ai', title:'愛', sub:'圓形紙片，一個大字', lv:'入門', o:{text:'愛', shape:'circle', lv:'入門', bg:'none', seed:2}},
+  {id:'txt_ganen', title:'感恩', sub:'背景加上點點漸層', lv:'進階', o:{text:'感恩', shape:'a4l', lv:'進階', bg:'stipple', seed:7}},
+  {id:'txt_fu', title:'福', sub:'方形紙片，背景放射光', lv:'進階', o:{text:'福', shape:'square', lv:'進階', bg:'rays', seed:4}},
+  {id:'txt_pingan', title:'平安喜樂', sub:'兩行字，背景點點漸層', lv:'挑戰', o:{text:'平安\n喜樂', shape:'a4l', lv:'挑戰', bg:'stipple', seed:9}}
+];
 const LESSONS = [
   /* ---------- 方形紙片 ---------- */
   {id:'classic', shape:'square', title:'第一張纏繞畫', sub:'經典步驟，三個入門圖樣', lv:'入門', build(){
@@ -931,6 +1013,7 @@ const LESSONS = [
     return recipe({shape:'a4', seed:312, st:'用鉛筆從上到下畫三條彎彎的直線，把 A4 紙分成四欄，像四條河。', strings:L,
       regions:[['第一欄',[r[0]],'scales',{}],['第二欄',[r[1]],'waves',{a:90}],['第三欄',[r[2]],'flowers',{}],['第四欄',[r[3]],'checker',{}]], shade:L.map(l=>[l,1])}); }}
 ];
+TEXT_PRESETS.forEach(t=>LESSONS.push({id:t.id, cat:'text', shape:t.o.shape, title:t.title, sub:t.sub, lv:t.lv, build:()=>buildTextLesson(t.o)}));
 const lessonCache = {};
 function getLesson(id){
   if (lessonCache[id]) return lessonCache[id];
@@ -967,8 +1050,9 @@ function applyClip(ctx, step, lesson){
 const PAPER = {};
 function paperFor(shape, res){
   const key=shape+res; if (PAPER[key]) return PAPER[key];
-  const hh=shape==='a4'?1414:1000, c=mk(res, Math.round(res*hh/1000)), g=c.getContext('2d'), sc=res/1000, rng=RNG(5); g.scale(sc,sc); g.beginPath();
+  const hh=shape==='a4'?1414:shape==='a4l'?707:1000, c=mk(res, Math.round(res*hh/1000)), g=c.getContext('2d'), sc=res/1000, rng=RNG(5); g.scale(sc,sc); g.beginPath();
   if (shape==='a4'){ poly(g, rect(22,22,978,1392).slice(0,4)); }
+  else if (shape==='a4l'){ poly(g, rect(22,22,978,685).slice(0,4)); }
   else if (shape==='circle'){ const n=220; for (let i=0;i<=n;i++){ const a=i/n*TAU, r=455+(rng()-.5)*2.2; i?g.lineTo(500+r*Math.cos(a),500+r*Math.sin(a)):g.moveTo(500+r*Math.cos(a),500+r*Math.sin(a)); } }
   else { const e=[]; const side=(a,b)=>{ for (let t=0;t<1;t+=.006) e.push([a[0]+(b[0]-a[0])*t+(rng()-.5)*2.4, a[1]+(b[1]-a[1])*t+(rng()-.5)*2.4]); };
     side([32,32],[968,32]); side([968,32],[968,968]); side([968,968],[32,968]); side([32,968],[32,32]); poly(g,e); }
@@ -1048,7 +1132,7 @@ function fitCanvas(cv, asp=1){ const dpr=Math.min(2.5, window.devicePixelRatio||
 const PL = new Player(1600), PS = {playing:false, hold:0, auto:false, lesson:null};
 const cvPlay=$('#cvPlay');
 function setLesson(lesson, autoplay=false){
-  $('#stPlay').classList.toggle('tall', lesson.shape==='a4'); PS.lesson=lesson; PS.playing=autoplay; PS.hold=0; PL.load(lesson); renderStepList(); syncPlay(); markShelf();
+  $('#stPlay').classList.toggle('tall', lesson.shape==='a4'); $('#stPlay').classList.toggle('wide', lesson.shape==='a4l'); PS.lesson=lesson; PS.playing=autoplay; PS.hold=0; PL.load(lesson); renderStepList(); syncPlay(); markShelf();
   const est = lesson.steps.reduce((a,s)=>a+stepTiming(s).T+holdFor(s,true),0)+7;
   $('#durNote').textContent = `影片長度約 ${Math.round(est/PL.speed/60*10)/10} 分鐘（依目前速度），錄製時需即時播放一次。`;
 }
@@ -1130,11 +1214,15 @@ function lessonCard(title, sub, lv, getL, onClick, extra, id){
   if (extra) b.appendChild(extra);
   queueThumb(b.querySelector('canvas'), getL, id); return b;
 }
-let SHELF=lsGet('tangle.shelf','square'); if (!SHAPES[SHELF]) SHELF='square';
+let SHELF=lsGet('tangle.shelf','square'); if (!SHAPES[SHELF] && SHELF!=='text') SHELF='square';
 $$('#shapeSeg button').forEach(b=>{ b.setAttribute('aria-pressed', b.dataset.sh===SHELF); b.onclick=()=>{ SHELF=b.dataset.sh; lsSet('tangle.shelf',SHELF); $$('#shapeSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b)); thumbQ.length=0; buildShelf(); }; });
 function buildShelf(){
   const sh=$('#shelf'); sh.innerHTML='';
-  for (const L of LESSONS.filter(l=>l.shape===SHELF)){ const c=lessonCard(L.title, `${L.sub}`, L.lv, ()=>getLesson(L.id), ()=>{ setLesson(getLesson(L.id)); scrollTo({top:0,behavior:'smooth'}); }, null, L.id); c.dataset.id=L.id; sh.appendChild(c); }
+  if (SHELF==='text'){
+    if (!TFONT_OK){ sh.innerHTML='<div class="empty">字型載入中…</div>'; TFONT_READY.then(buildShelf); }
+    else { const add=document.createElement('button'); add.className='lcard addcard'; add.innerHTML='<div class="th"><span>＋</span></div><b>輸入名字或祝福語</b><span>自動變成氣球字，每個字填上不同圖樣，也會產生步驟動畫</span>'; add.onclick=openTextModal; sh.appendChild(add); }
+  }
+  for (const L of LESSONS.filter(l=>SHELF==='text' ? (l.cat==='text' && TFONT_OK) : (l.shape===SHELF && !l.cat))){ const c=lessonCard(L.title, `${L.sub}`, L.lv, ()=>getLesson(L.id), ()=>{ setLesson(getLesson(L.id)); scrollTo({top:0,behavior:'smooth'}); }, null, L.id); c.dataset.id=L.id; sh.appendChild(c); }
   const lib=$('#libGrid'); lib.innerHTML='';
   for (const key in PATTERNS){ const P=PATTERNS[key]; const c=lessonCard(P.name, `${P.desc}・${getLessonStepsCount(key)} 個小步驟`, P.lv, ()=>getLesson('pat:'+key), ()=>{ setLesson(getLesson('pat:'+key)); showView('play'); scrollTo({top:0,behavior:'smooth'}); }, null, 'pat:'+key); c.dataset.id='pat:'+key; lib.appendChild(c); }
   buildMine();
@@ -1193,7 +1281,7 @@ function edRefresh(){ if (!E.lesson) return; stopStepPlay(); E.rc=null; E.hover=
   const S=E.lesson.steps, st=S[E.k];
   $('#eStepNo').textContent=`第 ${E.k+1} / ${S.length} 步`; $('#eStepTitle').textContent=st.title||'（還沒有標題）';
   $('#ePrevS').disabled=E.k===0; $('#eNextS').disabled=E.k>=S.length-1; $('#eUndo').disabled=!E.hist.length;
-  $('#stEdit').classList.toggle('tall', E.lesson.shape==='a4'); EP.lesson=E.lesson; EP.hl=true; EP.reset(E.k); EP.finish(); $('#eTitle').value=E.lesson.title; hint(); }
+  $('#stEdit').classList.toggle('tall', E.lesson.shape==='a4'); $('#stEdit').classList.toggle('wide', E.lesson.shape==='a4l'); EP.lesson=E.lesson; EP.hl=true; EP.reset(E.k); EP.finish(); $('#eTitle').value=E.lesson.title; hint(); }
 const stepIcon = s => s.pk ? '🧩' : s.strokes.length ? '✏️' : '📝';
 function edList(){
   const ol=$('#eSteps'); ol.innerHTML='';
@@ -1246,7 +1334,7 @@ document.addEventListener('keydown',e=>{ if (VIEW!=='edit' || /INPUT|TEXTAREA|SE
 /* 頁面內的「按兩次確認」（預覽框不支援 confirm 對話框） */
 function armed(btn, label='再按一次確認'){ if (btn.dataset.armed){ clearTimeout(btn._t); btn.textContent=btn.dataset.armed; delete btn.dataset.armed; btn.classList.remove('arm'); return true; }
   btn.dataset.armed=btn.textContent; btn.textContent=label; btn.classList.add('arm'); btn._t=setTimeout(()=>{ btn.textContent=btn.dataset.armed; delete btn.dataset.armed; btn.classList.remove('arm'); },3000); return false; }
-for (const sh in SHAPES){ const g=document.createElement('optgroup'); g.label=SHAPES[sh].name; LESSONS.filter(L=>L.shape===sh).forEach(L=>{ const o=document.createElement('option'); o.value=L.id; o.textContent=L.title; g.appendChild(o); }); $('#eFrom').appendChild(g); }
+for (const sh of [...Object.keys(SHAPES),'text']){ const list=LESSONS.filter(L=>sh==='text'?L.cat==='text':(L.shape===sh&&!L.cat)); if (!list.length) continue; const g=document.createElement('optgroup'); g.label=sh==='text'?'文字纏繞畫':SHAPES[sh].name; list.forEach(L=>{ const o=document.createElement('option'); o.value=L.id; o.textContent=L.title; g.appendChild(o); }); $('#eFrom').appendChild(g); }
 { const g=document.createElement('optgroup'); g.label='圖樣練習'; Object.keys(PATTERNS).forEach(k=>{ const o=document.createElement('option'); o.value='pat:'+k; o.textContent=PATTERNS[k].name+'練習'; g.appendChild(o); }); $('#eFrom').appendChild(g); }
 $('#eFrom').onchange=e=>{ const id=e.target.value; e.target.value=''; if (!id) return; const L=clone(getLesson(id)); L.id='mine-'+Date.now(); L.title=L.title+'（我的版本）'; L.lv='我的'; openEditor(L); toast('已複製範例，可以直接修改'); };
 $('#eOpen').onclick=()=>$('#eFile').click();
@@ -1563,6 +1651,28 @@ $('#dlVideo').onclick=async()=>{
 buildShelf();
 const draft=lsGet('tangle.draft',null); if (draft && Array.isArray(draft.steps) && draft.steps.length){ E.lesson=draft; E.k=draft.steps.length-1; EP.load(draft); edList(); edFields(); }
 hint();
+/* ==================== 文字纏繞畫視窗 ==================== */
+const T={seed:1, lesson:null, timer:0};
+const tVal = id => $(`#${id} [aria-pressed="true"]`).dataset.v;
+$$('#tShape button, #tLv button').forEach(b=>b.onclick=()=>{ b.parentElement.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b)); refreshText(); });
+$('#tBg').onchange=refreshText; $('#tText').oninput=()=>{ clearTimeout(T.timer); T.timer=setTimeout(refreshText,350); };
+$('#tThick').oninput=e=>{ const v=+e.target.value; $('#tThv').textContent=v<.08?'瘦':v>.13?'胖':'中'; clearTimeout(T.timer); T.timer=setTimeout(refreshText,250); };
+function textValue(){ let t=$('#tText').value.split('\n').map(x=>x.trim()).filter(Boolean).slice(0,3).join('\n'); let n=0, out=''; for (const ch of t){ if (!/\s/.test(ch)){ if (n>=8) break; n++; } out+=ch; } return out.trim(); }
+async function openTextModal(){ $('#txtModal').hidden=false; await refreshText(); }
+async function refreshText(){
+  const text=textValue(), cv=$('#tPrev'), g=cv.getContext('2d'); g.fillStyle='#efe7da'; g.fillRect(0,0,cv.width,cv.height);
+  if (!text){ $('#tInfo').textContent='請先輸入要畫的字'; T.lesson=null; return; }
+  try { await document.fonts.load('900 100px "Noto Sans TC"', text); } catch(e){}
+  const o={text, shape:tVal('tShape'), lv:tVal('tLv'), bg:$('#tBg').value, thick:+$('#tThick').value, seed:T.seed};
+  T.lesson=Object.assign({id:'mine-'+Date.now(), title:`${text.replace(/\s+/g,'')}・文字纏繞畫`, sub:'文字纏繞畫', lv:o.lv}, buildTextLesson(o));
+  const P=new Player(960); P.hl=false; P.pen=false; P.load(T.lesson); P.renderAll(); g.fillStyle='#efe7da'; g.fillRect(0,0,cv.width,cv.height); P.drawFit(g,24,24,cv.width-48,cv.height-48);
+  $('#tInfo').textContent=`共 ${T.lesson.steps.length} 步：寫字、描外框、每個字填圖樣${o.bg!=='none'?'、背景':''}、陰影、簽名。`;
+}
+$('#tShuffle').onclick=()=>{ T.seed++; refreshText(); };
+$('#tCancel').onclick=()=>{ $('#txtModal').hidden=true; };
+$('#tPlay').onclick=()=>{ if (!T.lesson) return; $('#txtModal').hidden=true; setLesson(T.lesson); showView('play'); PS.playing=true; syncPlay(); scrollTo({top:0}); };
+$('#tEdit').onclick=()=>{ if (!T.lesson) return; $('#txtModal').hidden=true; openEditor(clone(T.lesson)); setMode('pat'); };
+$('#eText').onclick=openTextModal;
 document.body.classList.add('v-play');
 setLesson(getLesson('classic')); setLessonNote();
 requestAnimationFrame(loop);
