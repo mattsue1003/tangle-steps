@@ -413,10 +413,11 @@ footer{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
 <div class="modal" id="txtModal" hidden>
   <div class="box txtbox">
     <h3 style="font-family:var(--font-display);font-weight:400;margin:0;font-size:24px">✨ 文字纏繞畫</h3>
-    <label class="f" for="tText" style="margin-top:0">要畫的字（名字、祝福語都可以，最多 8 個字；按 Enter 可以換行）</label>
-    <textarea id="tText" rows="2" style="min-height:64px;font-size:20px">加油</textarea>
+    <label class="f" for="tText" style="margin-top:0">要畫的字（名字、金句、諺語、最愛的一句話都可以，最多 24 個字；也可以按 Enter 自己換行）</label>
+    <textarea id="tText" rows="2" maxlength="40" style="min-height:64px;font-size:20px">加油</textarea>
     <div class="tgrid">
       <div><label class="f">紙張</label><div class="seg" id="tShape"><button data-v="a4l" aria-pressed="true">A4 橫式</button><button data-v="square">方形</button><button data-v="circle">圓形</button><button data-v="a4">A4 直式</button></div></div>
+      <div><label class="f">排成幾行</label><div class="seg" id="tLines"><button data-v="auto" aria-pressed="true">自動</button><button data-v="1">一行</button><button data-v="2">兩行</button><button data-v="3">三行</button></div></div>
       <div><label class="f">難度</label><div class="seg" id="tLv"><button data-v="入門" aria-pressed="true">入門</button><button data-v="進階">進階</button><button data-v="挑戰">挑戰</button></div></div>
       <div><label class="f" for="tBg">背景</label><select id="tBg"><option value="none">留白</option><option value="stipple">點點漸層</option><option value="rays">放射光</option><option value="waves">波浪</option><option value="bubbles">泡泡圓</option><option value="flowers">小花</option></select></div>
       <div><label class="f" for="tThick">字的胖瘦 <span id="tThv">中</span></label><input type="range" id="tThick" min="0.04" max="0.18" step="0.02" value="0.1"></div>
@@ -746,7 +747,7 @@ function recipe(R){
 
 /* ==================== 文字纏繞畫 ==================== */
 const TFONT='"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';
-let TFONT_OK=false; const TFONT_READY=(document.fonts?document.fonts.load('900 100px "Noto Sans TC"','加油感恩福愛平安喜樂HAPPY'):Promise.resolve()).catch(()=>{}).then(()=>{ TFONT_OK=true; });
+let TFONT_OK=false; const TFONT_READY=(document.fonts?document.fonts.load('900 100px "Noto Sans TC"','加油感恩福愛平安喜樂HAPPY慢來比較快活到老學今天也要開心健康家和萬事興'):Promise.resolve()).catch(()=>{}).then(()=>{ TFONT_OK=true; });
 /* 黑白遮罩 → 外框（順時針、洞反向，evenodd 可用） */
 function maskRings(m,W,H,C){
   const W1=W+1, nx=new Map(), add=(a,b)=>{ const arr=nx.get(a); if (arr) arr.push(b); else nx.set(a,[b]); }, in_=(x,y)=>x>=0&&y>=0&&x<W&&y<H&&m[y*W+x];
@@ -773,7 +774,7 @@ function textGlyphs(text, shape, thick=.1){
   const s=Math.min((box[2]-box[0])/totalW, (box[3]-box[1])/totalH), fs=100*s, Cc=2, W=Math.round(1000/Cc), H=Math.round(1000*asp/Cc), out=[];
   let y=box[1]+((box[3]-box[1])-totalH*s)/2;
   for (const l of L){ y+=(fat/2+l.asc)*s; let x=box[0]+((box[2]-box[0])-l.w*s)/2;
-    l.chars.forEach((ch,i)=>{ if (ch.trim()){ const cv=mk(W,H), q=cv.getContext('2d'); q.scale(1/Cc,1/Cc); q.font=`900 ${fs}px ${TFONT}`; q.fillStyle=q.strokeStyle='#000'; q.lineJoin='round'; q.lineWidth=fat*s*(/[\u3400-\u9fff\uf900-\ufaff]/.test(ch)?.22:1);
+    l.chars.forEach((ch,i)=>{ if (ch.trim()){ const cv=mk(W,H), q=cv.getContext('2d'); q.scale(1/Cc,1/Cc); q.font=`900 ${fs}px ${TFONT}`; q.fillStyle=q.strokeStyle='#000'; q.lineJoin='round'; q.lineWidth=fat*s*(/[\u3400-\u9fff\uf900-\ufaff]/.test(ch)?(fs>420?.15:0):1);
         q.fillText(ch,x,y); q.strokeText(ch,x,y); const d=q.getImageData(0,0,W,H).data, m=new Uint8Array(W*H); for (let k=0;k<W*H;k++) m[k]=d[k*4+3]>110?1:0;
         const rings=maskRings(m,W,H,Cc); if (rings.length) out.push({ch, rings}); }
       x+=(l.ws[i]+sp)*s; });
@@ -783,13 +784,13 @@ function textGlyphs(text, shape, thick=.1){
 const TEXT_SETS={入門:['stripes','checker','bubbles','waves','zigzag','rings'], 進階:['scales','flowers','checker','diamond','weave','waves','bubbles','stripes'], 挑戰:['scales','spirals','weave','diamond','flowers','zigzag','stipple','rings']};
 function buildTextLesson({text, shape='a4l', lv='入門', bg='none', thick=.1, seed=1}){
   const rng=RNG(seed*13+7), {steps,frame}=prep(shape,rng), G=textGlyphs(text,shape,thick), all=G.chars.flatMap(c=>c.rings), plain=String(text).replace(/\s+/g,'');
-  const k=Math.max(.36, Math.min(.9, G.fs/520))*(lv==='挑戰'?.85:1);
+  const k=Math.max(.32, Math.min(.9, G.fs/560))*(lv==='挑戰'&&G.fs>420?.85:1), small=G.fs<400;
   steps.push(S('用鉛筆寫出胖胖的字', `用鉛筆把「${plain}」寫得大大的、胖胖的，像氣球字一樣。筆畫中間要留出空間，等一下要在裡面畫圖樣。`, all.map(r=>Pn(r)), {tag:'打底（鉛筆）', fc:1}));
   steps.push(S('用代針筆描出外框', '沿著鉛筆線，用代針筆把每個字的外框描清楚，線條要連起來，不要留缺口。', all.map(r=>I(r,4)), {tag:'描外框', fc:1}));
-  const set=TEXT_SETS[lv]||TEXT_SETS['入門'], off=Math.floor(rng()*set.length);
+  const set=small ? ['stripes','checker','bubbles','waves','rings','zigzag'] : (TEXT_SETS[lv]||TEXT_SETS['入門']), off=Math.floor(rng()*set.length);
   G.chars.forEach((c,i)=>steps.push(...pat(set[(i+off)%set.length], c.rings, frame, {k}, `「${c.ch}」字`, seed*31+i)));
-  if (bg && bg!=='none'){ const b=bbox([frame]); steps.push(...pat(bg, [BIG,...all], frame, {k:Math.min(1,k*1.3), a:bg==='waves'?-15:0, origin:[(b[0]+b[2])/2,(b[1]+b[3])/2]}, '背景', seed*7+3)); }
-  if (all.length) steps.push(shadeStep(all.map(r=>[r,-1]), '用鉛筆沿著每個字的外圍塗一圈灰色，再用手指輕輕抹開，字會像浮起來一樣。'));
+  if (bg && bg!=='none'){ const b=bbox([frame]); steps.push(...pat(bg, [BIG,...all], frame, {k:Math.max(.85,Math.min(1.1,k*1.4)), a:bg==='waves'?-15:0, origin:[(b[0]+b[2])/2,(b[1]+b[3])/2]}, '背景', seed*7+3)); }
+  if (all.length){ const off=small?6:10, w=small?10:16; steps.push(S('加上陰影', '用鉛筆沿著每個字的外圍塗一圈淡淡的灰色，再用手指輕輕抹開，字會像浮起來一樣。', all.map(r=>Sh(wobble(offsetLine(r,-off),RNG(r.length),.5),w)), {tag:'鉛筆陰影', fc:1})); }
   const sg = shape==='a4l' ? [740,588] : shape==='a4' ? [700,1275] : shape==='circle' ? [455,815] : [720,835];
   steps.push(...signSteps(sg[0], sg[1]));
   return {shape, frame, steps};
@@ -800,7 +801,11 @@ const TEXT_PRESETS=[
   {id:'txt_ai', title:'愛', sub:'圓形紙片，一個大字', lv:'入門', o:{text:'愛', shape:'circle', lv:'入門', bg:'none', seed:2}},
   {id:'txt_ganen', title:'感恩', sub:'背景加上點點漸層', lv:'進階', o:{text:'感恩', shape:'a4l', lv:'進階', bg:'stipple', seed:7}},
   {id:'txt_fu', title:'福', sub:'方形紙片，背景放射光', lv:'進階', o:{text:'福', shape:'square', lv:'進階', bg:'rays', seed:4}},
-  {id:'txt_pingan', title:'平安喜樂', sub:'兩行字，背景點點漸層', lv:'挑戰', o:{text:'平安\n喜樂', shape:'a4l', lv:'挑戰', bg:'stipple', seed:9}}
+  {id:'txt_pingan', title:'平安喜樂', sub:'兩行字，背景點點漸層', lv:'挑戰', o:{text:'平安\n喜樂', shape:'a4l', lv:'挑戰', bg:'stipple', seed:9}},
+  {id:'txt_manman', title:'慢慢來，比較快', sub:'金句・兩行', lv:'進階', o:{text:'慢慢來\n比較快', shape:'a4l', lv:'進階', bg:'none', seed:11}},
+  {id:'txt_huodao', title:'活到老，學到老', sub:'諺語・兩行', lv:'進階', o:{text:'活到老\n學到老', shape:'a4l', lv:'進階', bg:'none', seed:12}},
+  {id:'txt_kaixin', title:'今天也要開心', sub:'最愛的一句話・三行', lv:'挑戰', o:{text:'今天\n也要\n開心', shape:'a4', lv:'挑戰', bg:'none', seed:13}},
+  {id:'txt_jiahe', title:'家和萬事興', sub:'諺語・一行五個字', lv:'挑戰', o:{text:'家和萬事興', shape:'a4l', lv:'挑戰', bg:'none', seed:14}}
 ];
 const LESSONS = [
   /* ---------- 方形紙片 ---------- */
@@ -1654,10 +1659,20 @@ hint();
 /* ==================== 文字纏繞畫視窗 ==================== */
 const T={seed:1, lesson:null, timer:0};
 const tVal = id => $(`#${id} [aria-pressed="true"]`).dataset.v;
-$$('#tShape button, #tLv button').forEach(b=>b.onclick=()=>{ b.parentElement.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b)); refreshText(); });
+$$('#tShape button, #tLv button, #tLines button').forEach(b=>b.onclick=()=>{ b.parentElement.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b)); refreshText(); });
 $('#tBg').onchange=refreshText; $('#tText').oninput=()=>{ clearTimeout(T.timer); T.timer=setTimeout(refreshText,350); };
 $('#tThick').oninput=e=>{ const v=+e.target.value; $('#tThv').textContent=v<.08?'瘦':v>.13?'胖':'中'; clearTimeout(T.timer); T.timer=setTimeout(refreshText,250); };
-function textValue(){ let t=$('#tText').value.split('\n').map(x=>x.trim()).filter(Boolean).slice(0,3).join('\n'); let n=0, out=''; for (const ch of t){ if (!/\s/.test(ch)){ if (n>=8) break; n++; } out+=ch; } return out.trim(); }
+/* 依「排成幾行」重新斷行：自動＝有換行就照換行，沒有就依字數決定行數 */
+function splitEven(str, n){ const words = /[A-Za-z]/.test(str) && str.includes(' ') ? str.split(/\s+/) : [...str.replace(/\s+/g,'')], joiner = /[A-Za-z]/.test(str) && str.includes(' ') ? ' ' : '';
+  const len=words.reduce((a,w)=>a+[...w].length,0), lines=[]; let cur=[], cl=0, left=len;
+  for (const w of words){ const target=Math.ceil(left/(n-lines.length)); if (cur.length && cl+[...w].length/2>target && lines.length<n-1){ lines.push(cur.join(joiner)); left-=cl; cur=[]; cl=0; } cur.push(w); cl+=[...w].length; }
+  if (cur.length) lines.push(cur.join(joiner)); return lines; }
+function textValue(){ const mode=tVal('tLines'); let raw=$('#tText').value; let n=0, cut=''; for (const ch of raw){ if (!/\s/.test(ch)){ if (n>=24) break; n++; } cut+=ch; }
+  let lines=cut.split('\n').map(x=>x.trim()).filter(Boolean);
+  if (mode==='auto'){ if (lines.length===1){ const L=[...lines[0].replace(/\s+/g,'')].length; lines=splitEven(lines[0], L<=5?1:L<=12?2:3); } }
+  else lines=splitEven(lines.join(' '), +mode);
+  return lines.slice(0,3).join('\n'); }
+function textValueOld(){ let t=$('#tText').value.split('\n').map(x=>x.trim()).filter(Boolean).slice(0,3).join('\n'); let n=0, out=''; for (const ch of t){ if (!/\s/.test(ch)){ if (n>=8) break; n++; } out+=ch; } return out.trim(); }
 async function openTextModal(){ $('#txtModal').hidden=false; await refreshText(); }
 async function refreshText(){
   const text=textValue(), cv=$('#tPrev'), g=cv.getContext('2d'); g.fillStyle='#efe7da'; g.fillRect(0,0,cv.width,cv.height);
